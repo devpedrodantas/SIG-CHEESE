@@ -21,7 +21,17 @@ void tela_menu_cliente(void);
 void tela_cadastrar_cliente(void);
 void tela_pesquisar_cliente(void);
 void tela_alterar_cliente(void);
-void tela_excluir_cliente(void);
+void tela_menu_funcionario(void);
+void tela_cadastrar_funcionario(void);
+void tela_pesquisar_funcionario(void);
+void tela_alterar_funcionario(void);
+void tela_excluir_funcionario(void);
+void tela_menu_queijo(void);
+void tela_cadastrar_queijo(void);
+void tela_pesquisar_queijo(void);
+void tela_alterar_queijo(void);
+void tela_excluir_queijo(void);
+
 
 /////
 // Programa principal
@@ -33,7 +43,16 @@ int main(void) {
     tela_cadastrar_cliente();
     tela_pesquisar_cliente();
     tela_alterar_cliente();
-    tela_excluir_cliente();
+    tela_menu_funcionario();
+    tela_cadastrar_funcionario();
+    tela_pesquisar_funcionario();
+    tela_alterar_funcionario();
+    tela_excluir_funcionario();
+    tela_menu_queijo();
+    tela_cadastrar_queijo();
+    tela_pesquisar_queijo();
+    tela_alterar_queijo();
+    tela_excluir_queijo();
     return 0;
 }
 
@@ -209,7 +228,237 @@ void tela_alterar_cliente(void) {
     printf("///            = = = = = = = = Alterar cliente = = = = = = = = =            ///\n");
     printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
     printf("///                                                                         ///\n");
+    printf("///            Informe o CPF (apenas números):                              ///\n");
+    printf("///                                                                         ///\n");
+    printf("///                                                                         ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void tela_menu_funcionario(void) {
+    char op;
+    system("clear||cls");
+    printf("\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                                                                         ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///            = = = = = = = = =  Menu funcionario = = = = = =               ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///                                                                         ///\n");
+    printf("///            1. Cadastrar um novo funcionario                             ///\n");
+    printf("///            2. Pesquisar os dados de um funcionario                      ///\n");
+    printf("///            3. Atualizar o cadastro de um funcionario                    ///\n");
+    printf("///            4. Exclusão de um funcionario do sistema                     ///\n");
+    printf("///            0. Voltar ao menu anterior                                   ///\n");
+    printf("///                                                                         ///\n");
+    printf("///            Escolha a opção desejada: ");
+    scanf("%c", &op);
+    getchar();
+    printf("///                                                                         ///\n");
+    printf("///                                                                         ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+}
+
+
+void tela_cadastrar_funcionario(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                                                                         ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///            = = = = = = = = Cadastrar funcionario = = = = = = = =        ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///                                                                         ///\n");
+    printf("///            CPF (apenas números):                                        ///\n");
+    printf("///            Nome completo:                                               ///\n");
+    printf("///            E-mail:                                                      ///\n");
+    printf("///            Data de Nascimento (dd/mm/aaaa):                             ///\n");
+    printf("///            Celular  (apenas números):                                   ///\n");
+    printf("///                                                                         ///\n");
+    printf("///                                                                         ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+}
+
+
+void tela_pesquisar_funcionario(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                                                                         ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///            = = = = = =  Pesquisar funcionario = = = = = = =             ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///                                                                         ///\n");
+    printf("///            Informe o CPF (apenas números):                              ///\n");
+    printf("///                                                                         ///\n");
+    printf("///                                                                         ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+}
+
+
+void tela_alterar_funcionario(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                                                                         ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///            = = = = = = = = Alterar funcionario = = = = = = =            ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///                                                                         ///\n");
     printf("///            Informe a CPF (apenas números):                              ///\n");
+    printf("///                                                                         ///\n");
+    printf("///                                                                         ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+}
+
+void tela_excluir_funcionario(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                                                                         ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///            = = = = = = = = Excluir funcionario = = = = = =              ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///                                                                         ///\n");
+    printf("///            Informe o CPF (apenas números):                              ///\n");
+    printf("///                                                                         ///\n");
+    printf("///                                                                         ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+}
+
+
+
+
+
+
+void tela_menu_queijo(void) {
+    char op;
+    system("clear||cls");
+    printf("\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                                                                         ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///            = = = = = = = = =  Menu queijos = = = = = = = = =            ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///                                                                         ///\n");
+    printf("///            1. Cadastrar um novo queijo no sistema                       ///\n");
+    printf("///            2. Pesquisar os dados de um queijo                           ///\n");
+    printf("///            3. Atualizar os dados de um queijo                           ///\n");
+    printf("///            4. Excluir um queijo do sistema                              ///\n");
+    printf("///            0. Voltar ao menu anterior                                   ///\n");
+    printf("///                                                                         ///\n");
+    printf("///            Escolha a opção desejada: ");
+    scanf("%c", &op);
+    getchar();
+    printf("///                                                                         ///\n");
+    printf("///                                                                         ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+}
+
+
+void tela_cadastrar_queijo(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                                                                         ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///            = = = = = = = = Cadastrar queijos = = = = = = = =            ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///                                                                         ///\n");
+    printf("///            codigo do queijo:                                            ///\n");
+    printf("///            Nome do queijo:                                              ///\n");
+    printf("///            ingredientes:                                                ///\n");
+    printf("///            tipo do leite para o queijo:                                 ///\n");
+    printf("///            leite cru ou pasteurizado:                                   ///\n");
+    printf("///                                                                         ///\n");
+    printf("///                                                                         ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+}
+
+
+void tela_pesquisar_queijo(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                                                                         ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///            = = = = = =  Pesquisar queijo = = = = = = = = =              ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///                                                                         ///\n");
+    printf("///            Informe o codigo do queijo:                                  ///\n");
+    printf("///                                                                         ///\n");
+    printf("///                                                                         ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+}
+
+
+void tela_alterar_queijo(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                                                                         ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =             ///\n");
+    printf("///            = = = = =   Alterar dados do queijo = = = = = =              ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///                                                                         ///\n");
+    printf("///            Informe o codigo do queijo:                                  ///\n");
+    printf("///                                                                         ///\n");
+    printf("///                                                                         ///\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+}
+
+void tela_excluir_queijo(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("///////////////////////////////////////////////////////////////////////////////\n");
+    printf("///                                                                         ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///            = = = = = = = = Excluir queijo = = = = = = = = =             ///\n");
+    printf("///            = = = = = = = = = = = = = = = = = = = = = = = =              ///\n");
+    printf("///                                                                         ///\n");
+    printf("///            Informe o codigo do queijo:                                  ///\n");
     printf("///                                                                         ///\n");
     printf("///                                                                         ///\n");
     printf("///////////////////////////////////////////////////////////////////////////////\n");
