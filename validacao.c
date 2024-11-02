@@ -116,3 +116,64 @@ int validaEmail(const char* email) {
     // Retorna verdadeiro se o e-mail contém '@', '.' e pelo menos uma letra
     return (temArroba && temPonto && strstr(email, ".") != NULL);
 }
+
+//---------------------------------------------------------
+//                   Validação para Dígito
+//---------------------------------------------------------
+/// Inspirado no código do professor Flavius (01/11/2024)
+
+/// Retorna 1 se o caractere recebido for um dígito (entre 0 e 9)
+/// retorna 0 caso contrário
+///
+int validaDigito(char c) {
+    return (c >= '0' && c <= '9');
+}
+
+
+//---------------------------------------------------------
+//                   Validação para Data
+//---------------------------------------------------------
+// Créditos ao ChatGPT (01/11/2024
+
+int validaData(const char* data) {
+    // Verifica se o formato é dd/mm/aaaa
+    if (data[2] != '/' || data[5] != '/') {
+        return 0;
+    }
+
+    // Verifica se todos os caracteres, exceto as barras, são dígitos
+    for (int i = 0; i < 10; i++) {
+        if (i != 2 && i != 5 && !validaDigito(data[i])) {
+            return 0;
+        }
+    }
+
+    // Extrai dia, mês e ano da string
+    int dia = (data[0] - '0') * 10 + (data[1] - '0');
+    int mes = (data[3] - '0') * 10 + (data[4] - '0');
+    int ano = (data[6] - '0') * 1000 + (data[7] - '0') * 100 +
+              (data[8] - '0') * 10 + (data[9] - '0');
+
+    // Verifica o intervalo de ano
+    if (ano < 1900 || ano > 2100) {
+        return 0;
+    }
+
+    // Verifica o intervalo de mês
+    if (mes < 1 || mes > 12) {
+        return 0;
+    }
+
+    // Verifica o intervalo de dias para cada mês
+    int diasNoMes[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    // Ajusta para ano bissexto
+    if ((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0)) {
+        diasNoMes[1] = 29;
+    }
+    
+    if (dia < 1 || dia > diasNoMes[mes - 1]) {
+        return 0;
+    }
+    return 1; // Data válida
+}
