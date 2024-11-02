@@ -13,6 +13,7 @@ int validaLetra(char c) {
 //---------------------------------------------------------
 //                  Validação para Nome
 //---------------------------------------------------------
+// Inspirado no código do professor Flavius (1/11/2024)
 
 int validaNome(char* nome) {
     int temLetra = 0; 
@@ -39,7 +40,7 @@ int validaNome(char* nome) {
 //---------------------------------------------------------
 //                    Validação para CPF                   
 //---------------------------------------------------------
-// Créditos ao ChatGPT
+// Créditos ao ChatGPT (01/11/2024)
 
 /// Retorna 1 se a string recebida corresponde a um número de CPF válido 
 /// (apenas dígitos) ou retorna 0 caso contrário
@@ -85,4 +86,33 @@ int validaCPF(char* cpf) {
     return 1; // Retorna 1 se o CPF é válido
 }
 
+//---------------------------------------------------------
+//                   Validação para E-mail
+//---------------------------------------------------------
+//  Créditos ao ChatGPT (01/11/2024
 
+int validaEmail(const char* email) {
+    int temArroba = 0; // Indica se o '@' foi encontrado
+    int temPonto = 0;  // Indica se o '.' foi encontrado
+
+    for (int i = 0; email[i] != '\0'; i++) {
+        if (validaLetra(email[i])) {
+            // Se encontramos uma letra, continue
+        }
+        if (email[i] == '@') {
+            temArroba = 1; // '@' encontrado
+
+            // Verifica se há um '.' após o '@'
+            for (int j = i + 1; email[j] != '\0'; j++) {
+                if (email[j] == '.') {
+                    temPonto = 1; // '.' encontrado
+                    
+                    break; // Para a verificação assim que encontrar um '.'
+                }
+            }
+            break; // Para a verificação assim que encontrar o '@'
+        }
+    }
+    // Retorna verdadeiro se o e-mail contém '@', '.' e pelo menos uma letra
+    return (temArroba && temPonto && strstr(email, ".") != NULL);
+}
