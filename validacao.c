@@ -133,7 +133,7 @@ int validaDigito(char c) {
 //---------------------------------------------------------
 //                   Validação para Data
 //---------------------------------------------------------
-// Créditos ao ChatGPT (01/11/2024
+// Créditos ao ChatGPT (01/11/2024)
 
 int validaData(const char* data) {
     // Verifica se o formato é dd/mm/aaaa
@@ -176,4 +176,29 @@ int validaData(const char* data) {
         return 0;
     }
     return 1; // Data válida
+}
+
+//---------------------------------------------------------
+//                   Validação para Telefone
+//---------------------------------------------------------
+// Créditos ao professor Flavius (01/11/2024)
+
+/// Retorna 1 se a string recebida corresponde a um número de celular válido 
+/// (apenas dígitos) ou retorna 0 caso contrário
+///
+int validaFone(char* fone) {
+    int tam = strlen(fone);
+    
+    // Verifica se o número tem exatamente 11 dígitos
+    if (tam != 11) {
+        return 0;
+    }
+
+    // Verifica se todos os caracteres são dígitos
+    for (int i = 0; i < tam; i++) {
+        if (!validaDigito(fone[i])) {
+            return 0;
+        }
+    }
+    return 1; // Número de celular válido
 }
