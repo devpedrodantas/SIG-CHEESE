@@ -78,8 +78,8 @@ void menu_principal(void) {
     printf("| 1. Módulo Clientes                                                        |\n");
     printf("| 2. Módulo Funcionários                                                    |\n");
     printf("| 3. Módulo Queijos                                                         |\n");
-    printf("| 4. Módulo Informações                                                     |\n");
-    printf("| 5. Módulo Relatórios                                                      |\n");
+    printf("| 4. Menu Sobre                                                             |\n");
+    printf("| 5. Menu Equipe                                                            |\n");
     printf("| 0. Sair                                                                   |\n");
     printf("|                                                                           |\n");
     printf("-----------------------------------------------------------------------------\n");
