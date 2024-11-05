@@ -401,7 +401,7 @@ void tela_cadastrar_queijo(void) {
     printf("///            codigo do queijo:                                            ///\n");
     printf("///            Nome do queijo:                                              ///\n");
     printf("///            ingredientes:                                                ///\n");
-    printf("///            tipo do leite para o queijo:                                 ///\n");
+    printf("///            origem animal do leite usado:                                ///\n");
     printf("///            leite cru ou pasteurizado:                                   ///\n");
     printf("///                                                                         ///\n");
     printf("///                                                                         ///\n");
