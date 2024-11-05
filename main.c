@@ -12,62 +12,62 @@
 
 /////
 // Assinatura das funções
-void tela_menu_principal(void);
+void menu_principal(void);
 
-void tela_menu_cliente(void);
-void tela_cadastrar_cliente(void);
-void tela_pesquisar_cliente(void);
-void tela_alterar_cliente(void);
-void tela_excluir_cliente(void);
+void menu_cliente(void);
+void cadastra_cliente(void);
+void pesquisa_cliente(void);
+void atualiza_cliente(void);
+void exclui_cliente(void);
 
-void tela_menu_funcionario(void);
-void tela_cadastrar_funcionario(void);
-void tela_pesquisar_funcionario(void);
-void tela_alterar_funcionario(void);
-void tela_excluir_funcionario(void);
+void menu_funcionario(void);
+void cadastra_funcionario(void);
+void pesquisa_funcionario(void);
+void atualiza_funcionario(void);
+void exclui_funcionario(void);
 
-void tela_menu_queijo(void);
-void tela_cadastrar_queijo(void);
-void tela_pesquisar_queijo(void);
-void tela_alterar_queijo(void);
-void tela_excluir_queijo(void);
+void menu_queijo(void);
+void cadastra_queijo(void);
+void pesquisa_queijo(void);
+void atualiza_queijo(void);
+void exclui_queijo(void);
 
-void tela_sobre(void);
-void tela_equipe(void);
+void menu_sobre(void);
+void menu_equipe(void);
 
 
 /////
 // Programa principal
 int main(void) {
-    tela_menu_principal();
+    menu_principal();
 
-    tela_menu_cliente();
-    tela_cadastrar_cliente();
-    tela_pesquisar_cliente();
-    tela_alterar_cliente();
-    tela_excluir_cliente();
+    menu_cliente();
+    cadastra_cliente();
+    pesquisa_cliente();
+    atualiza_cliente();
+    exclui_cliente();
 
-    tela_menu_funcionario();
-    tela_cadastrar_funcionario();
-    tela_pesquisar_funcionario();
-    tela_alterar_funcionario();
-    tela_excluir_funcionario();
+    menu_funcionario();
+    cadastra_funcionario();
+    pesquisa_funcionario();
+    atualiza_funcionario();
+    exclui_funcionario();
 
-    tela_menu_queijo();
-    tela_cadastrar_queijo();
-    tela_pesquisar_queijo();
-    tela_alterar_queijo();
-    tela_excluir_queijo();
+    menu_queijo();
+    cadastra_queijo();
+    pesquisa_queijo();
+    atualiza_queijo();
+    exclui_queijo();
 
-    tela_sobre();
-    tela_equipe();
+    menu_sobre();
+    menu_equipe();
     return 0;
 }
 
 /////
 // Funções
 
-void tela_menu_principal(void) {
+void menu_principal(void) {
     char op;
     system("clear||cls");
     printf("\n");
@@ -93,7 +93,7 @@ void tela_menu_principal(void) {
     getchar();
 }
 
-void tela_menu_cliente(void) {
+void menu_cliente(void) {
     char op;
     system("clear||cls");
     printf("\n");
@@ -118,7 +118,7 @@ void tela_menu_cliente(void) {
     getchar();
 }
 
-void tela_cadastrar_cliente(void) {
+void cadastra_cliente(void) {
     system("clear||cls");
     printf("\n");
     printf("-----------------------------------------------------------------------------\n");
@@ -136,7 +136,7 @@ void tela_cadastrar_cliente(void) {
     getchar();
 }
 
-void tela_pesquisar_cliente(void) {
+void pesquisa_cliente(void) {
     system("clear||cls");
     printf("\n");
     printf("-----------------------------------------------------------------------------\n");
@@ -151,7 +151,7 @@ void tela_pesquisar_cliente(void) {
     getchar();
 }
 
-void tela_alterar_cliente(void) {
+void atualiza_cliente(void) {
     system("clear||cls");
     printf("\n");
     printf("-----------------------------------------------------------------------------\n");
@@ -166,7 +166,7 @@ void tela_alterar_cliente(void) {
     getchar();
 }
 
-void tela_excluir_cliente(void) {
+void exclui_cliente(void) {
     system("clear||cls");
     printf("\n");
     printf("-----------------------------------------------------------------------------\n");
@@ -181,7 +181,7 @@ void tela_excluir_cliente(void) {
     getchar();
 }
 
-void tela_menu_funcionario(void) {
+void menu_funcionario(void) {
     char op;
     system("clear||cls");
     printf("\n");
@@ -206,7 +206,7 @@ void tela_menu_funcionario(void) {
     getchar();
 }
 
-void tela_cadastrar_funcionario(void) {
+void cadastra_funcionario(void) {
     system("clear||cls");
     printf("\n");
     printf("-----------------------------------------------------------------------------\n");
@@ -225,7 +225,7 @@ void tela_cadastrar_funcionario(void) {
     getchar();
 }
 
-void tela_pesquisar_funcionario(void) {
+void pesquisa_funcionario(void) {
     system("clear||cls");
     printf("\n");
     printf("-----------------------------------------------------------------------------\n");
@@ -240,7 +240,7 @@ void tela_pesquisar_funcionario(void) {
     getchar();
 }
 
-void tela_alterar_funcionario(void) {
+void atualiza_funcionario(void) {
     system("clear||cls");
     printf("\n");
     printf("-----------------------------------------------------------------------------\n");
@@ -255,7 +255,7 @@ void tela_alterar_funcionario(void) {
     getchar();
 }
 
-void tela_excluir_funcionario(void) {
+void exclui_funcionario(void) {
     system("clear||cls");
     printf("\n");
     printf("-----------------------------------------------------------------------------\n");
@@ -270,7 +270,7 @@ void tela_excluir_funcionario(void) {
     getchar();
 }
 
-void tela_menu_queijo(void) {
+void menu_queijo(void) {
     char op;
     system("clear||cls");
     printf("\n");
@@ -295,7 +295,7 @@ void tela_menu_queijo(void) {
     getchar();
 }
 
-void tela_cadastrar_queijo(void) {
+void cadastra_queijo(void) {
     system("clear||cls");
     printf("\n");
     printf("-----------------------------------------------------------------------------\n");
@@ -314,7 +314,7 @@ void tela_cadastrar_queijo(void) {
     getchar();
 }
 
-void tela_pesquisar_queijo(void) {
+void pesquisa_queijo(void) {
     system("clear||cls");
     printf("\n");
     printf("-----------------------------------------------------------------------------\n");
@@ -329,7 +329,7 @@ void tela_pesquisar_queijo(void) {
     getchar();
 }
 
-void tela_alterar_queijo(void) {
+void atualiza_queijo(void) {
     system("clear||cls");
     printf("\n");
     printf("-----------------------------------------------------------------------------\n");
@@ -344,7 +344,7 @@ void tela_alterar_queijo(void) {
     getchar();
 }
 
-void tela_excluir_queijo(void) {
+void exclui_queijo(void) {
     system("clear||cls");
     printf("\n");
     printf("-----------------------------------------------------------------------------\n");
@@ -359,7 +359,7 @@ void tela_excluir_queijo(void) {
     getchar();
 }
 
-void tela_sobre(void) {
+void menu_sobre(void) {
     system("clear||cls");
     printf("\n");
     printf("-----------------------------------------------------------------------------\n");
@@ -387,7 +387,7 @@ void tela_sobre(void) {
     getchar();
 }
 
-void tela_equipe(void) {
+void menu_equipe(void) {
     system("clear||cls");
     printf("\n");
     printf("-----------------------------------------------------------------------------\n");
