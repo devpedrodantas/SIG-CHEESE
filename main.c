@@ -59,14 +59,8 @@ int main(void) {
             case 5:
                 menu_equipe();
                 break;
-        	default:
-                printf("Opção inválida, digite um número que esteja entre os dígitos válidos\n");
-                printf("\n");
-                printf("\t\t\t>>> Pressione ENTER para continuar...\n");
-                getchar(); 
-                break;
         }
-    } while (op != 0);
+    } while (op !=0);
     printf("The End\n");
     return 0;
 }
@@ -135,7 +129,7 @@ void menu_cliente(void) {
                 exclui_cliente();
                 break;
             case '0':
-                printf("Voltando para o menu principal\n");
+                printf("Voltando ao menu principal\n");
                 printf("\n");
                 printf("\t\t\t>>> Tecle ENTER para continuar...\n");
                 getchar();
@@ -215,32 +209,53 @@ void exclui_cliente(void) {
 
 void menu_funcionario(void) {
     char op;
-    system("clear||cls");
-    printf("\n");
-    printf("+---------------------------------------------------------------------------+\n");
-    printf("|                                                                           |\n");
-    printf("|                      * * * Módulo Funcionário * * *                       |\n");
-    printf("|                                                                           |\n");
-    printf("|-> 1. Cadastrar um novo funcionário                                        |\n");
-    printf("|-> 2. Pesquisar os dados de um funcionário                                 |\n");
-    printf("|-> 3. Atualizar os dados de um funcionário                                 |\n");
-    printf("|-> 4. Excluir um funcionário do sistema                                    |\n");
-    printf("|-> 0. Voltar ao menu anterior                                              |\n");
-    printf("|                                                                           |\n");
-    printf("+---------------------------------------------------------------------------+\n");
-    printf("\n");  
-    printf("               Escolha a opção desejada: ");
-    scanf("%c", &op);
-    getchar();
-    printf("\n");                                                                      
-    printf("+---------------------------------------------------------------------------+\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
-    cadastra_funcionario();
-    pesquisa_funcionario();
-    atualiza_funcionario();
-    exclui_funcionario();
-
+    do {
+        system("clear||cls");
+        printf("\n");
+        printf("+---------------------------------------------------------------------------+\n");
+        printf("|                                                                           |\n");
+        printf("|                      * * * Módulo Funcionário * * *                       |\n");
+        printf("|                                                                           |\n");
+        printf("|-> 1. Cadastrar um novo funcionário                                        |\n");
+        printf("|-> 2. Pesquisar os dados de um funcionário                                 |\n");
+        printf("|-> 3. Atualizar os dados de um funcionário                                 |\n");
+        printf("|-> 4. Excluir um funcionário do sistema                                    |\n");
+        printf("|-> 0. Voltar ao menu anterior                                              |\n");
+        printf("|                                                                           |\n");
+        printf("+---------------------------------------------------------------------------+\n");
+        printf("\n");  
+        printf("               Escolha a opção desejada: ");
+        scanf("%c", &op);
+        getchar();
+        printf("\n");                                                                      
+        printf("+---------------------------------------------------------------------------+\n");
+        switch(op) {
+            case '1':
+                cadastra_funcionario();
+                break;
+            case '2':
+                pesquisa_funcionario();
+                break;
+            case '3':
+                atualiza_funcionario();
+                break;
+            case '4':
+                exclui_funcionario();
+                break;
+            case '0':
+                printf("Voltando ao Menu Principal");
+                printf("\n");
+                printf("\t\t\t>>> Tecle ENTER para continuar...\n");
+                getchar();
+                break;
+            default:
+                printf("Número inválido, digite um dígito entre os disponíveis");
+                printf("\n");
+                printf("\t\t\t>>> Tecle ENTER para continuar...\n");
+                getchar(); 
+                break;
+        }
+    } while(op != '0');
 }
 
 void cadastra_funcionario(void) {
