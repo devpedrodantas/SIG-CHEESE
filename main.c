@@ -243,13 +243,13 @@ void menu_funcionario(void) {
                 exclui_funcionario();
                 break;
             case '0':
-                printf("Voltando ao Menu Principal");
+                printf("Voltando ao Menu Principal\n");
                 printf("\n");
                 printf("\t\t\t>>> Tecle ENTER para continuar...\n");
                 getchar();
                 break;
             default:
-                printf("Número inválido, digite um dígito entre os disponíveis");
+                printf("Número inválido, digite um dígito entre os disponíveis\n");
                 printf("\n");
                 printf("\t\t\t>>> Tecle ENTER para continuar...\n");
                 getchar(); 
@@ -324,32 +324,53 @@ void exclui_funcionario(void) {
 
 void menu_queijo(void) {
     char op;
-    system("clear||cls");
-    printf("\n");
-    printf("+---------------------------------------------------------------------------+\n");
-    printf("|                                                                           |\n");
-    printf("|                         * * * Menu Queijos * * *                          |\n");
-    printf("|                                                                           |\n");
-    printf("|-> 1. Cadastrar um novo queijo no sistema                                  |\n");
-    printf("|-> 2. Pesquisar os dados de um queijo                                      |\n");
-    printf("|-> 3. Atualizar os dados de um queijo                                      |\n");
-    printf("|-> 4. Excluir um queijo do sistema                                         |\n");
-    printf("|-> 0. Voltar ao menu anterior                                              |\n");
-    printf("|                                                                           |\n");
-    printf("+---------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("            Escolha a opção desejada: ");
-    scanf("%c", &op);
-    getchar();
-    printf("\n");
-    printf("+---------------------------------------------------------------------------+\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
-    cadastra_queijo();
-    pesquisa_queijo();
-    atualiza_queijo();
-    exclui_queijo();
-
+    do {
+        system("clear||cls");
+        printf("\n");
+        printf("+---------------------------------------------------------------------------+\n");
+        printf("|                                                                           |\n");
+        printf("|                         * * * Menu Queijos * * *                          |\n");
+        printf("|                                                                           |\n");
+        printf("|-> 1. Cadastrar um novo queijo no sistema                                  |\n");
+        printf("|-> 2. Pesquisar os dados de um queijo                                      |\n");
+        printf("|-> 3. Atualizar os dados de um queijo                                      |\n");
+        printf("|-> 4. Excluir um queijo do sistema                                         |\n");
+        printf("|-> 0. Voltar ao menu anterior                                              |\n");
+        printf("|                                                                           |\n");
+        printf("+---------------------------------------------------------------------------+\n");
+        printf("\n");
+        printf("            Escolha a opção desejada: ");
+        scanf("%c", &op);
+        getchar();
+        printf("\n");
+        printf("+---------------------------------------------------------------------------+\n");
+        switch(op) {
+            case '1':
+                cadastra_queijo();
+                break;
+            case'2':
+                pesquisa_queijo();
+                break;
+            case '3':
+                atualiza_queijo();  
+                break;
+            case '4':
+                exclui_queijo();
+                break;
+            case '0':
+                printf("Voltando ao Menu Principal\n");
+                printf("\n");
+                printf("\t\t\t>>> Tecle ENTER para continuar...\n");
+                getchar();
+                break;
+            default:
+                printf("Opção inválida, pressione um dígito entre os disponíveis\n");
+                printf("\n");
+                printf("\t\t\t>>> Tecle ENTER para continuar...\n");
+                getchar();
+                break;
+        }
+    } while(op != '0');
 }
 
 void cadastra_queijo(void) {
