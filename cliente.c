@@ -54,19 +54,51 @@ void menu_cliente(void) {
 }
 
 void cadastra_cliente(void) {
+    char nome[50];
+    char cpf[12];
+    char email[50];
+    char data[11];
+    char fone[12];
+    
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                         >>  Cadastrar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
-    printf("|-> Nome do cliente:                                                        |\n");
-    printf("|-> Endereço:                                                               |\n");
-    printf("|-> Telefone:                                                               |\n");
-    printf("|-> Email:                                                                  |\n");
+    
+    printf("|-> Nome do cliente: ");
+    scanf("%49[^\n]", nome);
+    getchar();
+    
+/// Ainda será implementado >>> printf("|-> Endereço: ");
+    printf("|-> CPF (somente números): ");
+    scanf("%11s", cpf);
+    getchar();
+
+    printf("|-> Email: ");
+    scanf("%49[^\n]", email);
+    getchar();
+    
+    printf("|-> Data de nascimento (DD/MM/AAAA): ");
+    scanf("%10s", data);
+    getchar();
+    
+    printf("|-> Telefone (somente números): ");
+    scanf("%11s", fone);
+    getchar();
+    
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
+
+    printf("Cliente cadastrado com sucesso\n");
+    printf("\n");
+    printf("Nome: %s\n", nome);
+    printf("CPF: %s\n", cpf);
+    printf("Email: %s\n", email);
+    printf("Data de nascimento: %s\n", data);
+    printf("Número de Telefone: %s\n", fone);  
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
@@ -78,7 +110,7 @@ void pesquisa_cliente(void) {
     printf("|                                                                           |\n");
     printf("|                         >>  Pesquisar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe o nome ou ID do cliente:                                        |\n");
+    printf("|-> Informe seu CPF:                                                        |\n");
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
