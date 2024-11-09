@@ -2,6 +2,31 @@
 #include <stdlib.h>
 #include "cliente.h"
 
+void leNome(char nome []) {
+    scanf("%49[^\n]", nome);
+    getchar();
+}
+
+void leCpf(char cpf[]) {
+    scanf("%11s", cpf);
+    getchar();
+}
+
+void leEmail(char email[]) {
+    scanf("%49[^\n]", email);
+    getchar();
+}
+
+void leData(char data[]) {
+    scanf("%10s", data);
+    getchar();
+}
+
+void leFone(char fone[]) {
+    scanf("%11s", fone);
+    getchar();
+}
+
 void menu_cliente(void) {
     char op;
     do {
@@ -68,25 +93,20 @@ void cadastra_cliente(void) {
     printf("|                                                                           |\n");
     
     printf("|-> Nome do cliente: ");
-    scanf("%49[^\n]", nome);
-    getchar();
+    leNome(nome);
     
 /// Ainda será implementado >>> printf("|-> Endereço: ");
     printf("|-> CPF (somente números): ");
-    scanf("%11s", cpf);
-    getchar();
+    leCpf(cpf);
 
     printf("|-> Email: ");
-    scanf("%49[^\n]", email);
-    getchar();
+    leEmail(email);
     
     printf("|-> Data de nascimento (DD/MM/AAAA): ");
-    scanf("%10s", data);
-    getchar();
+    leData(data);
     
     printf("|-> Telefone (somente números): ");
-    scanf("%11s", fone);
-    getchar();
+    leFone(fone);
     
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
@@ -98,7 +118,7 @@ void cadastra_cliente(void) {
     printf("CPF: %s\n", cpf);
     printf("Email: %s\n", email);
     printf("Data de nascimento: %s\n", data);
-    printf("Número de Telefone: %s\n", fone);  
+    printf("Número de telefone: %s\n", fone);  
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
