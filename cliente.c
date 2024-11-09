@@ -1,31 +1,7 @@
 #include <stdio.h> 
 #include <stdlib.h>
 #include "cliente.h"
-
-void leNome(char nome []) {
-    scanf("%49[^\n]", nome);
-    getchar();
-}
-
-void leCpf(char cpf[]) {
-    scanf("%11s", cpf);
-    getchar();
-}
-
-void leEmail(char email[]) {
-    scanf("%49[^\n]", email);
-    getchar();
-}
-
-void leData(char data[]) {
-    scanf("%10s", data);
-    getchar();
-}
-
-void leFone(char fone[]) {
-    scanf("%11s", fone);
-    getchar();
-}
+#include "entradas.h"
 
 void menu_cliente(void) {
     char op;
@@ -79,11 +55,11 @@ void menu_cliente(void) {
 }
 
 void cadastra_cliente(void) {
-    char nome[50];
-    char cpf[12];
-    char email[50];
-    char data[11];
-    char fone[12];
+    char nome[TAM_NOME];
+    char cpf[TAM_CPF];
+    char email[TAM_EMAIL];
+    char data[TAM_DATA];
+    char fone[TAM_FONE];
     
     system("clear||cls");
     printf("\n");
