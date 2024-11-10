@@ -17,7 +17,7 @@ int validaLetra(char c) {
 //---------------------------------------------------------
 // Inspirado no código do professor Flavius (1/11/2024)
 
-int validaNome(char* nome) {
+int validaNome(const char* nome) {
     int temLetra = 0; 
 
     if (nome[0] == '\0') {
@@ -91,7 +91,7 @@ int validaDigito(char c) {
 /// (apenas dígitos) ou retorna 0 caso contrário
 
 
-int validaCPF(char* cpf) {
+int validaCPF(const char* cpf) {
     int tam = strlen(cpf);
     
     // Verifica se o CPF tem 11 dígitos
@@ -188,7 +188,7 @@ int validaData(const char* data) {
 /// Retorna 1 se a string recebida corresponde a um número de celular válido 
 /// (apenas dígitos) ou retorna 0 caso contrário
 ///
-int validaFone(char* fone) {
+int validaFone(const char* fone) {
     int tam = strlen(fone);
     
     // Verifica se o número tem exatamente 11 dígitos
