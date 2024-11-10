@@ -203,6 +203,7 @@ int validaFone(const char* fone) {
         }
     }
     return 1; // Número de celular válido
+}
 
 //---------------------------------------------------------
 //          Validação para leite cru ou pasteurizado
@@ -211,16 +212,14 @@ int validaFone(const char* fone) {
      // Valida se a entrada é "cru" ou "pasteurizado"
 int validaTipoLeite(const char* tipoLeite) {
     if (strcmp(tipoLeite, "pasteurizado") == 0) {
-        return 0;
+        return 1;  // Retorna 1 para indicar que a entrada é válida
     } else if (strcmp(tipoLeite, "cru") == 0) {
-        return 0;
+        return 1;  // Retorna 1 para indicar que a entrada é válida
     } else {
         printf("Entrada inválida! Por favor, digite 'cru' ou 'pasteurizado'.\n");
+        return 0;  // Retorna 0 para indicar que a entrada é inválida
     }
-
-    return 0;
 }
-
 //---------------------------------------------------------
 //          Validação para codigo de queijo valido
 //---------------------------------------------------------
