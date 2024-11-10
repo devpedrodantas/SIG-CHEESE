@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "cliente.h"
 #include "entradas.h"
+#include "validacao.h"
 
 void menu_cliente(void) {
     char op;
@@ -67,11 +68,21 @@ void cadastra_cliente(void) {
     printf("|                                                                           |\n");
     printf("|                         >>  Cadastrar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
-    
+    /// Ainda será implementado >>> printf("|-> Endereço: ");
+
     printf("|-> Nome do cliente: ");
-    leNome(nome);
-    
-/// Ainda será implementado >>> printf("|-> Endereço: ");
+    do {
+        leNome(nome);
+        if (validaNome(nome)) {
+            printf("Nome válido\n");
+            break;
+        } else {
+            printf("Nome inválido, tente novamente");
+            getchar();
+            printf("|-> Nome do cliente: ");
+        }
+    } while (!validaNome(nome));
+
     printf("|-> CPF (somente números): ");
     leCpf(cpf);
 
