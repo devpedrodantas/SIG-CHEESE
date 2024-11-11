@@ -1,6 +1,8 @@
 #include <stdio.h> 
 #include <stdlib.h>
 #include "cliente.h"
+#include "entradas.h"
+#include "validacao.h"
 
 void menu_cliente(void) {
     char op;
@@ -54,19 +56,97 @@ void menu_cliente(void) {
 }
 
 void cadastra_cliente(void) {
+    char nome[TAM_NOME];
+    char cpf[TAM_CPF];
+    char email[TAM_EMAIL];
+    char data[TAM_DATA];
+    char fone[TAM_FONE];
+    
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                         >>  Cadastrar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
-    printf("|-> Nome do cliente:                                                        |\n");
-    printf("|-> Endereço:                                                               |\n");
-    printf("|-> Telefone:                                                               |\n");
-    printf("|-> Email:                                                                  |\n");
+    /// Ainda será implementado >>> printf("|-> Endereço: ");
+    /// + opções de entradas de dados
+    printf("|-> Nome do cliente: ");
+    do {
+        leNome(nome);
+        if (validaNome(nome)) {
+            printf("Nome válido\n");
+            break;
+        } else {
+            printf("Nome inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Nome do cliente: ");
+        }
+    } while (!validaNome(nome));
+
+    printf("|-> CPF (somente números): ");
+    do {
+        leCpf(cpf);
+        if (validaCPF(cpf)) {
+            printf("CPF válido\n");
+            break;
+        } else {
+            printf("CPF inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> CPF (somente números): ");
+        }
+    } while (!validaCPF(cpf));
+
+    printf("|-> Email: ");
+    do {
+        leEmail(email);
+        if (validaEmail(email)) {
+            printf("Email válido\n");
+            break;
+        } else {
+            printf("Email inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Email: ");
+        }
+    } while(!validaEmail(email));
+    
+    
+    printf("|-> Data de nascimento (DD/MM/AAAA): ");
+        do {
+        leData(data);
+        if (validaData(data)) {
+            printf("Data válido\n");
+            break;
+        } else {
+            printf("Data inválida, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Data de nascimento (DD/MM/AAAA): ");
+        }
+    } while(!validaData(data));
+    
+    printf("|-> Telefone (somente números): ");
+     do {
+        leFone(fone);
+        if (validaFone(fone)) {
+            printf("Número de telefone válido\n");
+            break;
+        } else {
+            printf("Número de telefone inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Telefone (somente números): ");
+        }
+    } while(!validaFone(fone));    
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
+
+///implementar uma interface
+    printf("Cliente cadastrado com sucesso\n");
+    printf("\n");
+    printf("Nome: %s\n", nome);
+    printf("CPF: %s\n", cpf);
+    printf("Email: %s\n", email);
+    printf("Data de nascimento: %s\n", data);
+    printf("Número de telefone: %s\n", fone);  
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
@@ -78,7 +158,7 @@ void pesquisa_cliente(void) {
     printf("|                                                                           |\n");
     printf("|                         >>  Pesquisar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe o nome ou ID do cliente:                                        |\n");
+    printf("|-> Informe seu CPF:                                                        |\n");
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");

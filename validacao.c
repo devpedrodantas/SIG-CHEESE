@@ -17,7 +17,7 @@ int validaLetra(char c) {
 //---------------------------------------------------------
 // Inspirado no código do professor Flavius (1/11/2024)
 
-int validaNome(char* nome) {
+int validaNome(const char* nome) {
     int temLetra = 0; 
 
     if (nome[0] == '\0') {
@@ -91,7 +91,7 @@ int validaDigito(char c) {
 /// (apenas dígitos) ou retorna 0 caso contrário
 
 
-int validaCPF(char* cpf) {
+int validaCPF(const char* cpf) {
     int tam = strlen(cpf);
     
     // Verifica se o CPF tem 11 dígitos
@@ -188,7 +188,7 @@ int validaData(const char* data) {
 /// Retorna 1 se a string recebida corresponde a um número de celular válido 
 /// (apenas dígitos) ou retorna 0 caso contrário
 ///
-int validaFone(char* fone) {
+int validaFone(const char* fone) {
     int tam = strlen(fone);
     
     // Verifica se o número tem exatamente 11 dígitos
@@ -203,36 +203,36 @@ int validaFone(char* fone) {
         }
     }
     return 1; // Número de celular válido
+}
 
 //---------------------------------------------------------
 //          Validação para leite cru ou pasteurizado
 //---------------------------------------------------------
 
-    // Valida se a entrada é "cru" ou "pasteurizado"
+     // Valida se a entrada é "cru" ou "pasteurizado"
+int validaTipoLeite(const char* tipoLeite) {
     if (strcmp(tipoLeite, "pasteurizado") == 0) {
-        return 0;
+        return 1;  // Retorna 1 para indicar que a entrada é válida
     } else if (strcmp(tipoLeite, "cru") == 0) {
-        return 0;
+        return 1;  // Retorna 1 para indicar que a entrada é válida
     } else {
         printf("Entrada inválida! Por favor, digite 'cru' ou 'pasteurizado'.\n");
+        return 0;  // Retorna 0 para indicar que a entrada é inválida
     }
-
-    return 0;
 }
-
 //---------------------------------------------------------
 //          Validação para codigo de queijo valido
 //---------------------------------------------------------
 
-//verifica se o codigo digitado corresponde a algum queijo do sistema
-
-if (codigoQueijo == codigoQueijo) {
+    //verifica se o codigo digitado corresponde a algum queijo do sistema
+int validaCodigoQueijo(int codigoQueijo, int codigoEsperado) {
+    if (codigoQueijo == codigoEsperado) {
+        return 1;
+    } else {
+        printf("Código inválido!\n");
+    }
     return 0;
-} else { 
-printf ("codigo invalido!")
-
 }
-
 
 
 

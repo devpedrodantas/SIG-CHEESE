@@ -13,6 +13,9 @@
 #include "cliente.h"
 #include "funcionario.h"
 #include "queijo.h"
+///// + 1 CRUD e adcionar um módulo para relatórios
+//// Atualizar o menu sobre e equipe
+//// Melhorar as validações
 
 /////
 // Assinatura das funções
