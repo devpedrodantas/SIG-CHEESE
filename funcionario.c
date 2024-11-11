@@ -1,6 +1,7 @@
 #include <stdio.h> 
 #include <stdlib.h>
 #include "funcionario.h"
+#include "entradas.h"
 
 void menu_funcionario(void) {
     char op;
@@ -54,20 +55,42 @@ void menu_funcionario(void) {
 }
 
 void cadastra_funcionario(void) {
+    char nome [TAM_NOME];
+    char cpf [TAM_CPF];
+    char email [TAM_EMAIL];
+    char fone [TAM_FONE];
+    char data [TAM_DATA];
+    
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                       >>  Cadastrar Funcionário  <<                       |\n");
     printf("|                                                                           |\n");
-    printf("|-> Nome do funcionário:                                                    |\n");
-    printf("|-> Cargo:                                                                  |\n");
-    printf("|-> Endereço:                                                               |\n");
-    printf("|-> Telefone:                                                               |\n");
-    printf("|-> Email:                                                                  |\n");
+    printf("|-> Nome do funcionário: ");
+    leNome(nome);
+    printf("|-> CPF (somente números): ");
+    leCpf(cpf);
+    printf("|-> Email: ");
+    leEmail(email);
+    printf("|-> Telefone (somente números): ");
+    leFone(fone);
+    printf("|-> Data de nascimento  (DD/MM/AAAA): ");
+    leData(data);
+
+    ///printf("|-> Cargo: |\n");
+    ///printf("|-> Endereço:  |\n");
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
+///implementar uma interface
+    printf("Funcionário cadastrado com sucesso\n");
+    printf("\n");
+    printf("Nome: %s\n", nome);
+    printf("CPF: %s\n", cpf);
+    printf("Email: %s\n", email);
+    printf("Data de nascimento: %s\n", data);
+    printf("Número de telefone: %s\n", fone);  
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
