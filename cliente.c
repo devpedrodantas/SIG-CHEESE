@@ -84,7 +84,17 @@ void cadastra_cliente(void) {
     } while (!validaNome(nome));
 
     printf("|-> CPF (somente números): ");
-    leCpf(cpf);
+    do {
+        leCpf(cpf);
+        if (validaCPF(cpf)) {
+            printf("CPF válido");
+            break;
+        } else {
+            printf("CPF inválido, tente novamente apertando tecla ENTER");
+            getchar();
+            printf("|-> CPF (somente números): ");
+        }
+    } while (!validaCPF(cpf));
 
     printf("|-> Email: ");
     do {
