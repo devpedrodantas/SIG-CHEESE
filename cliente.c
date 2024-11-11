@@ -77,7 +77,7 @@ void cadastra_cliente(void) {
             printf("Nome válido\n");
             break;
         } else {
-            printf("Nome inválido, tente novamente");
+            printf("Nome inválido, tente novamente apertando tecla ENTER");
             getchar();
             printf("|-> Nome do cliente: ");
         }
@@ -87,7 +87,18 @@ void cadastra_cliente(void) {
     leCpf(cpf);
 
     printf("|-> Email: ");
-    leEmail(email);
+    do {
+        leEmail(email);
+        if (validaEmail(email)) {
+            printf("Email válido\n");
+            break;
+        } else {
+            printf("Email inválido, tente novamente apertando tecla ENTER");
+            getchar();
+            printf("|-> Email: ");
+        }
+    } while(!validaEmail(email));
+    
     
     printf("|-> Data de nascimento (DD/MM/AAAA): ");
     leData(data);
