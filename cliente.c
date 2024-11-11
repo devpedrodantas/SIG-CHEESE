@@ -69,7 +69,7 @@ void cadastra_cliente(void) {
     printf("|                         >>  Cadastrar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
     /// Ainda será implementado >>> printf("|-> Endereço: ");
-
+    /// + opções de entradas de dados
     printf("|-> Nome do cliente: ");
     do {
         leNome(nome);
@@ -77,7 +77,7 @@ void cadastra_cliente(void) {
             printf("Nome válido\n");
             break;
         } else {
-            printf("Nome inválido, tente novamente apertando tecla ENTER");
+            printf("Nome inválido, tente novamente apertando a tecla ENTER");
             getchar();
             printf("|-> Nome do cliente: ");
         }
@@ -87,10 +87,10 @@ void cadastra_cliente(void) {
     do {
         leCpf(cpf);
         if (validaCPF(cpf)) {
-            printf("CPF válido");
+            printf("CPF válido\n");
             break;
         } else {
-            printf("CPF inválido, tente novamente apertando tecla ENTER");
+            printf("CPF inválido, tente novamente apertando a tecla ENTER");
             getchar();
             printf("|-> CPF (somente números): ");
         }
@@ -103,7 +103,7 @@ void cadastra_cliente(void) {
             printf("Email válido\n");
             break;
         } else {
-            printf("Email inválido, tente novamente apertando tecla ENTER");
+            printf("Email inválido, tente novamente apertando a tecla ENTER");
             getchar();
             printf("|-> Email: ");
         }
@@ -111,15 +111,35 @@ void cadastra_cliente(void) {
     
     
     printf("|-> Data de nascimento (DD/MM/AAAA): ");
-    leData(data);
+        do {
+        leData(data);
+        if (validaData(data)) {
+            printf("Data válido\n");
+            break;
+        } else {
+            printf("Data inválida, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Data de nascimento (DD/MM/AAAA): ");
+        }
+    } while(!validaData(data));
     
     printf("|-> Telefone (somente números): ");
-    leFone(fone);
-    
+     do {
+        leFone(fone);
+        if (validaFone(fone)) {
+            printf("Número de telefone válido\n");
+            break;
+        } else {
+            printf("Número de telefone inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Telefone (somente números): ");
+        }
+    } while(!validaFone(fone));    
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
 
+///implementar uma interface
     printf("Cliente cadastrado com sucesso\n");
     printf("\n");
     printf("Nome: %s\n", nome);
