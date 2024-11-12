@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "funcionario.h"
 #include "entradas.h"
+#include "validacao.h"
 
 void menu_funcionario(void) {
     char op;
@@ -68,11 +69,33 @@ void cadastra_funcionario(void) {
     printf("|                       >>  Cadastrar Funcionário  <<                       |\n");
     printf("|                                                                           |\n");
     printf("|-> Nome do funcionário: ");
-    leNome(nome);
+    do {
+        leNome(nome);
+        if (validaNome(nome)) {
+            printf("Nome válido\n");
+            break;
+        } else {
+            printf("Nome inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Nome do funcionário: ");
+        }
+    } while (!validaNome(nome));
+            
     printf("|-> CPF (somente números): ");
     leCpf(cpf);
     printf("|-> Email: ");
-    leEmail(email);
+    do {
+        leEmail(email);
+        if (validaEmail(email)) {
+            printf("Email válido\n");
+            break;
+        } else {
+            printf("Email inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Email: ");
+        }
+    } while (!validaEmail(email));
+    
     printf("|-> Telefone (somente números): ");
     leFone(fone);
     printf("|-> Data de nascimento  (DD/MM/AAAA): ");
