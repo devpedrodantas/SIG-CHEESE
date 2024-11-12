@@ -56,9 +56,11 @@ void menu_cliente(void) {
 }
 
 void cadastra_cliente(void) {
-    char nome[TAM_NOME];
+/// Melhorar as duplicações
+    
+    char nome[TAM_NOME];     /// Torná-la dinâmica
     char cpf[TAM_CPF];
-    char email[TAM_EMAIL];
+    char email[TAM_EMAIL];   /// Torná-la dinâmica
     char data[TAM_DATA];
     char fone[TAM_FONE];
     
@@ -152,46 +154,85 @@ void cadastra_cliente(void) {
 }
 
 void pesquisa_cliente(void) {
+    char cpf[TAM_CPF];
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                         >>  Pesquisar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe seu CPF:                                                        |\n");
+    printf("|-> Informe seu CPF: ");
+    do {
+        leCpf(cpf);
+        if (validaCPF(cpf)) {
+            break;
+        } else {
+            printf("CPF inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Informe seu CPF: ");
+        }
+    } while(!validaCPF(cpf));
+    
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
+    printf("CPF inserido: %s\n", cpf);
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
 
 void atualiza_cliente(void) {
+    char cpf[TAM_CPF];
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                         >>  Atualizar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe o ID do cliente a ser atualizado:                               |\n");
+    printf("|-> Informe seu CPF: ");
+    do {
+        leCpf(cpf);
+        if (validaCPF(cpf)) {
+            break;
+        } else {
+            printf("CPF inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Informe seu CPF: ");
+        }
+    } while(!validaCPF(cpf));
+    
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
+    printf("CPF inserido: %s\n", cpf);
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
 
 void exclui_cliente(void) {
+    char cpf[TAM_CPF];
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                          >>  Excluir Cliente  <<                          |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe o ID do cliente a ser excluído:                                 |\n");
+    printf("|-> Informe seu CPF: ");
+    do {
+        leCpf(cpf);
+        if (validaCPF(cpf)) {
+            break;
+        } else {
+            printf("CPF inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Informe seu CPF: ");
+        }
+    } while(!validaCPF(cpf));
+    
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
+    printf("CPF inserido: %s\n", cpf);
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
