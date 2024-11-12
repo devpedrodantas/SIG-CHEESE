@@ -177,6 +177,13 @@ void pesquisa_cliente(void) {
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
     printf("CPF inserido: %s\n", cpf);
+
+    //    printf("Nome: %s\n", nome);
+    //    printf("CPF: %s\n", cpf);
+    //    printf("Email: %s\n", email);
+    //    printf("Data de nascimento: %s\n", data);
+    //    printf("Número de telefone: %s\n", fone); 
+
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
@@ -205,6 +212,14 @@ void atualiza_cliente(void) {
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
     printf("CPF inserido: %s\n", cpf);
+
+    //    Dados do cliente atualizados:
+    //    printf("Nome: %s\n", nome);
+    //    printf("CPF: %s\n", cpf);
+    //    printf("Email: %s\n", email);
+    //    printf("Data de nascimento: %s\n", data);
+    //    printf("Número de telefone: %s\n", fone); 
+
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
@@ -233,6 +248,14 @@ void exclui_cliente(void) {
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
     printf("CPF inserido: %s\n", cpf);
+
+    //    Cliente excluído:
+    //    printf("Nome: %s\n", nome);
+    //    printf("CPF: %s\n", cpf);
+    //    printf("Email: %s\n", email);
+    //    printf("Data de nascimento: %s\n", data);
+    //    printf("Número de telefone: %s\n", fone); 
+
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
