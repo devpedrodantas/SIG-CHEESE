@@ -82,7 +82,18 @@ void cadastra_funcionario(void) {
     } while (!validaNome(nome));
             
     printf("|-> CPF (somente números): ");
-    leCpf(cpf);
+    do {
+        leCpf(cpf);
+        if (validaCPF(cpf)) {
+            printf("CPF válido\n");
+            break;
+        } else {
+            printf("CPF inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> CPF (somente números): ");
+        }
+    } while (!validaCPF(cpf));
+    
     printf("|-> Email: ");
     do {
         leEmail(email);
@@ -97,10 +108,31 @@ void cadastra_funcionario(void) {
     } while (!validaEmail(email));
     
     printf("|-> Telefone (somente números): ");
-    leFone(fone);
+    do {
+        leFone(fone);
+        if (validaFone(fone)) {
+            printf("Número de telefone válido\n");
+            break;
+        } else {
+            printf("Número de telefone inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Telefone (somente números): ");
+        }
+    } while (!validaFone(fone));
+    
     printf("|-> Data de nascimento  (DD/MM/AAAA): ");
-    leData(data);
-
+    do {
+        leData(data);
+        if (validaData(data)) {
+            printf("Data válida\n");
+            break;
+        } else {
+            printf("Data inválida, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Data de nascimento  (DD/MM/AAAA): ");
+        }
+    } while (!validaData(data));
+    
     ///printf("|-> Cargo: |\n");
     ///printf("|-> Endereço:  |\n");
     printf("|                                                                           |\n");
