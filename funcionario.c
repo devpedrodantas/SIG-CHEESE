@@ -151,46 +151,108 @@ void cadastra_funcionario(void) {
 }
 
 void pesquisa_funcionario(void) {
+    char cpf [TAM_CPF];
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                       >>  Pesquisar Funcionário  <<                       |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe o nome ou ID do funcionário:                                    |\n");
+    printf("|-> Informe o seu CPF: ");
+    do {
+        leCpf(cpf);
+        if (validaCPF(cpf)) {
+            break;
+        } else {
+            printf("CPF inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> CPF (somente números): ");
+        }
+    } while (!validaCPF(cpf));
+    
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
+    printf("CPF inserido: %s\n", cpf);
+
+    //    printf("Nome: %s\n", nome);
+    //    printf("CPF: %s\n", cpf);
+    //    printf("Email: %s\n", email);
+    //    printf("Data de nascimento: %s\n", data);
+    //    printf("Número de telefone: %s\n", fone); 
+    
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
 
 void atualiza_funcionario(void) {
+    char cpf [TAM_CPF];
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                       >> Atualizar Funcionário  <<                        |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe o ID do funcionário a ser atualizado:                           |\n");
+    printf("|-> Informe seu CPF: ");
+    do {
+        leCpf(cpf);
+        if (validaCPF(cpf)) {
+            break;
+        } else {
+            printf("CPF inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Informe seu CPF: ");
+        }
+    } while(!validaCPF(cpf));
+    
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
+    printf("CPF inserido: %s\n", cpf);
+
+    //    Dados do funcionário atualizados:
+    //    printf("Nome: %s\n", nome);
+    //    printf("CPF: %s\n", cpf);
+    //    printf("Email: %s\n", email);
+    //    printf("Data de nascimento: %s\n", data);
+    //    printf("Número de telefone: %s\n", fone); 
+    
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
 
 void exclui_funcionario(void) {
+    char cpf [TAM_CPF];
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                        >>  Excluir Funcionário  <<                        |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe o ID do funcionário a ser excluído:                             |\n");
+    printf("|-> Informe seu CPF: ");
+    do {
+        leCpf(cpf);
+        if (validaCPF(cpf)) {
+            break;
+        } else {
+            printf("CPF inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Informe seu CPF: ");
+        }
+    } while(!validaCPF(cpf));
+    
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
+    printf("CPF inserido: %s\n", cpf);
+
+    //    Funcionário excluído:
+    //    printf("Nome: %s\n", nome);
+    //    printf("CPF: %s\n", cpf);
+    //    printf("Email: %s\n", email);
+    //    printf("Data de nascimento: %s\n", data);
+    //    printf("Número de telefone: %s\n", fone); 
+    
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
