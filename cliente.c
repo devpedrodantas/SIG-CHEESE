@@ -1,5 +1,6 @@
 #include <stdio.h> 
 #include <stdlib.h>
+#include <string.h>   // Adicionado para trabalhar com strings dinamicamente
 #include "cliente.h"
 #include "entradas.h"
 #include "validacao.h"
@@ -58,9 +59,9 @@ void menu_cliente(void) {
 void cadastra_cliente(void) {
 /// Melhorar as duplicações
     
-    char nome[TAM_NOME];     /// Torná-la dinâmica
+    char *nome;  // Substituído de array fixo para ponteiro para uso dinâmico   
     char cpf[TAM_CPF];
-    char email[TAM_EMAIL];   /// Torná-la dinâmica
+    char email[TAM_EMAIL];  
     char data[TAM_DATA];
     char fone[TAM_FONE];
     
@@ -74,7 +75,7 @@ void cadastra_cliente(void) {
     /// + opções de entradas de dados
     printf("|-> Nome do cliente: ");
     do {
-        leNome(nome);
+        leNome(&nome);  // Agora lê o nome dinamicamente
         if (validaNome(nome)) {
             printf("Nome válido\n");
             break;
@@ -151,6 +152,9 @@ void cadastra_cliente(void) {
     printf("Número de telefone: %s\n", fone);  
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
+
+    //Liberação de memória alocada dinamicamente
+    free(nome);
 }
 
 void pesquisa_cliente(void) {
