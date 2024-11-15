@@ -1,6 +1,5 @@
 #include <stdio.h> 
 #include <stdlib.h>
-#include <string.h>   // Adicionado para trabalhar com strings dinamicamente
 #include "cliente.h"
 #include "entradas.h"
 #include "validacao.h"
