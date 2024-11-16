@@ -56,13 +56,14 @@ void menu_cliente(void) {
 }
 
 void cadastra_cliente(void) {
-/// Melhorar as duplicações
-    
-    char nome[TAM_NOME];     /// Torná-la dinâmica
-    char cpf[TAM_CPF];
-    char email[TAM_EMAIL];   /// Torná-la dinâmica
-    char data[TAM_DATA];
-    char fone[TAM_FONE];
+
+    // Alterado para ponteiro para alocação dinâmica    
+    char *nome;   
+    char *email; 
+    char *data;  
+    char *fone;  
+
+    char cpf[TAM_CPF];   // Mantido como array fixo
     
     system("clear||cls");
     printf("\n");
@@ -74,7 +75,7 @@ void cadastra_cliente(void) {
     /// + opções de entradas de dados
     printf("|-> Nome do cliente: ");
     do {
-        leNome(nome);
+        leNome(&nome);   // Agora lê o nome dinamicamente através do ponteiro
         if (validaNome(nome)) {
             printf("Nome válido\n");
             break;
@@ -100,7 +101,7 @@ void cadastra_cliente(void) {
 
     printf("|-> Email: ");
     do {
-        leEmail(email);
+        leEmail(&email);    // Lê o email dinamicamente através do ponteiro
         if (validaEmail(email)) {
             printf("Email válido\n");
             break;
@@ -114,7 +115,7 @@ void cadastra_cliente(void) {
     
     printf("|-> Data de nascimento (DD/MM/AAAA): ");
         do {
-        leData(data);
+        leData(&data);   // Lê a data dinamicamente através do ponteiro
         if (validaData(data)) {
             printf("Data válido\n");
             break;
@@ -127,7 +128,7 @@ void cadastra_cliente(void) {
     
     printf("|-> Telefone (somente números): ");
      do {
-        leFone(fone);
+        leFone(&fone);    // Lê o número de telefone dinamicamente através do ponteiro
         if (validaFone(fone)) {
             printf("Número de telefone válido\n");
             break;
@@ -151,6 +152,12 @@ void cadastra_cliente(void) {
     printf("Número de telefone: %s\n", fone);  
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
+
+    // Liberação da memória alocada dinamicamente
+    free (nome);
+    free (email);
+    free (data);
+    free (fone);
 }
 
 void pesquisa_cliente(void) {

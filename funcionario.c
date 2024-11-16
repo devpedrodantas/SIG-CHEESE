@@ -1,4 +1,4 @@
-#include <stdio.h> 
+#include <stdio.h>
 #include <stdlib.h>
 #include "funcionario.h"
 #include "entradas.h"
@@ -20,11 +20,11 @@ void menu_funcionario(void) {
         printf("|-> 0. Voltar ao menu anterior                                              |\n");
         printf("|                                                                           |\n");
         printf("+---------------------------------------------------------------------------+\n");
-        printf("\n");  
+        printf("\n");
         printf("               Escolha a opção desejada: ");
         scanf("%c", &op);
         getchar();
-        printf("\n");                                                                      
+        printf("\n");
         printf("+---------------------------------------------------------------------------+\n");
         switch(op) {
             case '1':
@@ -49,19 +49,21 @@ void menu_funcionario(void) {
                 printf("Número inválido, digite um dígito entre os disponíveis\n");
                 printf("\n");
                 printf("\t\t\t>>> Tecle ENTER para continuar...\n");
-                getchar(); 
+                getchar();
                 break;
         }
     } while(op != '0');
 }
 
 void cadastra_funcionario(void) {
-    char nome [TAM_NOME];
-    char cpf [TAM_CPF];
-    char email [TAM_EMAIL];
-    char fone [TAM_FONE];
-    char data [TAM_DATA];
-    
+    // Alterado para ponteiro para alocação dinâmica    
+    char *nome;
+    char *email;
+    char *fone;
+    char *data;
+
+    char cpf [TAM_CPF];  // Mantido como array fixo
+
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
@@ -70,7 +72,7 @@ void cadastra_funcionario(void) {
     printf("|                                                                           |\n");
     printf("|-> Nome do funcionário: ");
     do {
-        leNome(nome);
+        leNome(&nome);  //Passagem do endereço de 'nome' (ponteiro) para a função
         if (validaNome(nome)) {
             printf("Nome válido\n");
             break;
@@ -80,7 +82,7 @@ void cadastra_funcionario(void) {
             printf("|-> Nome do funcionário: ");
         }
     } while (!validaNome(nome));
-            
+
     printf("|-> CPF (somente números): ");
     do {
         leCpf(cpf);
@@ -93,10 +95,10 @@ void cadastra_funcionario(void) {
             printf("|-> CPF (somente números): ");
         }
     } while (!validaCPF(cpf));
-    
+
     printf("|-> Email: ");
     do {
-        leEmail(email);
+        leEmail(&email);    // Lê o email dinamicamente através do ponteiro
         if (validaEmail(email)) {
             printf("Email válido\n");
             break;
@@ -106,10 +108,10 @@ void cadastra_funcionario(void) {
             printf("|-> Email: ");
         }
     } while (!validaEmail(email));
-    
+
     printf("|-> Telefone (somente números): ");
     do {
-        leFone(fone);
+        leFone(&fone);    // Lê o número de telefone dinamicamente através do ponteiro
         if (validaFone(fone)) {
             printf("Número de telefone válido\n");
             break;
@@ -119,10 +121,10 @@ void cadastra_funcionario(void) {
             printf("|-> Telefone (somente números): ");
         }
     } while (!validaFone(fone));
-    
+
     printf("|-> Data de nascimento  (DD/MM/AAAA): ");
     do {
-        leData(data);
+        leData(&data);    // Lê a data dinamicamente através do ponteiro
         if (validaData(data)) {
             printf("Data válida\n");
             break;
@@ -132,7 +134,7 @@ void cadastra_funcionario(void) {
             printf("|-> Data de nascimento  (DD/MM/AAAA): ");
         }
     } while (!validaData(data));
-    
+
     ///printf("|-> Cargo: |\n");
     ///printf("|-> Endereço:  |\n");
     printf("|                                                                           |\n");
@@ -145,9 +147,15 @@ void cadastra_funcionario(void) {
     printf("CPF: %s\n", cpf);
     printf("Email: %s\n", email);
     printf("Data de nascimento: %s\n", data);
-    printf("Número de telefone: %s\n", fone);  
+    printf("Número de telefone: %s\n", fone);
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
+
+   // Liberação da memória alocada dinamicamente
+    free (nome);
+    free (email);
+    free (data);
+    free (fone);
 }
 
 void pesquisa_funcionario(void) {
@@ -169,7 +177,7 @@ void pesquisa_funcionario(void) {
             printf("|-> CPF (somente números): ");
         }
     } while (!validaCPF(cpf));
-    
+
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
@@ -179,8 +187,8 @@ void pesquisa_funcionario(void) {
     //    printf("CPF: %s\n", cpf);
     //    printf("Email: %s\n", email);
     //    printf("Data de nascimento: %s\n", data);
-    //    printf("Número de telefone: %s\n", fone); 
-    
+    //    printf("Número de telefone: %s\n", fone);
+
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
@@ -204,7 +212,7 @@ void atualiza_funcionario(void) {
             printf("|-> Informe seu CPF: ");
         }
     } while(!validaCPF(cpf));
-    
+
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
@@ -215,8 +223,8 @@ void atualiza_funcionario(void) {
     //    printf("CPF: %s\n", cpf);
     //    printf("Email: %s\n", email);
     //    printf("Data de nascimento: %s\n", data);
-    //    printf("Número de telefone: %s\n", fone); 
-    
+    //    printf("Número de telefone: %s\n", fone);
+
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
@@ -240,7 +248,7 @@ void exclui_funcionario(void) {
             printf("|-> Informe seu CPF: ");
         }
     } while(!validaCPF(cpf));
-    
+
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
@@ -251,8 +259,8 @@ void exclui_funcionario(void) {
     //    printf("CPF: %s\n", cpf);
     //    printf("Email: %s\n", email);
     //    printf("Data de nascimento: %s\n", data);
-    //    printf("Número de telefone: %s\n", fone); 
-    
+    //    printf("Número de telefone: %s\n", fone);
+
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
