@@ -34,15 +34,7 @@ void leEntradaMin(char **entrada) {
 }
 
 void leNome(char **nome) {
-    char entrada[101];  // Buffer temporário para entrada inicial
-    int tam;
-
-    scanf("%100[^\n]", entrada);
-    getchar();
-
-    tam = strlen(entrada);  // Calcula o tamanho real do texto
-    *nome = (char*) malloc (tam+1);   // Aloca memória dinâmica com base no tamanho
-    strcpy(*nome, entrada);  // Copia o texto do buffer para a memória alocada
+  leEntradaMax(nome);
 }
 
 void leCpf(char cpf[TAM_CPF]) {
@@ -50,17 +42,14 @@ void leCpf(char cpf[TAM_CPF]) {
     getchar();
 }
 
-void leEmail(char email[TAM_EMAIL]) {
-    scanf("%49[^\n]", email);
-    getchar();
+void leEmail(char **email) {
+    leEntradaMax(email);
 }
 
-void leData(char data[TAM_DATA]) {
-    scanf("%10s", data);
-    getchar();
+void leData(char **data) {
+    leEntradaMin(data);
 }
 
-void leFone(char fone[TAM_FONE]) {
-    scanf("%11s", fone);
-    getchar();
+void leFone(char **fone) {
+    leEntradaMin(fone);
 }
