@@ -56,12 +56,13 @@ void menu_funcionario(void) {
 }
 
 void cadastra_funcionario(void) {
-    char *nome;  //Antes era um array char nome[TAM_NOME], agora é um ponteiro
+    // Alterado para ponteiro para alocação dinâmica    
+    char *nome;
+    char *email;
+    char *fone;
+    char *data;
 
-    char cpf [TAM_CPF];
-    char email [TAM_EMAIL];
-    char fone [TAM_FONE];
-    char data [TAM_DATA];
+    char cpf [TAM_CPF];  // Mantido como array fixo
 
     system("clear||cls");
     printf("\n");
@@ -97,7 +98,7 @@ void cadastra_funcionario(void) {
 
     printf("|-> Email: ");
     do {
-        leEmail(email);
+        leEmail(&email);    // Lê o email dinamicamente através do ponteiro
         if (validaEmail(email)) {
             printf("Email válido\n");
             break;
@@ -110,7 +111,7 @@ void cadastra_funcionario(void) {
 
     printf("|-> Telefone (somente números): ");
     do {
-        leFone(fone);
+        leFone(&fone);    // Lê o número de telefone dinamicamente através do ponteiro
         if (validaFone(fone)) {
             printf("Número de telefone válido\n");
             break;
@@ -123,7 +124,7 @@ void cadastra_funcionario(void) {
 
     printf("|-> Data de nascimento  (DD/MM/AAAA): ");
     do {
-        leData(data);
+        leData(&data);    // Lê a data dinamicamente através do ponteiro
         if (validaData(data)) {
             printf("Data válida\n");
             break;
@@ -150,8 +151,11 @@ void cadastra_funcionario(void) {
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 
-    // Libera a memória alocada
+   // Liberação da memória alocada dinamicamente
     free (nome);
+    free (email);
+    free (data);
+    free (fone);
 }
 
 void pesquisa_funcionario(void) {
