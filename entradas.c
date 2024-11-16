@@ -20,6 +20,19 @@ void leEntradaMax(char **entrada) {
     strcpy(*entrada, buffer);
 }
 
+// Função para ler entradas curtas (ex.: data, telefone) e alocar memória dinamicamente
+void leEntradaMin(char **entrada) {
+    char buffer[16];
+    int tam;
+
+    scanf("%15[^\n]", buffer);
+    getchar();
+
+    tam = strlen(buffer);
+    *entrada = (char*) malloc(tam + 1);
+    strcpy(*entrada, buffer);
+}
+
 void leNome(char **nome) {
     char entrada[101];  // Buffer temporário para entrada inicial
     int tam;
