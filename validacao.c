@@ -206,6 +206,52 @@ int validaFone(const char* fone) {
 }
 
 //---------------------------------------------------------
+//            Validação para o Código do Queijo            
+//---------------------------------------------------------
+int validaCodigo(const char* codigo) {
+    int tam = strlen(codigo);
+
+    // Verifica se o número tem exatamente 6 dígitos
+    if (tam != 6) {
+        return 0;
+    }
+    
+   // Verifica se todos os caracteres são dígitos
+    for (int i = 0; i < tam; i++) {
+        if (!validaDigito(codigo[i])) {
+            return 0;
+        }
+    }
+    return 1; // código válido
+}
+
+//---------------------------------------------------------
+//         Validação para Ingredientes/composição                       
+//---------------------------------------------------------
+
+int validaComposicao(const char* comp) {
+    int temLetra = 0; 
+
+    if (comp[0] == '\0') {
+        return 0; // Ingrediente/composição inserido inválido: campo vazio
+    }
+
+    for (int i = 0; comp[i] != '\0'; i++) {
+        if (!validaLetra(comp[i]) && comp[i] != ' ' && comp[i] != ',') {  // Permite letras, espaços e vírgulas
+            return 0; // Ingrediente/composição inválido: caracteres não permitidos
+        }
+        if (validaLetra(comp[i])) {
+            temLetra = 1; // Letra encontrada
+        }
+    }
+
+    if (!temLetra) {
+        return 0; // Ingrediente/composição inválido: só tem espaços
+    }
+    return 1; // Ingrediente/composição válido: Foi digitado pelo menos uma letra
+}
+
+//---------------------------------------------------------
 //          Validação para leite cru ou pasteurizado
 //---------------------------------------------------------
 
@@ -220,6 +266,7 @@ int validaTipoLeite(const char* tipoLeite) {
         return 0;  // Retorna 0 para indicar que a entrada é inválida
     }
 }
+
 //---------------------------------------------------------
 //          Validação para codigo de queijo valido
 //---------------------------------------------------------
