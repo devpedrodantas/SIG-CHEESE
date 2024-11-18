@@ -53,3 +53,16 @@ void leData(char **data) {
 void leFone(char **fone) {
     leEntradaMin(fone);
 }
+
+void lecodigo(char codigo[TAM_CODIGO] {
+    scanf("%6s", codigo);
+    getchar();
+}
+
+void leComposicao(char **comp) {
+    leEntradaMax(comp);
+}
+
+void leTipoLeite(char **tipo) {
+    leEntradaMin(tipo);
+}
