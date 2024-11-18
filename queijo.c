@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "queijo.h"
+#include "entradas.h"
 
 void menu_queijo(void) {
     char op;
@@ -54,22 +55,52 @@ void menu_queijo(void) {
 }
 
 void cadastra_queijo(void) {
+// Chama funções responsáveis por ler entradas do usuário
+    
+    char codigo[TAM_CODIGO];    // Array de tamanho fixo para armazenar o código, alocação estática
+
+    // Ponteiros para armazenar entradas alocadas dinamicamente
+    char *nome;
+    char *comp;
+    char *data_validade;
+    char *data_fabricacao;
+    char *tipo;
+    
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                         >>  Cadastrar Queijo  <<                          |\n");
     printf("|                                                                           |\n");
-    printf("|-> Código do queijo:                                                       |\n");
-    printf("|-> Nome do queijo:                                                         |\n");
-    printf("|-> Ingredientes:                                                           |\n");
-    printf("|-> Tipo do leite para o queijo:                                            |\n");
-    printf("|-> Leite cru ou pasteurizado:                                              |\n");
+    printf("|-> Código do queijo(somente números): ");
+    leCodigo(codigo);
+    
+    printf("|-> Nome do queijo: ");
+    leNome(&nome);
+    
+    printf("|-> Ingredientes: ");
+    leComposicao(&comp);
+    
+    printf("|-> Data de fabricação(DD/MM/AAAA): ");
+    leData(&data_fabricacao);
+    
+    printf("|-> Data de validade(DD/MM/AAAA): ");
+    leData(&data_validade);
+    
+    printf("|-> Tipo do leite para o queijo(cru ou pasteurizado): ");
+    leTipoLeite(&tipo);
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
+
+    // Liberação da memória alocada dinamicamente
+    free(nome);
+    free(comp);
+    free(data_fabricacao);
+    free(data_validade);
+    free(tipo);
 }
 
 void pesquisa_queijo(void) {
