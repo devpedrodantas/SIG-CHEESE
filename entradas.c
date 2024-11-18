@@ -54,7 +54,7 @@ void leFone(char **fone) {
     leEntradaMin(fone);
 }
 
-void lecodigo(char codigo[TAM_CODIGO] {
+void leCodigo(char codigo[TAM_CODIGO] {
     scanf("%6s", codigo);
     getchar();
 }
