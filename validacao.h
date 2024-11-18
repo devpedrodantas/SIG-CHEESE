@@ -7,5 +7,8 @@ int validaEmail(const char* email);
 int validaLetra(char c);
 int validaDigito(char c);
 int validaData(const char* data);
+
+int validaCodigo(const char* codigo);
+int validaComposicao(const char* comp);
 int validaTipoLeite(const char* tipoLeite);
 int validaCodigoQueijo(int codigoQueijo, int codigoEsperado);
