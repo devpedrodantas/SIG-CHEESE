@@ -171,13 +171,26 @@ void cadastra_queijo(void) {
 }
 
 void pesquisa_queijo(void) {
+    char codigo[TAM_CODIGO];
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                          >> Pesquisar Queijo <<                           |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe o código do queijo:                                             |\n");
+    printf("|-> Código do queijo(somente números): ");
+    do {
+        leCodigo(codigo);
+        if (validaCodigo(codigo)) {
+            printf("Código válido\n");
+            break;
+        } else {
+            printf("Código inválido, tente novamente");
+            getchar();
+            printf("|-> Código do queijo(somente números): ");
+        }
+    } while (!validaCodigo(codigo));
+    
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
@@ -186,13 +199,25 @@ void pesquisa_queijo(void) {
 }
 
 void atualiza_queijo(void) {
+    char codigo[TAM_CODIGO];
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                      >>  Alterar Dados do Queijo  <<                      |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe o código do queijo:                                             |\n");
+    printf("|-> Código do queijo(somente números): ");
+    do {
+        leCodigo(codigo);
+        if (validaCodigo(codigo)) {
+            printf("Código válido\n");
+            break;
+        } else {
+            printf("Código inválido, tente novamente");
+            getchar();
+            printf("|-> Código do queijo(somente números): ");
+        }
+    } while (!validaCodigo(codigo));
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
@@ -201,13 +226,25 @@ void atualiza_queijo(void) {
 }
 
 void exclui_queijo(void) {
+    char codigo[TAM_CODIGO];
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                           >>  Excluir Queijo  <<                          |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe o código do queijo:                                             |\n");
+    printf("|-> Código do queijo(somente números): ");
+    do {
+        leCodigo(codigo);
+        if (validaCodigo(codigo)) {
+            printf("Código válido\n");
+            break;
+        } else {
+            printf("Código inválido, tente novamente");
+            getchar();
+            printf("|-> Código do queijo(somente números): ");
+        }
+    } while (!validaCodigo(codigo));
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
