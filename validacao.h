@@ -10,5 +10,5 @@ int validaData(const char* data);
 
 int validaCodigo(const char* codigo);
 int validaComposicao(const char* comp);
-int validaTipoLeite(const char* tipoLeite);
+int validaTipoLeite(const char* tipo);
 int validaCodigoQueijo(int codigoQueijo, int codigoEsperado);
