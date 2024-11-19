@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "queijo.h"
 #include "entradas.h"
+#include "validacao.h"
 
 void menu_queijo(void) {
     char op;
@@ -73,22 +74,88 @@ void cadastra_queijo(void) {
     printf("|                         >>  Cadastrar Queijo  <<                          |\n");
     printf("|                                                                           |\n");
     printf("|-> Código do queijo(somente números): ");
-    leCodigo(codigo);
+    do {
+        leCodigo(codigo);
+        if (validaCodigo(codigo)) {
+            printf("Código válido\n");
+            break;
+        } else {
+            printf("Código inválido, tente novamente");
+            getchar();
+            printf("|-> Código do queijo(somente números): ");
+        }
+    } while (!validaCodigo(codigo));
+            
     
     printf("|-> Nome do queijo: ");
-    leNome(&nome);
+    do {
+        leNome(&nome);
+        if (validaNome(nome)) {
+            printf("Nome válido\n");
+            break;
+        } else {
+            printf("Nome inválido, tente novamente");
+            getchar();
+            printf("|-> Nome do queijo: ");
+        }
+    } while (!validaNome(nome));
+            
     
     printf("|-> Ingredientes: ");
-    leComposicao(&comp);
+    do {
+        leComposicao(&comp);
+        if (validaComposicao(comp)) {
+            printf("Ingrediente/composição válido\n");
+            break;
+        } else {
+            printf("Ingrediente/composição inválido, tente novamente");
+            getchar();
+            printf("|-> Ingredientes: ");
+        }
+    } while (!validaComposicao(comp));
+
     
     printf("|-> Data de fabricação(DD/MM/AAAA): ");
-    leData(&data_fabricacao);
+    do {
+        leData(&data_fabricacao);
+        if (validaData(data_fabricacao)) {
+            printf("Data válido\n");
+            break;
+        } else {
+            printf("Data inválido, tente novamente");
+            getchar();
+            printf("|-> Data de fabricação(DD/MM/AAAA): ");
+        }
+    } while (!validaData(data_fabricacao));
+
     
     printf("|-> Data de validade(DD/MM/AAAA): ");
-    leData(&data_validade);
+    do {
+        leData(&data_validade);
+        if (validaData(data_validade)) {
+            printf("Data válido\n");
+            break;
+        } else {
+            printf("Data inválido, tente novamente");
+            getchar();
+            printf("|-> Data de fabricação(DD/MM/AAAA): ");
+        }
+    } while (!validaData(data_validade));
+
     
     printf("|-> Tipo do leite para o queijo(cru ou pasteurizado): ");
-    leTipoLeite(&tipo);
+    do {
+        leTipoLeite(&tipo);
+        if (validaTipoLeite(tipo)) {
+            printf("Tipo de leite válido\n");
+            break;
+        } else {
+            printf("Tipo de leite inválido, tente novamente");
+            getchar();
+            printf("|-> Tipo do leite para o queijo(cru ou pasteurizado): ");
+        }
+    } while (!validaTipoLeite(tipo));
+    
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
