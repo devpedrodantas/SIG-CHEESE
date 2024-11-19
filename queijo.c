@@ -158,7 +158,16 @@ void cadastra_queijo(void) {
     
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
+
+    //implementar uma interface 
+    printf("Queijo foi cadastrado com sucesso\n");
     printf("\n");
+    printf("Nome do queijo: %s\n", nome);
+    printf("Código do queijo: %s\n", codigo);
+    printf("Ingredientes/composição: %s\n", comp);
+    printf("Data de fabricação: %s\n", data_fabricacao);
+    printf("Data de validade: %s\n", data_validade);
+    printf("Tipo do queijo: %s\n", tipo);
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 
@@ -194,6 +203,7 @@ void pesquisa_queijo(void) {
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
+    printf("Código do produto inserido: %s\n", codigo);
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
@@ -221,6 +231,7 @@ void atualiza_queijo(void) {
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
+    printf("Código do produto inserido: %s\n", codigo);
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
@@ -248,6 +259,7 @@ void exclui_queijo(void) {
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
+    printf("Código do produto inserido: %s\n", codigo);
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
