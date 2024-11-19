@@ -15,6 +15,29 @@ O SIG-Cheese é um projeto acadêmico da disciplina de PROGRAMAÇÃO (DCT1106) n
 - **Sistemas Operacionais**: Linux, Windows (através do WSL)
 - **Plataforma de Desenvolvimento**: Visual Studio Code
 
+## Compilação
+Para compilar o projeto siga as etapas abaixo em um terminal, é recomendado fazer isso em um sistema Linux
+
+1. **Clone o repositório**:
+   ```sh
+   git clone https://github.com/devpedrodantas/SIG-CHEESE.git
+   
+2. **Entre no diretório do programa**:
+   ```sh
+   cd SIG-CHEESE
+   
+3. **Remova os arquivos temporários ou intermediários gerados**:
+   ```sh
+   make clean
+   
+4. **Compile o programa pelo Makefile**:
+   ```sh
+   make
+   
+5. **Execute o programa**:
+   ```sh
+   make run
+   
 ## Contatos
 Para dúvidas ou suporte, entre em contato com os desenvolvedores do SIG-Car através dos seguintes canais\
 Ivyson
