@@ -255,11 +255,11 @@ int validaComposicao(const char* comp) {
 //          Validação para leite cru ou pasteurizado
 //---------------------------------------------------------
 
-     // Valida se a entrada é "cru" ou "pasteurizado"
-int validaTipoLeite(const char* tipoLeite) {
-    if (strcmp(tipoLeite, "pasteurizado") == 0) {
+// Valida se a entrada é "cru" ou "pasteurizado"
+int validaTipoLeite(const char* tipo) {
+    if (strcmp(tipo, "pasteurizado") == 0) {
         return 1;  // Retorna 1 para indicar que a entrada é válida
-    } else if (strcmp(tipoLeite, "cru") == 0) {
+    } else if (strcmp(tipo, "cru") == 0) {
         return 1;  // Retorna 1 para indicar que a entrada é válida
     } else {
         printf("Entrada inválida! Por favor, digite 'cru' ou 'pasteurizado'.\n");
