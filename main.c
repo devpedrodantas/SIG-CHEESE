@@ -5,7 +5,7 @@
 ///                  Disciplina DCT1106 -- Programação                      ///
 ///             Projeto Sistema de Gestão Para uma Fábrica de Queijo        ///
 ///                Developed by @devpedrodantas & @MizaelFGT                ///
-///                              Versão: 0.8                                ///
+///                              Versão: 0.9                                ///
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <stdio.h>
