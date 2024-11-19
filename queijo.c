@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "queijo.h"
+#include "entradas.h"
+#include "validacao.h"
 
 void menu_queijo(void) {
     char op;
@@ -54,32 +56,141 @@ void menu_queijo(void) {
 }
 
 void cadastra_queijo(void) {
+// Chama funções responsáveis por ler entradas do usuário
+    
+    char codigo[TAM_CODIGO];    // Array de tamanho fixo para armazenar o código, alocação estática
+
+    // Ponteiros para armazenar entradas alocadas dinamicamente
+    char *nome;
+    char *comp;
+    char *data_validade;
+    char *data_fabricacao;
+    char *tipo;
+    
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                         >>  Cadastrar Queijo  <<                          |\n");
     printf("|                                                                           |\n");
-    printf("|-> Código do queijo:                                                       |\n");
-    printf("|-> Nome do queijo:                                                         |\n");
-    printf("|-> Ingredientes:                                                           |\n");
-    printf("|-> Tipo do leite para o queijo:                                            |\n");
-    printf("|-> Leite cru ou pasteurizado:                                              |\n");
+    printf("|-> Código do queijo(somente números): ");
+    do {
+        leCodigo(codigo);
+        if (validaCodigo(codigo)) {
+            printf("Código válido\n");
+            break;
+        } else {
+            printf("Código inválido, tente novamente");
+            getchar();
+            printf("|-> Código do queijo(somente números): ");
+        }
+    } while (!validaCodigo(codigo));
+            
+    
+    printf("|-> Nome do queijo: ");
+    do {
+        leNome(&nome);
+        if (validaNome(nome)) {
+            printf("Nome válido\n");
+            break;
+        } else {
+            printf("Nome inválido, tente novamente");
+            getchar();
+            printf("|-> Nome do queijo: ");
+        }
+    } while (!validaNome(nome));
+            
+    
+    printf("|-> Ingredientes: ");
+    do {
+        leComposicao(&comp);
+        if (validaComposicao(comp)) {
+            printf("Ingrediente/composição válido\n");
+            break;
+        } else {
+            printf("Ingrediente/composição inválido, tente novamente");
+            getchar();
+            printf("|-> Ingredientes: ");
+        }
+    } while (!validaComposicao(comp));
+
+    
+    printf("|-> Data de fabricação(DD/MM/AAAA): ");
+    do {
+        leData(&data_fabricacao);
+        if (validaData(data_fabricacao)) {
+            printf("Data válido\n");
+            break;
+        } else {
+            printf("Data inválido, tente novamente");
+            getchar();
+            printf("|-> Data de fabricação(DD/MM/AAAA): ");
+        }
+    } while (!validaData(data_fabricacao));
+
+    
+    printf("|-> Data de validade(DD/MM/AAAA): ");
+    do {
+        leData(&data_validade);
+        if (validaData(data_validade)) {
+            printf("Data válido\n");
+            break;
+        } else {
+            printf("Data inválido, tente novamente");
+            getchar();
+            printf("|-> Data de fabricação(DD/MM/AAAA): ");
+        }
+    } while (!validaData(data_validade));
+
+    
+    printf("|-> Tipo do leite para o queijo(cru ou pasteurizado): ");
+    do {
+        leTipoLeite(&tipo);
+        if (validaTipoLeite(tipo)) {
+            printf("Tipo de leite válido\n");
+            break;
+        } else {
+            printf("Tipo de leite inválido, tente novamente");
+            getchar();
+            printf("|-> Tipo do leite para o queijo(cru ou pasteurizado): ");
+        }
+    } while (!validaTipoLeite(tipo));
+    
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
+
+    // Liberação da memória alocada dinamicamente
+    free(nome);
+    free(comp);
+    free(data_fabricacao);
+    free(data_validade);
+    free(tipo);
 }
 
 void pesquisa_queijo(void) {
+    char codigo[TAM_CODIGO];
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                          >> Pesquisar Queijo <<                           |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe o código do queijo:                                             |\n");
+    printf("|-> Código do queijo(somente números): ");
+    do {
+        leCodigo(codigo);
+        if (validaCodigo(codigo)) {
+            printf("Código válido\n");
+            break;
+        } else {
+            printf("Código inválido, tente novamente");
+            getchar();
+            printf("|-> Código do queijo(somente números): ");
+        }
+    } while (!validaCodigo(codigo));
+    
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
@@ -88,13 +199,25 @@ void pesquisa_queijo(void) {
 }
 
 void atualiza_queijo(void) {
+    char codigo[TAM_CODIGO];
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                      >>  Alterar Dados do Queijo  <<                      |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe o código do queijo:                                             |\n");
+    printf("|-> Código do queijo(somente números): ");
+    do {
+        leCodigo(codigo);
+        if (validaCodigo(codigo)) {
+            printf("Código válido\n");
+            break;
+        } else {
+            printf("Código inválido, tente novamente");
+            getchar();
+            printf("|-> Código do queijo(somente números): ");
+        }
+    } while (!validaCodigo(codigo));
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
@@ -103,13 +226,25 @@ void atualiza_queijo(void) {
 }
 
 void exclui_queijo(void) {
+    char codigo[TAM_CODIGO];
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                           >>  Excluir Queijo  <<                          |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe o código do queijo:                                             |\n");
+    printf("|-> Código do queijo(somente números): ");
+    do {
+        leCodigo(codigo);
+        if (validaCodigo(codigo)) {
+            printf("Código válido\n");
+            break;
+        } else {
+            printf("Código inválido, tente novamente");
+            getchar();
+            printf("|-> Código do queijo(somente números): ");
+        }
+    } while (!validaCodigo(codigo));
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
