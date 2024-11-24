@@ -33,25 +33,25 @@ void leEntradaMin(char **entrada) {
     strcpy(*entrada, buffer);
 }
 
-void leNome(char **nome) {
-  leEntradaMax(nome);
+void leNome(Cliente *cliente) {
+  leEntradaMax(&cliente->nome);  // Passa o ponteiro para o nome
 }
 
-void leCpf(char cpf[TAM_CPF]) {
-    scanf("%11s", cpf);
+void leCpf(Cliente *cliente) {
+    scanf("%11s", cliente->cpf);  // Acessa diretamente cliente->cpf
     getchar();
 }
 
-void leEmail(char **email) {
-    leEntradaMax(email);
+void leEmail(Cliente *cliente) {
+    leEntradaMax(&cliente->email);  // Passa o ponteiro para o email
 }
 
-void leData(char **data) {
-    leEntradaMin(data);
+void leData(Cliente *cliente) {
+    leEntradaMin(&cliente->data);  // Passa o ponteiro para a data
 }
 
-void leFone(char **fone) {
-    leEntradaMin(fone);
+void leFone(Cliente *cliente) {
+    leEntradaMin(&cliente->fone);  // Passa o ponteiro para o telefone
 }
 
 void leCodigo(char codigo[TAM_CODIGO]) {
