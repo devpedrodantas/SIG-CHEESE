@@ -153,7 +153,7 @@ void cadastra_cliente(void) {
 }
 
 void pesquisa_cliente(void) {
-    char cpf[TAM_CPF];
+    Cliente cliente; // Declara uma variável do tipo Cliente
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
@@ -162,20 +162,20 @@ void pesquisa_cliente(void) {
     printf("|                                                                           |\n");
     printf("|-> Informe seu CPF: ");
     do {
-        leCpf(cpf);
-        if (validaCPF(cpf)) {
+        leCpf(cliente.cpf); // Atualizado para armazenar diretamente no campo da struct
+        if (validaCPF(cliente.cpf)) {
             break;
         } else {
             printf("CPF inválido, tente novamente apertando a tecla ENTER");
             getchar();
             printf("|-> Informe seu CPF: ");
         }
-    } while(!validaCPF(cpf));
+    } while(!validaCPF(cliente.cpf));
     
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
-    printf("CPF inserido: %s\n", cpf);
+    printf("CPF inserido: %s\n", cliente.cpf); // Acessa o campo cpf do struct
 
     //    printf("Nome: %s\n", nome);
     //    printf("CPF: %s\n", cpf);
@@ -188,7 +188,7 @@ void pesquisa_cliente(void) {
 }
 
 void atualiza_cliente(void) {
-    char cpf[TAM_CPF];
+    Cliente cliente; // Declara uma variável do tipo Cliente
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
@@ -197,20 +197,20 @@ void atualiza_cliente(void) {
     printf("|                                                                           |\n");
     printf("|-> Informe seu CPF: ");
     do {
-        leCpf(cpf);
-        if (validaCPF(cpf)) {
+        leCpf(cliente.cpf);
+        if (validaCPF(cliente.cpf)) {
             break;
         } else {
             printf("CPF inválido, tente novamente apertando a tecla ENTER");
             getchar();
             printf("|-> Informe seu CPF: ");
         }
-    } while(!validaCPF(cpf));
+    } while(!validaCPF(cliente.cpf));
     
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
-    printf("CPF inserido: %s\n", cpf);
+    printf("CPF inserido: %s\n", cliente.cpf);  // Acessa o campo cpf do struct
 
     //    Dados do cliente atualizados:
     //    printf("Nome: %s\n", nome);
@@ -224,7 +224,7 @@ void atualiza_cliente(void) {
 }
 
 void exclui_cliente(void) {
-    char cpf[TAM_CPF];
+    Cliente cliente; // Declara uma variável do tipo Cliente
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
@@ -233,20 +233,20 @@ void exclui_cliente(void) {
     printf("|                                                                           |\n");
     printf("|-> Informe seu CPF: ");
     do {
-        leCpf(cpf);
-        if (validaCPF(cpf)) {
+        leCpf(cliente.cpf);
+        if (validaCPF(cliente.cpf)) {
             break;
         } else {
             printf("CPF inválido, tente novamente apertando a tecla ENTER");
             getchar();
             printf("|-> Informe seu CPF: ");
         }
-    } while(!validaCPF(cpf));
+    } while(!validaCPF(cliente.cpf));
     
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
-    printf("CPF inserido: %s\n", cpf);
+    printf("CPF inserido: %s\n", cliente.cpf);  // Acessa o campo cpf do struct
 
     //    Cliente excluído:
     //    printf("Nome: %s\n", nome);
