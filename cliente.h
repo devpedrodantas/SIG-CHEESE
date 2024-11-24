@@ -8,4 +8,13 @@ void pesquisa_cliente(void);
 void atualiza_cliente(void);
 void exclui_cliente(void);
 
+// Estrutura para armazenar os dados do cliente
+typedef struct {
+    char *nome;       // Nome dinâmico
+    char cpf[12];     // CPF com tamanho fixo
+    char *email;      // E-mail dinâmico
+    char *data;       // Data de nascimento ou cadastro dinâmico
+    char *fone;       // Telefone dinâmico
+} Cliente;
+
 #endif // Finaliza a proteção
