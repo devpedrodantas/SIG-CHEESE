@@ -33,27 +33,52 @@ void leEntradaMin(char **entrada) {
     strcpy(*entrada, buffer);
 }
 
-void leNome(Cliente *cliente) {
+// Funções para Cliente                                              (Ainda é necessário evitar esta redundância com cliente, funcionário e queijo)
+void leNomeCliente(Cliente *cliente) {
   leEntradaMax(&cliente->nome);  // Passa o ponteiro para o nome
 }
 
-void leCpf(Cliente *cliente) {
+void leCpfCliente(Cliente *cliente) {
     scanf("%11s", cliente->cpf);  // Acessa diretamente cliente->cpf
     getchar();
 }
 
-void leEmail(Cliente *cliente) {
+void leEmailCliente(Cliente *cliente) {
     leEntradaMax(&cliente->email);  // Passa o ponteiro para o email
 }
 
-void leData(Cliente *cliente) {
+void leDataCliente(Cliente *cliente) {
     leEntradaMin(&cliente->data);  // Passa o ponteiro para a data
 }
 
-void leFone(Cliente *cliente) {
+
+void leFoneCliente(Cliente *cliente) {
     leEntradaMin(&cliente->fone);  // Passa o ponteiro para o telefone
 }
 
+// Funções para Funcionario
+void leNomeFuncionario(Funcionario *funcionario) {
+  leEntradaMax(&funcionario->nome);  // Passa o ponteiro para o nome
+}
+
+void leCpfFuncionario(Funcionario *funcionario) {
+    scanf("%11s", funcionario->cpf);  // Acessa diretamente cliente->cpf
+    getchar();
+}
+
+void leEmailFuncionario(Funcionario *funcionario) {
+    leEntradaMax(&funcionario->email);  // Passa o ponteiro para o email
+}
+
+void leDataFuncionario(Funcionario *funcionario) {
+    leEntradaMin(&funcionario->data);  // Passa o ponteiro para a data
+}
+
+void leFoneFuncionario(Funcionario *funcionario) {
+    leEntradaMin(&funcionario->fone);  // Passa o ponteiro para o telefone
+}
+
+// Outras funções
 void leCodigo(char codigo[TAM_CODIGO]) {
     scanf("%6s", codigo);
     getchar();
