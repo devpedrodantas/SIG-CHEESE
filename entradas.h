@@ -3,6 +3,8 @@
 #define TAM_CPF 12
 #define TAM_CODIGO 7
 
+#include "cliente.h"  // Inclui a definição do tipo Cliente
+
 // Funções que agora recebem um ponteiro para a struct Cliente
 void leNome(Cliente *cliente); 
 void leCpf(Cliente *cliente);
