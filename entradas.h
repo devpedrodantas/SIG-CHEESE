@@ -6,6 +6,7 @@
 
 #include "cliente.h"      // Inclui a definição do tipo Cliente
 #include "funcionario.h"  // Inclui a definição do tipo Funcionario
+#include "queijo.h"       // Inclui a definição do tipo Queijo
 
 // Funções que recebem um ponteiro para a struct Cliente
 void leNomeCliente(Cliente *cliente);
@@ -21,9 +22,12 @@ void leEmailFuncionario(Funcionario *funcionario);
 void leDataFuncionario(Funcionario *funcionario);
 void leFoneFuncionario(Funcionario *funcionario);
 
-// Funções auxiliares
-void leCodigo(char codigo[TAM_CODIGO]);
-void leComposicao(char **comp);
-void leTipoLeite(char **tipo);
+// Funções que recebem um ponteiro para a struct Queijo
+void leNomeQueijo(Queijo *queijo);
+void leDataFabricacao(Queijo *queijo);
+void leDataValidade(Queijo *queijo);
+void leCodigo(Queijo *queijo);
+void leComposicao(Queijo *queijo);
+void leTipoLeite(Queijo *queijo);
 
 #endif // ENTRADAS_H
