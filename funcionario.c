@@ -134,12 +134,15 @@ void cadastra_funcionario(void) {
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
 ///implementar uma interface
-    
+    printf("Funcionário cadastrado\n");
+    printf("\n");
     printf("Nome: %s\n", funcionario.nome);                     // Acessa o campo 'nome' da estrutura 'funcionario'
     printf("CPF: %s\n", funcionario.cpf);                       // Acessa o campo 'cpf' da estrutura 'funcionario'
     printf("Email: %s\n", funcionario.email);                   // Acessa o campo 'email' da estrutura 'funcionario'
     printf("Data de nascimento: %s\n", funcionario.data);       // Acessa o campo 'data' da estrutura 'funcionario'
     printf("Número de telefone: %s\n", funcionario.fone);       // Acessa o campo 'fone' da estrutura 'funcionario'
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
     
    // Liberação da memória alocada dinamicamente
     free (funcionario.nome);
