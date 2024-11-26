@@ -65,7 +65,7 @@ void cadastra_queijo(void) {
     printf("|                                                                           |\n");
     printf("|-> Código do queijo(somente números): ");
     do {
-        leCodigo(&Queijo);
+        leCodigo(&queijo);
         if (validaCodigo(queijo.codigo)) {
             printf("Código válido\n");
             break;
@@ -79,7 +79,7 @@ void cadastra_queijo(void) {
     
     printf("|-> Nome do queijo: ");
     do {
-        leNomeQueijo(&Queijo);
+        leNomeQueijo(&queijo);
         if (validaNome(queijo.nome)) {
             printf("Nome válido\n");
             break;
@@ -93,7 +93,7 @@ void cadastra_queijo(void) {
     
     printf("|-> Ingredientes: ");
     do {
-        leComposicao(&Queijo);
+        leComposicao(&queijo);
         if (validaComposicao(queijo.comp)) {
             printf("Ingrediente/composição válido\n");
             break;
@@ -107,7 +107,7 @@ void cadastra_queijo(void) {
     
     printf("|-> Data de fabricação(DD/MM/AAAA): ");
     do {
-        leDataQueijo(&Queijo);
+        leDataQueijo(&queijo);
         if (validaData(queijo.data_fabricacao)) {
             printf("Data válido\n");
             break;
@@ -121,7 +121,7 @@ void cadastra_queijo(void) {
     
     printf("|-> Data de validade(DD/MM/AAAA): ");
     do {
-        leDataQueijo(&Queijo);
+        leDataQueijo(&queijo);
         if (validaData(queijo.data_validade)) {
             printf("Data válido\n");
             break;
@@ -135,7 +135,7 @@ void cadastra_queijo(void) {
     
     printf("|-> Tipo do leite para o queijo(cru ou pasteurizado): ");
     do {
-        leTipoLeite(&Queijo);
+        leTipoLeite(&queijo);
         if (validaTipoLeite(queijo.tipo)) {
             printf("Tipo de leite válido\n");
             break;
@@ -179,7 +179,7 @@ void pesquisa_queijo(void) {
     printf("|                                                                           |\n");
     printf("|-> Código do queijo(somente números): ");
     do {
-        leCodigo(&Queijo);
+        leCodigo(&queijo);
         if (validaCodigo(queijo.codigo)) {
             printf("Código válido\n");
             break;
@@ -208,7 +208,7 @@ void atualiza_queijo(void) {
     printf("|                                                                           |\n");
     printf("|-> Código do queijo(somente números): ");
     do {
-        leCodigo(&Queijo);
+        leCodigo(&queijo);
         if (validaCodigo(queijo.codigo)) {
             printf("Código válido\n");
             break;
@@ -236,7 +236,7 @@ void exclui_queijo(void) {
     printf("|                                                                           |\n");
     printf("|-> Código do queijo(somente números): ");
     do {
-        leCodigo(&Queijo);
+        leCodigo(&queijo);
         if (validaCodigo(queijo.codigo)) {
             printf("Código válido\n");
             break;
