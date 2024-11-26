@@ -62,7 +62,7 @@ void leNomeFuncionario(Funcionario *funcionario) {
 }
 
 void leCpfFuncionario(Funcionario *funcionario) {
-    scanf("%11s", funcionario->cpf);  // Acessa diretamente cliente->cpf
+    scanf("%11s", funcionario->cpf);  // Acessa diretamente funcionario->cpf
     getchar();
 }
 
@@ -78,16 +78,29 @@ void leFoneFuncionario(Funcionario *funcionario) {
     leEntradaMin(&funcionario->fone);  // Passa o ponteiro para o telefone
 }
 
-// Outras funções
-void leCodigo(char codigo[TAM_CODIGO]) {
-    scanf("%6s", codigo);
+// Funções para Queijo
+void leNomeQueijo(Queijo *queijo) {
+  leEntradaMax(&queijo->nome);  // Passa o ponteiro para o nome
+}
+
+void leDataFabricacao(Queijo *queijo) {
+    leEntradaMin(&queijo->data_fabricacao);  // Passa o ponteiro para a data
+}
+
+void leDataValidade(Queijo *queijo) {
+    leEntradaMin(&queijo->data_validade);  // Passa o ponteiro para a data
+}
+
+
+void leCodigo(Queijo *queijo) {
+    scanf("%6s", queijo->codigo); //Acessa diretamente queijo->codigo
     getchar();
 }
 
-void leComposicao(char **comp) {
-    leEntradaMax(comp);
+void leComposicao(Queijo *queijo) {
+    leEntradaMax(&queijo->comp); // Passa o ponteiro para a composição/ingrediente
 }
 
-void leTipoLeite(char **tipo) {
-    leEntradaMin(tipo);
+void leTipoLeite(Queijo *queijo) {
+    leEntradaMin(&queijo->tipo); // Passa o ponteiro para a tipo
 }
