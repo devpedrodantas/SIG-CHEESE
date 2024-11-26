@@ -1,14 +1,33 @@
-// Assinaturas das funções de entradas
+#ifndef ENTRADAS_H  // Proteção contra múltiplas inclusões
+#define ENTRADAS_H
 
 #define TAM_CPF 12
 #define TAM_CODIGO 7
 
-void leNome(char **nome);   // Tipo do parâmetro 'nome' alterado para ponteiro
-void leCpf(char cpf[TAM_CPF]);
-void leEmail(char **email); // Tipo do parâmetro 'email' alterado para ponteiro
-void leData(char **data);   // Tipo do parâmetro 'data' alterado para ponteiro
-void leFone(char **fone);   // Tipo do parâmetro 'fone' alterado para ponteiro
+#include "cliente.h"      // Inclui a definição do tipo Cliente
+#include "funcionario.h"  // Inclui a definição do tipo Funcionario
+#include "queijo.h"       // Inclui a definição do tipo Queijo
 
-void leCodigo(char codigo[TAM_CODIGO]);
-void leComposicao(char **comp);
-void leTipoLeite(char **tipo);
+// Funções que recebem um ponteiro para a struct Cliente
+void leNomeCliente(Cliente *cliente);
+void leCpfCliente(Cliente *cliente);
+void leEmailCliente(Cliente *cliente);
+void leDataCliente(Cliente *cliente);
+void leFoneCliente(Cliente *cliente);
+
+// Funções que recebem um ponteiro para a struct Funcionario
+void leNomeFuncionario(Funcionario *funcionario);
+void leCpfFuncionario(Funcionario *funcionario);
+void leEmailFuncionario(Funcionario *funcionario);
+void leDataFuncionario(Funcionario *funcionario);
+void leFoneFuncionario(Funcionario *funcionario);
+
+// Funções que recebem um ponteiro para a struct Queijo
+void leNomeQueijo(Queijo *queijo);
+void leDataFabricacao(Queijo *queijo);
+void leDataValidade(Queijo *queijo);
+void leCodigo(Queijo *queijo);
+void leComposicao(Queijo *queijo);
+void leTipoLeite(Queijo *queijo);
+
+#endif // ENTRADAS_H

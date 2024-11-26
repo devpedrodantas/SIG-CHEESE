@@ -56,14 +56,7 @@ void menu_funcionario(void) {
 }
 
 void cadastra_funcionario(void) {
-    // Alterado para ponteiro para alocação dinâmica    
-    char *nome;
-    char *email;
-    char *fone;
-    char *data;
-
-    char cpf [TAM_CPF];  // Mantido como array fixo
-
+    Funcionario funcionario;  // Declara um struct do tipo Funcionário 
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
@@ -72,8 +65,8 @@ void cadastra_funcionario(void) {
     printf("|                                                                           |\n");
     printf("|-> Nome do funcionário: ");
     do {
-        leNome(&nome);  //Passagem do endereço de 'nome' (ponteiro) para a função
-        if (validaNome(nome)) {
+        leNomeFuncionario(&funcionario);  // Atualizado para usar o campo da estrutura
+        if (validaNome(funcionario.nome)) {
             printf("Nome válido\n");
             break;
         } else {
@@ -81,12 +74,12 @@ void cadastra_funcionario(void) {
             getchar();
             printf("|-> Nome do funcionário: ");
         }
-    } while (!validaNome(nome));
+    } while (!validaNome(funcionario.nome));
 
     printf("|-> CPF (somente números): ");
     do {
-        leCpf(cpf);
-        if (validaCPF(cpf)) {
+        leCpfFuncionario(&funcionario);
+        if (validaCPF(funcionario.cpf)) {
             printf("CPF válido\n");
             break;
         } else {
@@ -94,12 +87,12 @@ void cadastra_funcionario(void) {
             getchar();
             printf("|-> CPF (somente números): ");
         }
-    } while (!validaCPF(cpf));
+    } while (!validaCPF(funcionario.cpf));
 
     printf("|-> Email: ");
     do {
-        leEmail(&email);    // Lê o email dinamicamente através do ponteiro
-        if (validaEmail(email)) {
+        leEmailFuncionario(&funcionario);    // Lê o email dinamicamente através do ponteiro
+        if (validaEmail(funcionario.email)) {
             printf("Email válido\n");
             break;
         } else {
@@ -107,12 +100,12 @@ void cadastra_funcionario(void) {
             getchar();
             printf("|-> Email: ");
         }
-    } while (!validaEmail(email));
+    } while (!validaEmail(funcionario.email));
 
     printf("|-> Telefone (somente números): ");
     do {
-        leFone(&fone);    // Lê o número de telefone dinamicamente através do ponteiro
-        if (validaFone(fone)) {
+        leFoneFuncionario(&funcionario);    // Lê o número de telefone dinamicamente através do ponteiro
+        if (validaFone(funcionario.fone)) {
             printf("Número de telefone válido\n");
             break;
         } else {
@@ -120,12 +113,12 @@ void cadastra_funcionario(void) {
             getchar();
             printf("|-> Telefone (somente números): ");
         }
-    } while (!validaFone(fone));
+    } while (!validaFone(funcionario.fone));
 
     printf("|-> Data de nascimento  (DD/MM/AAAA): ");
     do {
-        leData(&data);    // Lê a data dinamicamente através do ponteiro
-        if (validaData(data)) {
+        leDataFuncionario(&funcionario);    // Lê a data dinamicamente através do ponteiro
+        if (validaData(funcionario.data)) {
             printf("Data válida\n");
             break;
         } else {
@@ -133,7 +126,7 @@ void cadastra_funcionario(void) {
             getchar();
             printf("|-> Data de nascimento  (DD/MM/AAAA): ");
         }
-    } while (!validaData(data));
+    } while (!validaData(funcionario.data));
 
     ///printf("|-> Cargo: |\n");
     ///printf("|-> Endereço:  |\n");
@@ -141,25 +134,22 @@ void cadastra_funcionario(void) {
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
 ///implementar uma interface
-    printf("Funcionário cadastrado com sucesso\n");
-    printf("\n");
-    printf("Nome: %s\n", nome);
-    printf("CPF: %s\n", cpf);
-    printf("Email: %s\n", email);
-    printf("Data de nascimento: %s\n", data);
-    printf("Número de telefone: %s\n", fone);
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
-
+    
+    printf("Nome: %s\n", funcionario.nome);                     // Acessa o campo 'nome' da estrutura 'funcionario'
+    printf("CPF: %s\n", funcionario.cpf);                       // Acessa o campo 'cpf' da estrutura 'funcionario'
+    printf("Email: %s\n", funcionario.email);                   // Acessa o campo 'email' da estrutura 'funcionario'
+    printf("Data de nascimento: %s\n", funcionario.data);       // Acessa o campo 'data' da estrutura 'funcionario'
+    printf("Número de telefone: %s\n", funcionario.fone);       // Acessa o campo 'fone' da estrutura 'funcionario'
+    
    // Liberação da memória alocada dinamicamente
-    free (nome);
-    free (email);
-    free (data);
-    free (fone);
+    free (funcionario.nome);
+    free (funcionario.email);
+    free (funcionario.data);
+    free (funcionario.fone);
 }
 
 void pesquisa_funcionario(void) {
-    char cpf [TAM_CPF];
+    Funcionario funcionario;  // Declara um struct do tipo Funcionário 
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
@@ -168,20 +158,20 @@ void pesquisa_funcionario(void) {
     printf("|                                                                           |\n");
     printf("|-> Informe o seu CPF: ");
     do {
-        leCpf(cpf);
-        if (validaCPF(cpf)) {
+        leCpfFuncionario(&funcionario);
+        if (validaCPF(funcionario.cpf)) {
             break;
         } else {
             printf("CPF inválido, tente novamente apertando a tecla ENTER");
             getchar();
             printf("|-> CPF (somente números): ");
         }
-    } while (!validaCPF(cpf));
+    } while (!validaCPF(funcionario.cpf));
 
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
-    printf("CPF inserido: %s\n", cpf);
+    printf("CPF inserido: %s\n", funcionario.cpf);
 
     //    printf("Nome: %s\n", nome);
     //    printf("CPF: %s\n", cpf);
@@ -194,7 +184,7 @@ void pesquisa_funcionario(void) {
 }
 
 void atualiza_funcionario(void) {
-    char cpf [TAM_CPF];
+    Funcionario funcionario;  // Declara um struct do tipo Funcionário 
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
@@ -203,20 +193,20 @@ void atualiza_funcionario(void) {
     printf("|                                                                           |\n");
     printf("|-> Informe seu CPF: ");
     do {
-        leCpf(cpf);
-        if (validaCPF(cpf)) {
+        leCpfFuncionario(&funcionario);
+        if (validaCPF(funcionario.cpf)) {
             break;
         } else {
             printf("CPF inválido, tente novamente apertando a tecla ENTER");
             getchar();
             printf("|-> Informe seu CPF: ");
         }
-    } while(!validaCPF(cpf));
+    } while(!validaCPF(funcionario.cpf));
 
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
-    printf("CPF inserido: %s\n", cpf);
+    printf("CPF inserido: %s\n", funcionario.cpf);
 
     //    Dados do funcionário atualizados:
     //    printf("Nome: %s\n", nome);
@@ -230,7 +220,7 @@ void atualiza_funcionario(void) {
 }
 
 void exclui_funcionario(void) {
-    char cpf [TAM_CPF];
+    Funcionario funcionario;  // Declara um struct do tipo Funcionário 
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
@@ -239,20 +229,20 @@ void exclui_funcionario(void) {
     printf("|                                                                           |\n");
     printf("|-> Informe seu CPF: ");
     do {
-        leCpf(cpf);
-        if (validaCPF(cpf)) {
+        leCpfFuncionario(&funcionario);
+        if (validaCPF(funcionario.cpf)) {
             break;
         } else {
             printf("CPF inválido, tente novamente apertando a tecla ENTER");
             getchar();
             printf("|-> Informe seu CPF: ");
         }
-    } while(!validaCPF(cpf));
+    } while(!validaCPF(funcionario.cpf));
 
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
-    printf("CPF inserido: %s\n", cpf);
+    printf("CPF inserido: %s\n", funcionario.cpf);
 
     //    Funcionário excluído:
     //    printf("Nome: %s\n", nome);
