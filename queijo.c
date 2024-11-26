@@ -107,7 +107,7 @@ void cadastra_queijo(void) {
     
     printf("|-> Data de fabricação(DD/MM/AAAA): ");
     do {
-        leDataQueijo(&queijo);
+        leDataFabricacao(&queijo);
         if (validaData(queijo.data_fabricacao)) {
             printf("Data válido\n");
             break;
@@ -121,7 +121,7 @@ void cadastra_queijo(void) {
     
     printf("|-> Data de validade(DD/MM/AAAA): ");
     do {
-        leDataQueijo(&queijo);
+        leDataValidade(&queijo);
         if (validaData(queijo.data_validade)) {
             printf("Data válido\n");
             break;
