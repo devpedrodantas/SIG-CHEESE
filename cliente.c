@@ -67,7 +67,7 @@ void cadastra_cliente(void) {
     /// + opções de entradas de dados
     printf("|-> Nome do cliente: ");
     do {
-        leNome(&cliente); // Atualizado para usar o campo da estrutura
+        leNomeCliente(&cliente); // Atualizado para usar o campo da estrutura
         if (validaNome(cliente.nome)) {
             printf("Nome válido\n");
             break;
@@ -80,7 +80,7 @@ void cadastra_cliente(void) {
 
     printf("|-> CPF (somente números): ");
     do {
-        leCpf(&cliente);
+        leCpfCliente(&cliente);
         if (validaCPF(cliente.cpf)) {
             printf("CPF válido\n");
             break;
@@ -93,7 +93,7 @@ void cadastra_cliente(void) {
 
     printf("|-> Email: ");
     do {
-        leEmail(&cliente);    // Lê o email dinamicamente através do ponteiro
+        leEmailCliente(&cliente);    // Lê o email dinamicamente através do ponteiro
         if (validaEmail(cliente.email)) {
             printf("Email válido\n");
             break;
@@ -107,7 +107,7 @@ void cadastra_cliente(void) {
     
     printf("|-> Data de nascimento (DD/MM/AAAA): ");
         do {
-        leData(&cliente);   // Lê a data dinamicamente através do ponteiro
+        leDataCliente(&cliente);   // Lê a data dinamicamente através do ponteiro
         if (validaData(cliente.data)) {
             printf("Data válida\n");
             break;
@@ -120,7 +120,7 @@ void cadastra_cliente(void) {
     
     printf("|-> Telefone (somente números): ");
      do {
-        leFone(&cliente);    // Lê o número de telefone dinamicamente através do ponteiro
+        leFoneCliente(&cliente);    // Lê o número de telefone dinamicamente através do ponteiro
         if (validaFone(cliente.fone)) {
             printf("Número de telefone válido\n");
             break;
@@ -162,7 +162,7 @@ void pesquisa_cliente(void) {
     printf("|                                                                           |\n");
     printf("|-> Informe seu CPF: ");
     do {
-        leCpf(&cliente); // Atualizado para armazenar diretamente no campo da struct
+        leCpfCliente(&cliente); // Atualizado para armazenar diretamente no campo da struct
         if (validaCPF(cliente.cpf)) {
             break;
         } else {
@@ -197,7 +197,7 @@ void atualiza_cliente(void) {
     printf("|                                                                           |\n");
     printf("|-> Informe seu CPF: ");
     do {
-        leCpf(&cliente);
+        leCpfCliente(&cliente);
         if (validaCPF(cliente.cpf)) {
             break;
         } else {
@@ -233,7 +233,7 @@ void exclui_cliente(void) {
     printf("|                                                                           |\n");
     printf("|-> Informe seu CPF: ");
     do {
-        leCpf(&cliente);
+        leCpfCliente(&cliente);
         if (validaCPF(cliente.cpf)) {
             break;
         } else {
