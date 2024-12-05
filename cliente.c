@@ -56,7 +56,7 @@ void menu_cliente(void) {
 }
 
 void cadastra_cliente(void) {
-    Cliente *cliente = (Cliente*) malloc(sizeof(Cliente)); // Declara um struct do tipo Cliente   
+    Cliente *cliente = (Cliente*) malloc(sizeof(Cliente));      // Aloca dinamicamente memória para a estrutura Cliente
     if (cliente == NULL) {
         perror("Erro ao alocar memória em cliente");
         exit(1);
@@ -70,10 +70,13 @@ void cadastra_cliente(void) {
     printf("|                                                                           |\n");
     /// Ainda será implementado >>> printf("|-> Endereço: ");
     /// + opções de entradas de dados
+
+
+    
     printf("|-> Nome do cliente: ");
     do {
-        leNomeCliente(&cliente); // Atualizado para usar o campo da estrutura
-        if (validaNome(cliente.nome)) {
+        leNomeCliente(cliente); // Atualizado para usar o campo da estrutura
+        if (validaNome(cliente->nome)) {
             printf("Nome válido\n");
             break;
         } else {
@@ -81,12 +84,13 @@ void cadastra_cliente(void) {
             getchar();
             printf("|-> Nome do cliente: ");
         }
-    } while (!validaNome(cliente.nome));
+    } while (!validaNome(cliente->nome));
 
+    
     printf("|-> CPF (somente números): ");
     do {
-        leCpfCliente(&cliente);
-        if (validaCPF(cliente.cpf)) {
+        leCpfCliente(cliente);
+        if (validaCPF(cliente->cpf)) {
             printf("CPF válido\n");
             break;
         } else {
@@ -94,12 +98,13 @@ void cadastra_cliente(void) {
             getchar();
             printf("|-> CPF (somente números): ");
         }
-    } while (!validaCPF(cliente.cpf));
+    } while (!validaCPF(cliente->cpf)); // Continua até o CPF ser válido
 
+    
     printf("|-> Email: ");
     do {
-        leEmailCliente(&cliente);    // Lê o email dinamicamente através do ponteiro
-        if (validaEmail(cliente.email)) {
+        leEmailCliente(cliente);    // Lê o email dinamicamente através do ponteiro
+        if (validaEmail(cliente->email)) {
             printf("Email válido\n");
             break;
         } else {
@@ -107,13 +112,13 @@ void cadastra_cliente(void) {
             getchar();
             printf("|-> Email: ");
         }
-    } while(!validaEmail(cliente.email));
-    
+    } while(!validaEmail(cliente->email));
+
     
     printf("|-> Data de nascimento (DD/MM/AAAA): ");
         do {
-        leDataCliente(&cliente);   // Lê a data dinamicamente através do ponteiro
-        if (validaData(cliente.data)) {
+        leDataCliente(cliente);   // Lê a data dinamicamente através do ponteiro
+        if (validaData(cliente->data)) {
             printf("Data válida\n");
             break;
         } else {
@@ -121,12 +126,12 @@ void cadastra_cliente(void) {
             getchar();
             printf("|-> Data de nascimento (DD/MM/AAAA): ");
         }
-    } while(!validaData(cliente.data));
+    } while(!validaData(cliente->data));
     
     printf("|-> Telefone (somente números): ");
      do {
-        leFoneCliente(&cliente);    // Lê o número de telefone dinamicamente através do ponteiro
-        if (validaFone(cliente.fone)) {
+        leFoneCliente(cliente);    // Lê o número de telefone dinamicamente através do ponteiro
+        if (validaFone(cliente->fone)) {
             printf("Número de telefone válido\n");
             break;
         } else {
@@ -134,27 +139,41 @@ void cadastra_cliente(void) {
             getchar();
             printf("|-> Telefone (somente números): ");
         }
-    } while(!validaFone(cliente.fone));    
+    } while(!validaFone(cliente->fone));
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
 
-///implementar uma interface
-    printf("Cliente cadastrado com sucesso\n");
-    printf("\n");
-    printf("Nome: %s\n", cliente.nome);                     // Acessa o campo 'nome' da estrutura 'cliente'
-    printf("CPF: %s\n", cliente.cpf);                       // Acessa o campo 'cpf' da estrutura 'cliente'
-    printf("Email: %s\n", cliente.email);                   // Acessa o campo 'email' da estrutura 'cliente'
-    printf("Data de nascimento: %s\n", cliente.data);       // Acessa o campo 'data' da estrutura 'cliente'
-    printf("Número de telefone: %s\n", cliente.fone);       // Acessa o campo 'fone' da estrutura 'cliente'
+    // Exibe as informações para o usuário
+    printf("+---------------------------------------------------------------------------+\n");
+    printf("|                                                                           |\n");
+    printf("| Cliente cadastrado com sucesso\n");
+    printf("|\n");
+    printf("| Nome: %s\n", cliente->nome);
+    printf("| CPF: %s\n", cliente->cpf);
+    printf("| Email: %s\n", cliente->email);
+    printf("| Data de nascimento: %s\n", cliente->data);
+    printf("| Número de telefone: %s\n", cliente->fone);
+    printf("|                                                                           |\n");
+    printf("+---------------------------------------------------------------------------+\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
     
-    // Liberação da memória alocada dinamicamente
-    free (cliente.nome);
-    free (cliente.email);
-    free (cliente.data);
-    free (cliente.fone);
+   // Informações em arquivo texto chamada a partir de clientes.txt
+    //fprintf(fp, "+---------------------------------------------------------------------------+\n");
+    //fprintf(fp, "| Nome: %s\n", cliente->nome);
+    //fprintf(fp, "| CPF: %s\n", cliente->cpf);
+    //fprintf(fp, "| Email: %s\n", cliente->email);
+    //fprintf(fp, "| Data de nascimento: %s\n", cliente->data);
+    //fprintf(fp, "| Número de telefone: %s\n", cliente->fone);                                                              
+    //fprintf(fp, "+---------------------------------------------------------------------------+\n");
+
+     // Liberação da memória alocada dinamicamente
+    free (cliente->nome);
+    free (cliente->email);
+    free (cliente->data);
+    free (cliente->fone);      
+    free (cliente);            //libera memória da estrutura Cliente
 }
 
 void pesquisa_cliente(void) {
