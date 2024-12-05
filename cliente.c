@@ -61,6 +61,8 @@ void cadastra_cliente(void) {
         perror("Erro ao alocar memória em cliente");
         exit(1);
     }
+
+    FILE* fp;  // Ponteiro para o arquivo
     
     system("clear||cls");
     printf("\n");
@@ -158,8 +160,17 @@ void cadastra_cliente(void) {
     printf("+---------------------------------------------------------------------------+\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
+
+    fp = fopen ("clientes.dat", "ab");
+    if(fp == NULL) {
+        perror("Erro ao abrir o arquivo clientes.dat");
+        exit(1);  // Mantém a saída do programa caso haja um erro ao abrir o arquivo
+    }
+    fwrite(cliente, sizeof(Cliente), 1, fp);
+
+    fclose (fp);  //Fecha o arquivo
     
-   // Informações em arquivo texto chamada a partir de clientes.txt
+    // Informações em arquivo texto chamada a partir de clientes.txt
     //fprintf(fp, "+---------------------------------------------------------------------------+\n");
     //fprintf(fp, "| Nome: %s\n", cliente->nome);
     //fprintf(fp, "| CPF: %s\n", cliente->cpf);
@@ -173,7 +184,7 @@ void cadastra_cliente(void) {
     free (cliente->email);
     free (cliente->data);
     free (cliente->fone);      
-    free (cliente);            //libera memória da estrutura Cliente
+    free (cliente);                        //libera memória da estrutura Cliente
 }
 
 void pesquisa_cliente(void) {
