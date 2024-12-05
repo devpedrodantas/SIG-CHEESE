@@ -56,7 +56,12 @@ void menu_cliente(void) {
 }
 
 void cadastra_cliente(void) {
-    Cliente cliente; // Declara um struct do tipo Cliente    
+    Cliente *cliente = (Cliente*) malloc(sizeof(Cliente)); // Declara um struct do tipo Cliente   
+    if (cliente == NULL) {
+        perror("Erro ao alocar memória em cliente");
+        exit(1);
+    }
+    
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
