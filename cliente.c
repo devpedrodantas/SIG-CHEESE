@@ -1,5 +1,6 @@
 #include <stdio.h> 
 #include <stdlib.h>
+#include <string.h>           // Para usar o strcpy
 #include "cliente.h"
 #include "entradas.h"
 #include "validacao.h"
@@ -56,6 +57,8 @@ void menu_cliente(void) {
 }
 
 void cadastra_cliente(void) {
+    char situacao[20];
+    
     Cliente *cliente = (Cliente*) malloc(sizeof(Cliente));      // Aloca dinamicamente memória para a estrutura Cliente
     if (cliente == NULL) {
         perror("Erro ao alocar memória em cliente");
@@ -142,24 +145,43 @@ void cadastra_cliente(void) {
             printf("|-> Telefone (somente números): ");
         }
     } while(!validaFone(cliente->fone));
+
+    cliente->status = 'a';  // Atualiza o status do cliente para 'ativo'
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
 
     // Exibe as informações para o usuário
-    printf("+---------------------------------------------------------------------------+\n");
-    printf("|                                                                           |\n");
-    printf("| Cliente cadastrado com sucesso\n");
-    printf("|\n");
-    printf("| Nome: %s\n", cliente->nome);
-    printf("| CPF: %s\n", cliente->cpf);
-    printf("| Email: %s\n", cliente->email);
-    printf("| Data de nascimento: %s\n", cliente->data);
-    printf("| Número de telefone: %s\n", cliente->fone);
-    printf("|                                                                           |\n");
-    printf("+---------------------------------------------------------------------------+\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
+    if ((cliente == NULL) || (cliente->status == 'x')) {
+        printf("Cliente Inexistente");
+    } else {
+        printf("+---------------------------------------------------------------------------+\n");
+        printf("|                                                                           |\n");
+        printf("| Cliente cadastrado com sucesso\n");
+        printf("|\n");
+        printf("| Nome: %s\n", cliente->nome);
+        printf("| CPF: %s\n", cliente->cpf);
+        printf("| Email: %s\n", cliente->email);
+        printf("| Data de nascimento: %s\n", cliente->data);
+        printf("| Número de telefone: %s\n", cliente->fone);
+    
+        // Verifica o status do cliente (ativo/inativo)
+        if (cliente->status == 'a') {
+            strcpy(situacao, "Ativo");
+            
+        } else if (cliente->status == 'i') {
+            strcpy(situacao, "Inativo");
+            
+        } else {
+            strcpy(situacao, "Não informado");
+        }
+        
+        printf("| Situação do cliente: %s\n", situacao);
+        printf("|                                                                           |\n");
+        printf("+---------------------------------------------------------------------------+\n");
+        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+        getchar();
+    }
 
     fp = fopen ("clientes.dat", "ab");
     if(fp == NULL) {
