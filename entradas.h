@@ -1,7 +1,6 @@
 #ifndef ENTRADAS_H  // Proteção contra múltiplas inclusões
 #define ENTRADAS_H
 
-#define TAM_CPF 12
 #define TAM_CODIGO 7
 
 #include "cliente.h"      // Inclui a definição do tipo Cliente
