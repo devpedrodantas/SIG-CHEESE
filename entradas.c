@@ -1,39 +1,42 @@
 #include <stdio.h>
-#include <stdlib.h>  // Inclusão da biblioteca para manipulação de memória dinâmica.
-#include <string.h>  // Inclusão da biblioteca para manipulação de strings.
-#include "entradas.h"
+#include <stdlib.h>           // Inclusão da biblioteca para manipulação de memória dinâmica.
+#include <string.h>           // Inclusão da biblioteca para manipulação de strings.
+#include "cliente.h"          // Inclui a definição do tipo Cliente
+#include "funcionario.h"      // Inclui a definição do tipo Funcionário
+#include "queijo.h"           // Inclui a definição do tipo Queijo
 
-// Função para ler entradas longas (ex.: nome, e-mail) e alocar memória dinamicamente
+
+// Função geral para leitura de entradas
+void leEntrada(char **entrada, size_t tamanho) {
+    char buffer[tamanho];
+    fgets(buffer, tamanho, stdin);
+    buffer[strcspn(buffer, "\n")] = '\0';  // Remove o \n no final da string
+
+    if (*entrada != NULL) {
+        free(*entrada);  // Libera memória previamente alocada
+    }
+
+    *entrada = (char*) malloc(strlen(buffer) + 1);
+    if (*entrada == NULL) {
+        perror("Erro ao alocar memória");
+        exit(1);  // Sai caso a alocação falhe
+    }
+
+    strcpy(*entrada, buffer);  // Copia o buffer para o ponteiro
+}
+
+
+// Funções temporárias para ler entradas curtase longas (serão REMOVIDAS depois)
 void leEntradaMax(char **entrada) {
-    char buffer[256];
-    int tam;
-
-    // Lê a entrada do usuário
-    scanf("%255[^\n]", buffer);
-    getchar();
-
-    // Aloca memória para a entrada com base no tamanho lido
-    tam = strlen(buffer);
-    *entrada = (char*) malloc(tam + 1);
-
-    // Copia a string para a memória alocada
-    strcpy(*entrada, buffer);
+    leEntrada(entrada, 256);
 }
 
-// Função para ler entradas curtas (ex.: data, telefone) e alocar memória dinamicamente
 void leEntradaMin(char **entrada) {
-    char buffer[16];
-    int tam;
-
-    scanf("%15[^\n]", buffer);
-    getchar();
-
-    tam = strlen(buffer);
-    *entrada = (char*) malloc(tam + 1);
-    strcpy(*entrada, buffer);
+    leEntrada(entrada, 16);
 }
 
-// Funções para Cliente                                              (Ainda é necessário evitar esta redundância com cliente, funcionário e queijo)
+
+// Funções para Cliente                                              (Ainda é necessário evitar esta redundância com cliente, funcionario e queijo)
 void leNomeCliente(Cliente *cliente) {
   leEntradaMax(&cliente->nome);  // Passa o ponteiro para o nome
 }
