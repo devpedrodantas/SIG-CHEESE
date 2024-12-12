@@ -6,6 +6,34 @@
 #include "queijo.h"           // Inclui a definição do tipo Queijo
 
 
+// Funções específicas para Cliente               (Ainda é necessário evitar esta redundância com cliente, funcionário e queijo)
+void leNomeCliente(Cliente *cliente) {
+    fgets(cliente->nome, sizeof(cliente->nome), stdin);              
+    cliente->nome[strcspn(cliente->nome, "\n")] = '\0';
+}
+
+void leCpfCliente(Cliente *cliente) {
+    fgets(cliente->cpf, sizeof(cliente->cpf), stdin);
+    cliente->cpf[strcspn(cliente->cpf, "\n")] = '\0';
+}
+
+void leEmailCliente(Cliente *cliente) {
+    fgets(cliente->email, sizeof(cliente->email), stdin);
+    cliente->email[strcspn(cliente->email, "\n")] = '\0';
+}
+
+void leDataCliente(Cliente *cliente) {
+    fgets(cliente->data, sizeof(cliente->data), stdin);
+    cliente->data[strcspn(cliente->data, "\n")] = '\0';
+}
+
+
+void leFoneCliente(Cliente *cliente) {
+    fgets(cliente->fone, sizeof(cliente->fone), stdin);
+    cliente->fone[strcspn(cliente->fone, "\n")] = '\0';
+}
+
+
 // Função geral para leitura de entradas
 void leEntrada(char **entrada, size_t tamanho) {
     char buffer[tamanho];
@@ -35,29 +63,6 @@ void leEntradaMin(char **entrada) {
     leEntrada(entrada, 16);
 }
 
-
-// Funções para Cliente                                              (Ainda é necessário evitar esta redundância com cliente, funcionario e queijo)
-void leNomeCliente(Cliente *cliente) {
-  leEntradaMax(&cliente->nome);  // Passa o ponteiro para o nome
-}
-
-void leCpfCliente(Cliente *cliente) {
-    scanf("%11s", cliente->cpf);  // Acessa diretamente cliente->cpf
-    getchar();
-}
-
-void leEmailCliente(Cliente *cliente) {
-    leEntradaMax(&cliente->email);  // Passa o ponteiro para o email
-}
-
-void leDataCliente(Cliente *cliente) {
-    leEntradaMin(&cliente->data);  // Passa o ponteiro para a data
-}
-
-
-void leFoneCliente(Cliente *cliente) {
-    leEntradaMin(&cliente->fone);  // Passa o ponteiro para o telefone
-}
 
 // Funções para Funcionario
 void leNomeFuncionario(Funcionario *funcionario) {
