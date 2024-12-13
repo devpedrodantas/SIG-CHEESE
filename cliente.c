@@ -132,6 +132,7 @@ void cadastra_cliente(void) {
             printf("|-> Data de nascimento (DD/MM/AAAA): ");
         }
     } while(!validaData(cliente->data));
+
     
     printf("|-> Telefone (somente números): ");
      do {
@@ -147,12 +148,13 @@ void cadastra_cliente(void) {
     } while(!validaFone(cliente->fone));
 
     cliente->status = 'a';  // Atualiza o status do cliente para 'ativo'
+    strcpy(situacao, "Ativo");
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
 
     // Exibe as informações para o usuário
-    if ((cliente == NULL) || (cliente->status == 'x')) {
+    if (cliente->status == 'x') {
         printf("Cliente Inexistente");
     } else {
         printf("+---------------------------------------------------------------------------+\n");
@@ -164,18 +166,6 @@ void cadastra_cliente(void) {
         printf("| Email: %s\n", cliente->email);
         printf("| Data de nascimento: %s\n", cliente->data);
         printf("| Número de telefone: %s\n", cliente->fone);
-    
-        // Verifica o status do cliente (ativo/inativo)
-        if (cliente->status == 'a') {
-            strcpy(situacao, "Ativo");
-            
-        } else if (cliente->status == 'i') {
-            strcpy(situacao, "Inativo");
-            
-        } else {
-            strcpy(situacao, "Não informado");
-        }
-        
         printf("| Situação do cliente: %s\n", situacao);
         printf("|                                                                           |\n");
         printf("+---------------------------------------------------------------------------+\n");
@@ -191,8 +181,10 @@ void cadastra_cliente(void) {
     fwrite(cliente, sizeof(Cliente), 1, fp);
 
     fclose (fp);  //Fecha o arquivo
+    free (cliente);                        //libera memória da estrutura Cliente
+
     
-    // Informações em arquivo texto chamada a partir de clientes.txt
+    // A pedido de Flavius (Informações em arquivo texto chamada a partir de clientes.txt) 
     //fprintf(fp, "+---------------------------------------------------------------------------+\n");
     //fprintf(fp, "| Nome: %s\n", cliente->nome);
     //fprintf(fp, "| CPF: %s\n", cliente->cpf);
@@ -200,13 +192,6 @@ void cadastra_cliente(void) {
     //fprintf(fp, "| Data de nascimento: %s\n", cliente->data);
     //fprintf(fp, "| Número de telefone: %s\n", cliente->fone);                                                              
     //fprintf(fp, "+---------------------------------------------------------------------------+\n");
-
-     // Liberação da memória alocada dinamicamente
-    free (cliente->nome);
-    free (cliente->email);
-    free (cliente->data);
-    free (cliente->fone);      
-    free (cliente);                        //libera memória da estrutura Cliente
 }
 
 void pesquisa_cliente(void) {
