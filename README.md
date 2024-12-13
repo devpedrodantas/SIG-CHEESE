@@ -26,18 +26,14 @@ Para compilar o projeto siga as etapas abaixo em um terminal, é recomendado faz
    ```sh
    cd SIG-CHEESE
    
-3. **Remova os arquivos temporários ou intermediários gerados**:
-   ```sh
-   make clean
-   
-4. **Compile o programa pelo Makefile**:
-   ```sh
-   make
-   
-5. **Execute o programa**:
+3. **Execute o programa**:
    ```sh
    make run
    
+4. **(Opcional) Remova os arquivos temporários ou intermediários gerados**:
+   ```sh
+   make clean
+
 ## Contatos
 Para dúvidas ou suporte, entre em contato com os desenvolvedores do SIG-Car através dos seguintes canais\
 Ivyson

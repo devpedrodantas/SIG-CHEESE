@@ -1,60 +1,68 @@
 #include <stdio.h>
-#include <stdlib.h>  // Inclusão da biblioteca para manipulação de memória dinâmica.
-#include <string.h>  // Inclusão da biblioteca para manipulação de strings.
-#include "entradas.h"
+#include <stdlib.h>           // Inclusão da biblioteca para manipulação de memória dinâmica.
+#include <string.h>           // Inclusão da biblioteca para manipulação de strings.
+#include "cliente.h"          // Inclui a definição do tipo Cliente
+#include "funcionario.h"      // Inclui a definição do tipo Funcionário
+#include "queijo.h"           // Inclui a definição do tipo Queijo
 
-// Função para ler entradas longas (ex.: nome, e-mail) e alocar memória dinamicamente
-void leEntradaMax(char **entrada) {
-    char buffer[256];
-    int tam;
 
-    // Lê a entrada do usuário
-    scanf("%255[^\n]", buffer);
-    getchar();
-
-    // Aloca memória para a entrada com base no tamanho lido
-    tam = strlen(buffer);
-    *entrada = (char*) malloc(tam + 1);
-
-    // Copia a string para a memória alocada
-    strcpy(*entrada, buffer);
-}
-
-// Função para ler entradas curtas (ex.: data, telefone) e alocar memória dinamicamente
-void leEntradaMin(char **entrada) {
-    char buffer[16];
-    int tam;
-
-    scanf("%15[^\n]", buffer);
-    getchar();
-
-    tam = strlen(buffer);
-    *entrada = (char*) malloc(tam + 1);
-    strcpy(*entrada, buffer);
-}
-
-// Funções para Cliente                                              (Ainda é necessário evitar esta redundância com cliente, funcionário e queijo)
+// Funções específicas para Cliente               (Ainda é necessário evitar esta redundância com cliente, funcionário e queijo)
 void leNomeCliente(Cliente *cliente) {
-  leEntradaMax(&cliente->nome);  // Passa o ponteiro para o nome
+    fgets(cliente->nome, sizeof(cliente->nome), stdin);              
+    cliente->nome[strcspn(cliente->nome, "\n")] = '\0';
 }
 
 void leCpfCliente(Cliente *cliente) {
-    scanf("%11s", cliente->cpf);  // Acessa diretamente cliente->cpf
-    getchar();
+    fgets(cliente->cpf, sizeof(cliente->cpf), stdin);
+    cliente->cpf[strcspn(cliente->cpf, "\n")] = '\0';
 }
 
 void leEmailCliente(Cliente *cliente) {
-    leEntradaMax(&cliente->email);  // Passa o ponteiro para o email
+    fgets(cliente->email, sizeof(cliente->email), stdin);
+    cliente->email[strcspn(cliente->email, "\n")] = '\0';
 }
 
 void leDataCliente(Cliente *cliente) {
-    leEntradaMin(&cliente->data);  // Passa o ponteiro para a data
+    fgets(cliente->data, sizeof(cliente->data), stdin);
+    cliente->data[strcspn(cliente->data, "\n")] = '\0';
 }
 
 
 void leFoneCliente(Cliente *cliente) {
-    leEntradaMin(&cliente->fone);  // Passa o ponteiro para o telefone
+    fgets(cliente->fone, sizeof(cliente->fone), stdin);
+    cliente->fone[strcspn(cliente->fone, "\n")] = '\0';
 }
+
+
+// Função geral para leitura de entradas
+void leEntrada(char **entrada, size_t tamanho) {
+    char buffer[tamanho];
+    fgets(buffer, tamanho, stdin);
+    buffer[strcspn(buffer, "\n")] = '\0';  // Remove o \n no final da string
+
+    if (*entrada != NULL) {
+        free(*entrada);  // Libera memória previamente alocada
+    }
+
+    *entrada = (char*) malloc(strlen(buffer) + 1);
+    if (*entrada == NULL) {
+        perror("Erro ao alocar memória");
+        exit(1);  // Sai caso a alocação falhe
+    }
+
+    strcpy(*entrada, buffer);  // Copia o buffer para o ponteiro
+}
+
+
+// Funções temporárias para ler entradas curtase longas (serão REMOVIDAS depois)
+void leEntradaMax(char **entrada) {
+    leEntrada(entrada, 256);
+}
+
+void leEntradaMin(char **entrada) {
+    leEntrada(entrada, 16);
+}
+
 
 // Funções para Funcionario
 void leNomeFuncionario(Funcionario *funcionario) {

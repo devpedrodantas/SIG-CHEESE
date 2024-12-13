@@ -1,11 +1,15 @@
 #ifndef ENTRADAS_H  // Proteção contra múltiplas inclusões
 #define ENTRADAS_H
+#include "cliente.h"          // Inclui a definição do tipo Cliente
+#include "funcionario.h"      // Inclui a definição do tipo Funcionário
+#include "queijo.h"           // Inclui a definição do tipo Queijo
 
 #define TAM_CODIGO 7
 
-#include "cliente.h"      // Inclui a definição do tipo Cliente
-#include "funcionario.h"  // Inclui a definição do tipo Funcionario
-#include "queijo.h"       // Inclui a definição do tipo Queijo
+// Funções genéricas TEMPORÁRIAS para leitura das entradas 
+void leEntrada(char **entrada, size_t tamanho);
+void leEntradaMax(char **entrada);
+void leEntradaMin(char **entrada);
 
 // Funções que recebem um ponteiro para a struct Cliente
 void leNomeCliente(Cliente *cliente);
