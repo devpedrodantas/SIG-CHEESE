@@ -66,7 +66,6 @@ void cadastra_cliente(void) {
     }
 
     FILE* fp;  // Ponteiro para o arquivo
-    
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
@@ -75,7 +74,6 @@ void cadastra_cliente(void) {
     printf("|                                                                           |\n");
     /// Ainda será implementado >>> printf("|-> Endereço: ");
     /// + opções de entradas de dados
-
 
     leNomeCliente(cliente);                 // Chama a função que agora lê e valida o nome do cliente
     leCpfCliente(cliente);                  // Chama a função que agora lê e valida o CPF do cliente
@@ -130,41 +128,25 @@ void cadastra_cliente(void) {
     //fprintf(fp, "+---------------------------------------------------------------------------+\n");
 }
 
+// Função para validar o CPF informado pelo usuário e acionar a busca do cliente
 void pesquisa_cliente(void) {
-    Cliente cliente; // Declara uma variável do tipo Cliente
+    char cpf_busca[13];
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                         >>  Pesquisar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe seu CPF: ");
-    do {
-        leCpfCliente(&cliente); // Atualizado para armazenar diretamente no campo da struct
-        if (validaCPF(cliente.cpf)) {
-            break;
-        } else {
-            printf("CPF inválido, tente novamente apertando a tecla ENTER");
-            getchar();
-            printf("|-> Informe seu CPF: ");
-        }
-    } while(!validaCPF(cliente.cpf));
-    
+    leCpfCliente(cliente);        // Chama a função que lê e valida o CPF
+    busca_cliente(cpf_busca);     // Busca o cliente pelo CPF informado e exibe-o 
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
-    printf("CPF inserido: %s\n", cliente.cpf); // Acessa o campo cpf do struct
-
-    //    printf("Nome: %s\n", nome);
-    //    printf("CPF: %s\n", cpf);
-    //    printf("Email: %s\n", email);
-    //    printf("Data de nascimento: %s\n", data);
-    //    printf("Número de telefone: %s\n", fone); 
-
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
 
+// Função responsável por buscar e exibir os dados de um cliente com base no CPF informado
 void busca_cliente (const char *cpf_busca) {
     FILE *fp;
     Cliente *cliente;
