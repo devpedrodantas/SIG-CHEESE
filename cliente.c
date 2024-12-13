@@ -165,6 +165,42 @@ void pesquisa_cliente(void) {
     getchar();
 }
 
+void busca_cliente (const char *cpf_busca) {
+    FILE *fp;
+    Cliente *cliente;
+    cliente = (Cliente*) malloc(sizeof(Cliente));
+  
+    fp = fopen("clientes.dat", "rb");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo!\n");
+        exit(1);
+    }
+
+    int encontrado = 0;
+        // Ler os dados do arquivo cliente por cliente
+    while (fread(cliente, sizeof(Cliente), 1, fp)) {
+  
+
+        // Verifica se o CPF corresponde ao que foi procurado
+        if (strcmp(cliente->cpf, cpf_busca) == 0) {
+            printf("+---------------------------------------------------------------------------+\n");
+            printf("| Cliente encontrado\n");
+            printf("| Nome: %s\n", cliente->nome);
+            printf("| CPF: %s\n", cliente->cpf);
+            printf("| Email: %s\n", cliente->email);
+            printf("| Data de nascimento: %s\n", cliente->data);
+            printf("| Telefone: %s\n", cliente->fone);
+            printf("+---------------------------------------------------------------------------+\n");
+            encontrado = 1;
+            break; // Encerra o loop quando encontrar o cliente
+        }
+    }
+    if (!encontrado) {
+        printf("Cliente não encontrado\n");
+    }
+    fclose(fp);  // Fecha o arquivo após o uso
+}
+
 void atualiza_cliente(void) {
     Cliente cliente; // Declara uma variável do tipo Cliente
     system("clear||cls");
