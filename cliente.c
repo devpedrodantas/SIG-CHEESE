@@ -77,77 +77,13 @@ void cadastra_cliente(void) {
     /// + opções de entradas de dados
 
 
+    leNomeCliente(cliente);                 // Chama a função que agora lê e valida o nome do cliente
+    leCpfCliente(cliente);                  // Chama a função que agora lê e valida o CPF do cliente
+    leEmailCliente(cliente);                // Chama a função que agora lê e valida o Email do cliente
+    leDataCliente(cliente);                 // Chama a função que agora lê e valida a data do cliente
+    leFoneCliente(cliente);                 // Chama a função que agora lê e valida o telefone do cliente
     
-    printf("|-> Nome do cliente: ");
-    do {
-        leNomeCliente(cliente); // Atualizado para usar o campo da estrutura
-        if (validaNome(cliente->nome)) {
-            printf("Nome válido\n");
-            break;
-        } else {
-            printf("Nome inválido, tente novamente apertando a tecla ENTER");
-            getchar();
-            printf("|-> Nome do cliente: ");
-        }
-    } while (!validaNome(cliente->nome));
-
-    
-    printf("|-> CPF (somente números): ");
-    do {
-        leCpfCliente(cliente);
-        if (validaCPF(cliente->cpf)) {
-            printf("CPF válido\n");
-            break;
-        } else {
-            printf("CPF inválido, tente novamente apertando a tecla ENTER");
-            getchar();
-            printf("|-> CPF (somente números): ");
-        }
-    } while (!validaCPF(cliente->cpf)); // Continua até o CPF ser válido
-
-    
-    printf("|-> Email: ");
-    do {
-        leEmailCliente(cliente);    // Lê o email dinamicamente através do ponteiro
-        if (validaEmail(cliente->email)) {
-            printf("Email válido\n");
-            break;
-        } else {
-            printf("Email inválido, tente novamente apertando a tecla ENTER");
-            getchar();
-            printf("|-> Email: ");
-        }
-    } while(!validaEmail(cliente->email));
-
-    
-    printf("|-> Data de nascimento (DD/MM/AAAA): ");
-        do {
-        leDataCliente(cliente);   // Lê a data dinamicamente através do ponteiro
-        if (validaData(cliente->data)) {
-            printf("Data válida\n");
-            break;
-        } else {
-            printf("Data inválida, tente novamente apertando a tecla ENTER");
-            getchar();
-            printf("|-> Data de nascimento (DD/MM/AAAA): ");
-        }
-    } while(!validaData(cliente->data));
-
-    
-    printf("|-> Telefone (somente números): ");
-     do {
-        leFoneCliente(cliente);    // Lê o número de telefone dinamicamente através do ponteiro
-        if (validaFone(cliente->fone)) {
-            printf("Número de telefone válido\n");
-            break;
-        } else {
-            printf("Número de telefone inválido, tente novamente apertando a tecla ENTER");
-            getchar();
-            printf("|-> Telefone (somente números): ");
-        }
-    } while(!validaFone(cliente->fone));
-
-    cliente->status = 'a';  // Atualiza o status do cliente para 'ativo'
+    cliente->status = 'a';                  // Atualiza o status do cliente para 'ativo'
     strcpy(situacao, "Ativo");
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
