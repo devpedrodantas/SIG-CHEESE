@@ -1,5 +1,8 @@
 #ifndef ENTRADAS_H  // Proteção contra múltiplas inclusões
 #define ENTRADAS_H
+#include "cliente.h"          // Inclui a definição do tipo Cliente
+#include "funcionario.h"      // Inclui a definição do tipo Funcionário
+#include "queijo.h"           // Inclui a definição do tipo Queijo
 
 #define TAM_CODIGO 7
 
