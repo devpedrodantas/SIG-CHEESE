@@ -130,7 +130,7 @@ void menu_equipe(void) {
     printf("|            Redes sociais: @084_pedrin7                                    |\n");
     printf("|            Git: https://github.com/devpedrodantas/SIG-CHEESE.git          |\n");
     printf("|                                                                           |\n");
-    printf("|            Mizael Franklim Gomes da Trindade                              |\n");
+    printf("|            Mizael Franklin Gomes da Trindade                              |\n");
     printf("|            E-mail: mizael.trindade.130@ufrn.edu.br                        |\n");
     printf("|            Redes sociais: @mizaelfgt                                      |\n");
     printf("|                                                                           |\n");
