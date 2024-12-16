@@ -77,38 +77,40 @@ void cadastra_cliente(void) {
 
     leNomeCliente(cliente);                 // Chama a função que agora lê e valida o nome do cliente
     
-    // Necessário verificar se o CPF inserido já não está cadastrado
-    leCpfCliente(cliente);                  // Chama a função que agora lê e valida o CPF do cliente
+    // Lê o CPF e verifica se já está cadastrado
+    do {
+        leCpfCliente(cliente); // Lê e valida o CPF do cliente
+        if (verificaCpfCadastrado(cliente->cpf)) {
+            printf("\nErro: CPF %s já cadastrado!\n", cliente->cpf);
+            printf("Tente novamente.\n");
+        } else {
+            break; // CPF não está duplicado, sai do loop
+        }
+    } while (1); // Continua até o CPF ser válido e único
+    
     leEmailCliente(cliente);                // Chama a função que agora lê e valida o Email do cliente
     leDataCliente(cliente);                 // Chama a função que agora lê e valida a data do cliente
     leFoneCliente(cliente);                 // Chama a função que agora lê e valida o telefone do cliente
     
-    cliente->status = 'a';                  // Atualiza o status do cliente para 'ativo'
+    cliente->status = 'a';                  // Coloca o status do cliente como 'ativo'
     strcpy(situacao, "Ativo");
-    printf("|                                                                           |\n");
-    printf("+---------------------------------------------------------------------------+\n");
-    printf("\n");
 
     // Exibe as informações para o usuário
-    if (cliente->status == 'x') {
-        printf("Cliente Inexistente");
-    } else {
-        printf("+---------------------------------------------------------------------------+\n");
-        printf("|                                                                           |\n");
-        printf("| Cliente cadastrado com sucesso\n");
-        printf("|\n");
-        printf("| Nome: %s\n", cliente->nome);
-        printf("| CPF: %s\n", cliente->cpf);
-        printf("| Email: %s\n", cliente->email);
-        printf("| Data de nascimento: %s\n", cliente->data);
-        printf("| Número de telefone: %s\n", cliente->fone);
-        printf("| Situação do cliente: %s\n", situacao);
-        printf("|                                                                           |\n");
-        printf("+---------------------------------------------------------------------------+\n");
-        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-        getchar();
-    }
-
+    printf("+---------------------------------------------------------------------------+\n");
+    printf("|                                                                           |\n");
+    printf("| Cliente cadastrado com sucesso\n");
+    printf("|\n");
+    printf("| Nome: %s\n", cliente->nome);
+    printf("| CPF: %s\n", cliente->cpf);
+    printf("| Email: %s\n", cliente->email);
+    printf("| Data de nascimento: %s\n", cliente->data);
+    printf("| Número de telefone: %s\n", cliente->fone);
+    printf("| Situação do cliente: %s\n", situacao);
+    printf("|                                                                           |\n");
+    printf("+---------------------------------------------------------------------------+\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+    
     fp = fopen ("clientes.dat", "ab");
     if(fp == NULL) {
         perror("Erro ao abrir o arquivo clientes.dat");
@@ -117,7 +119,7 @@ void cadastra_cliente(void) {
     fwrite(cliente, sizeof(Cliente), 1, fp);
 
     fclose (fp);  //Fecha o arquivo
-    free (cliente);                        //libera memória da estrutura Cliente
+    free (cliente);                        // libera memória da estrutura Cliente
 
     
     // A pedido de Flavius (Informações em arquivo texto chamada a partir de clientes.txt) 
@@ -151,6 +153,11 @@ void busca_cliente (const char *cpf_busca) {
     FILE *fp;
     Cliente *cliente;
     cliente = (Cliente*) malloc(sizeof(Cliente));
+    if (cliente == NULL) {
+        perror("Erro ao alocar memória em cliente");
+        exit(1);
+    }
+
   
     fp = fopen("clientes.dat", "rb");
     if (fp == NULL) {
@@ -181,6 +188,7 @@ void busca_cliente (const char *cpf_busca) {
         printf("Cliente não encontrado\n");
     }
     fclose(fp);  // Fecha o arquivo após o uso
+    free (cliente);                        // libera memória da estrutura Cliente
 }
 
 void atualiza_cliente(void) {
@@ -272,6 +280,7 @@ void atualiza_cliente(void) {
     }
 
     fclose(fp);
+    free (cliente);                        // libera memória da estrutura Cliente
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
 }
@@ -345,6 +354,7 @@ void exclui_cliente(void) {
 
                 fclose(fp);
                 fclose(fp_temp);
+                free (cliente);                        // libera memória da estrutura Cliente
 
                 // Remove o arquivo original e substitui pelo temporário
                 if (remove("clientes.dat") != 0) {
