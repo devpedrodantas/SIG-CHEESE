@@ -36,7 +36,7 @@ void leNomeCliente(Cliente *cliente) {
 
 
 ///--------------------------------------------------------///
-///                         CPF                            ///
+///                         CPF C                          ///
 //---------------------------------------------------------///
 // Função para capturar apenas o CPF do cliente
 void leApenasCpf(Cliente *cliente) {
@@ -62,7 +62,7 @@ void leCpfCliente(Cliente *cliente) {
 
 
 ///--------------------------------------------------------///
-///                        EMAIL                           ///
+///                        EMAIL C                         ///
 //---------------------------------------------------------///
 // Função para capturar apenas o email do cliente
 void leApenasEmail(Cliente *cliente) {
@@ -88,7 +88,7 @@ void leEmailCliente(Cliente *cliente) {
 
 
 ///--------------------------------------------------------///
-///                        DATA                            ///
+///                        DATA C                          ///
 //---------------------------------------------------------///
 // Função para capturar apenas a data do cliente
 void leApenaData(Cliente *cliente) {
@@ -114,7 +114,7 @@ void leDataCliente(Cliente *cliente) {
 
 
 ///--------------------------------------------------------///
-///                        FONE                            ///
+///                        FONE C                          ///
 //---------------------------------------------------------///
 // Função para capturar apenas o número de telefone do cliente
 void leApenasFone(Cliente *cliente) {
@@ -138,6 +138,9 @@ void leFoneCliente(Cliente *cliente) {
     } while(!validaFone(cliente->fone));
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////// ---- Funcionário ---- ///////////////////////////////////
+
 ///--------------------------------------------------------///
 ///                        NOME F                          ///
 //---------------------------------------------------------///
@@ -152,7 +155,7 @@ void leApenasNomeF(Funcionario *funcionario) {
 void leNomeFuncionario(Funcionario *funcionario) {
     printf("|-> Nome do funcionário: ");
     do {
-       leApenasNome(funcionario);
+        leApenasNomeF(funcionario);
         if (validaNome(funcionario->nome)) {
             printf("Nome válido\n");
             break;
@@ -165,7 +168,7 @@ void leNomeFuncionario(Funcionario *funcionario) {
 }
 
 ///--------------------------------------------------------///
-///                         CPF                            ///
+///                         CPF F                          ///
 //---------------------------------------------------------///
 // Função para capturar apenas o CPF do funcionário
 void leApenasCpfF(Funcionario *funcionario) {
@@ -191,7 +194,7 @@ void leCpfFuncionario(Funcionario *funcionario) {
 
 
 ///--------------------------------------------------------///
-///                        EMAIL                           ///
+///                        EMAIL F                         ///
 //---------------------------------------------------------///
 // Função para capturar apenas o email do funcionário
 void leApenasEmailF(Funcionario *funcionario) {
@@ -203,7 +206,7 @@ void leApenasEmailF(Funcionario *funcionario) {
 void leEmailFuncionario(Funcionario *funcionario) {
     printf("|-> Email: ");
     do {
-        leApenasEmail(funcionario);    // Lê o email dinamicamente através do ponteiro
+        leApenasEmailF(funcionario);    // Lê o email dinamicamente através do ponteiro
         if (validaEmail(funcionario->email)) {
             printf("Email válido\n");
             break;
@@ -217,7 +220,7 @@ void leEmailFuncionario(Funcionario *funcionario) {
 
 
 ///--------------------------------------------------------///
-///                        DATA                            ///
+///                        DATA F                          ///
 //---------------------------------------------------------///
 // Função para capturar apenas a data do funcionário
 void leApenaDataF(Funcionario *funcionario) {
@@ -229,7 +232,7 @@ void leApenaDataF(Funcionario *funcionario) {
 void leDataFuncionario(Funcionario *funcionario) {
     printf("|-> Data de nascimento (DD/MM/AAAA): ");
         do {
-        leApenaData(funcionario);   // Lê a data dinamicamente através do ponteiro
+        leApenaDataF(funcionario);   // Lê a data dinamicamente através do ponteiro
         if (validaData(funcionario->data)) {
             printf("Data válida\n");
             break;
@@ -243,7 +246,7 @@ void leDataFuncionario(Funcionario *funcionario) {
 
 
 ///--------------------------------------------------------///
-///                        FONE                            ///
+///                        FONE F                          ///
 //---------------------------------------------------------///
 // Função para capturar apenas o número de telefone do funcionário
 void leApenasFoneF(Funcionario *funcionario) {
@@ -255,7 +258,7 @@ void leApenasFoneF(Funcionario *funcionario) {
 void leFoneFuncionario(Funcionario *funcionario) {
   printf("|-> Telefone (somente números): ");
      do {
-        leApenasFone(funcionario);    // Lê o número de telefone dinamicamente através do ponteiro
+        leApenasFoneF(funcionario);    // Lê o número de telefone dinamicamente através do ponteiro
         if (validaFone(funcionario->fone)) {
             printf("Número de telefone válido\n");
             break;
@@ -266,6 +269,168 @@ void leFoneFuncionario(Funcionario *funcionario) {
         }
     } while(!validaFone(funcionario->fone));
 }
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////// ---- Queijo ---- //////////////////////////////////////
+
+///--------------------------------------------------------///
+///                        NOME Q                          ///
+//---------------------------------------------------------///
+// Função para capturar apenas o nome do queijo
+
+void leApenasNomeQ(Queijo *queijo) {
+    fgets(queijo->nome, sizeof(queijo->nome), stdin);              
+    queijo->nome[strcspn(queijo->nome, "\n")] = '\0';
+}
+
+// Função para ler e validar o nome do queijo
+void leNomeQueijo(Queijo *queijo) {
+    printf("|-> Nome do queijo: ");
+    do {
+       leApenasNomeQ(queijo);
+        if (validaNome(queijo->nome)) {
+            printf("Nome válido\n");
+            break;
+        } else {
+            printf("Nome inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Nome do queijo: ");
+        }
+    } while (!validaNome(queijo->nome));
+}
+
+///--------------------------------------------------------///
+///                       FABRICAÇÃO                       ///
+//---------------------------------------------------------///
+// Função para capturar apenas a data de fabricação do queijo
+
+void leApenasDataFab(Queijo *queijo) {
+    fgets(queijo->data_fabricacao, sizeof(queijo->data_fabricacao), stdin);              
+    queijo->data_fabricacao[strcspn(queijo->data_fabricacao, "\n")] = '\0';
+}
+
+// Função para ler e validar a data de fabricação do queijo
+void leDataFabricacao(Queijo *queijo) {
+    printf("|-> Data de fabricação(DD/MM/AAAA): ");
+    do {
+       leApenasDataFab(queijo);
+        if (validaData(queijo->data_fabricacao)) {
+            printf("Data de fabricação válida\n");
+            break;
+        } else {
+            printf("Data de fabricação inválida, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Data de fabricação(DD/MM/AAAA): ");
+        }
+    } while (!validaData(queijo->data_fabricacao));
+}
+
+///--------------------------------------------------------///
+///                        VALIDADE                        ///
+//---------------------------------------------------------///
+// Função para capturar apenas a data de validade do queijo
+
+void leApenasDataVal(Queijo *queijo) {
+    fgets(queijo->data_validade, sizeof(queijo->data_validade), stdin);              
+    queijo->data_validade[strcspn(queijo->data_validade, "\n")] = '\0';
+}
+
+// Função para ler e validar a data de validade do queijo
+void leDataValidade(Queijo *queijo) {
+    printf("|-> Data de validade(DD/MM/AAAA): ");
+    do {
+       leApenasDataVal(queijo);
+        if (validaData(queijo->data_validade)) {
+            printf("Data de validade válida\n");
+            break;
+        } else {
+            printf("Data de validade inválida, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Data de validade(DD/MM/AAAA): ");
+        }
+    } while (!validaData(queijo->data_validade));
+}
+
+///--------------------------------------------------------///
+///                        CÓDIGO                          ///
+//---------------------------------------------------------///
+// Função para capturar apenas o código do queijo
+
+void leApenasCodigo(Queijo *queijo) {
+    fgets(queijo->codigo, sizeof(queijo->codigo), stdin);              
+    queijo->codigo[strcspn(queijo->codigo, "\n")] = '\0';
+}
+
+// Função para ler e validar o código do queijo
+void leCodigo(Queijo *queijo) {
+    printf("|-> Código do queijo(somente números): ");
+    do {
+       leApenasCodigo(queijo);
+        if (validaCodigo(queijo->codigo)) {
+            printf("Código válido\n");
+            break;
+        } else {
+            printf("Código inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Código do queijo(somente números): ");
+        }
+    } while (!validaCodigo(queijo->codigo));
+}
+
+///--------------------------------------------------------///
+///                        COMPOSIÇÃO                      ///
+//---------------------------------------------------------///
+// Função para capturar apenas a composição/ingrediente do queijo
+
+void leApenasComposicao(Queijo *queijo) {
+    fgets(queijo->comp, sizeof(queijo->comp), stdin);              
+    queijo->comp[strcspn(queijo->comp, "\n")] = '\0';
+}
+
+// Função para ler e validar a composição/ingrediente do queijo
+void leComposicao(Queijo *queijo) {
+    printf("|-> Composição/ingrediente do queijo: ");
+    do {
+       leApenasComposicao(queijo);
+        if (validaComposicao(queijo->comp)) {
+            printf("Composição/ingrediente válido\n");
+            break;
+        } else {
+            printf("Composição/ingrediente inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Composição/ingrediente do queijo: ");
+        }
+    } while (!validaComposicao(queijo->comp));
+}
+
+///--------------------------------------------------------///
+///                         TIPO                           ///
+//---------------------------------------------------------///
+// Função para capturar apenas o tipo do queijo
+
+void leApenasTipo(Queijo *queijo) {
+    fgets(queijo->tipo, sizeof(queijo->tipo), stdin);              
+    queijo->tipo[strcspn(queijo->tipo, "\n")] = '\0';
+}
+
+// Função para ler e validar o tipo do queijo
+void leTipoLeite(Queijo *queijo) {
+    printf("|-> Tipo do queijo(cru ou pasteurizado): ");
+    do {
+       leApenasTipo(queijo);
+        if (validaTipoLeite(queijo->tipo)) {
+            printf("Tipo válido\n");
+            break;
+        } else {
+            printf("Tipo inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Tipo do queijo(cru ou pasteurizado): ");
+        }
+    } while (!validaTipoLeite(queijo->tipo));
+}
+
+
 
 ////////////////////////////////////////////////
 // Função geral para leitura de entradas
