@@ -51,7 +51,6 @@ void leCpfCliente(Cliente *cliente) {
         leApenasCpf(cliente);
         if (validaCPF(cliente->cpf)) {
             printf("CPF válido\n");
-            getchar();
             break;
         } else {
             printf("CPF inválido, tente novamente apertando a tecla ENTER");
