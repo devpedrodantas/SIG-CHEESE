@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>           // Para usar o strcpy
 #include "funcionario.h"
 #include "entradas.h"
 #include "validacao.h"
@@ -56,99 +57,71 @@ void menu_funcionario(void) {
 }
 
 void cadastra_funcionario(void) {
-    Funcionario funcionario;  // Declara um struct do tipo Funcionário 
+    char situacao[20];   // Declaração de variável para armazenar a situação 
+    
+    Funcionario *funcionario = (Funcionario*) malloc(sizeof(Funcionario));      // Aloca dinamicamente memória para a estrutura
+    if (funcionario == NULL) {
+        perror("Erro ao alocar memória em funcionario");
+        exit(1);
+    }
+
+    FILE* fp;  // Ponteiro para o arquivo
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                       >>  Cadastrar Funcionário  <<                       |\n");
     printf("|                                                                           |\n");
-    printf("|-> Nome do funcionário: ");
-    do {
-        leNomeFuncionario(&funcionario);  // Atualizado para usar o campo da estrutura
-        if (validaNome(funcionario.nome)) {
-            printf("Nome válido\n");
-            break;
-        } else {
-            printf("Nome inválido, tente novamente apertando a tecla ENTER");
-            getchar();
-            printf("|-> Nome do funcionário: ");
-        }
-    } while (!validaNome(funcionario.nome));
 
-    printf("|-> CPF (somente números): ");
-    do {
-        leCpfFuncionario(&funcionario);
-        if (validaCPF(funcionario.cpf)) {
-            printf("CPF válido\n");
-            break;
-        } else {
-            printf("CPF inválido, tente novamente apertando a tecla ENTER");
-            getchar();
-            printf("|-> CPF (somente números): ");
-        }
-    } while (!validaCPF(funcionario.cpf));
+    leNomeFuncionario(funcionario);   // Chama a função que lê e valida o nome
 
-    printf("|-> Email: ");
+    // Lê o CPF e verifica se já está cadastrado
     do {
-        leEmailFuncionario(&funcionario);    // Lê o email dinamicamente através do ponteiro
-        if (validaEmail(funcionario.email)) {
-            printf("Email válido\n");
-            break;
+        leCpfFuncionario(funcionario); // Lê e valida o CPF do cliente
+        if (verificaCpfCadastradoF(funcionario->cpf)) {
+            printf("\nErro: CPF %s já cadastrado!\n", funcionario->cpf);
+            printf("Tente novamente.\n");
         } else {
-            printf("Email inválido, tente novamente apertando a tecla ENTER");
-            getchar();
-            printf("|-> Email: ");
+            break; // CPF não está duplicado, sai do loop
         }
-    } while (!validaEmail(funcionario.email));
+    } while (1); // Continua até o CPF ser válido e único
 
-    printf("|-> Telefone (somente números): ");
-    do {
-        leFoneFuncionario(&funcionario);    // Lê o número de telefone dinamicamente através do ponteiro
-        if (validaFone(funcionario.fone)) {
-            printf("Número de telefone válido\n");
-            break;
-        } else {
-            printf("Número de telefone inválido, tente novamente apertando a tecla ENTER");
-            getchar();
-            printf("|-> Telefone (somente números): ");
-        }
-    } while (!validaFone(funcionario.fone));
+    leEmailFuncionario(funcionario);     // Chama a função que lê e valida o Email
+    leDataFuncionario(funcionario);      // Chama a função que lê e valida a data
+    leFoneFuncionario(funcionario);      // Chama a função que lê e valida o telefone
 
-    printf("|-> Data de nascimento  (DD/MM/AAAA): ");
-    do {
-        leDataFuncionario(&funcionario);    // Lê a data dinamicamente através do ponteiro
-        if (validaData(funcionario.data)) {
-            printf("Data válida\n");
-            break;
-        } else {
-            printf("Data inválida, tente novamente apertando a tecla ENTER");
-            getchar();
-            printf("|-> Data de nascimento  (DD/MM/AAAA): ");
-        }
-    } while (!validaData(funcionario.data));
-
+    // Serão adicionados
     ///printf("|-> Cargo: |\n");
     ///printf("|-> Endereço:  |\n");
+    
+    funcionario->status = 'a';                  // Coloca o status do funcionário como 'ativo'
+    strcpy(situacao, "Ativo");
+
+    // Exibe as informações para o usuário
+    printf("+---------------------------------------------------------------------------+\n");
+    printf("|                                                                           |\n");
+    printf("| Funcionário cadastrado com sucesso\n");
+    printf("|\n");
+    printf("| Nome: %s\n", funcionario->nome);                     // Acessa o campo 'nome' da estrutura 'funcionario'
+    printf("| CPF: %s\n", funcionario->cpf);                       // Acessa o campo 'cpf' da estrutura 'funcionario'
+    printf("| Email: %s\n", funcionario->email);                   // Acessa o campo 'email' da estrutura 'funcionario'
+    printf("| Data de nascimento: %s\n", funcionario->data);       // Acessa o campo 'data' da estrutura 'funcionario'
+    printf("| Número de telefone: %s\n", funcionario->fone);       // Acessa o campo 'fone' da estrutura 'funcionario'
+    printf("| Situação do funcionário: %s\n", situacao);
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
-    printf("\n");
-///implementar uma interface
-    printf("Funcionário cadastrado\n");
-    printf("\n");
-    printf("Nome: %s\n", funcionario.nome);                     // Acessa o campo 'nome' da estrutura 'funcionario'
-    printf("CPF: %s\n", funcionario.cpf);                       // Acessa o campo 'cpf' da estrutura 'funcionario'
-    printf("Email: %s\n", funcionario.email);                   // Acessa o campo 'email' da estrutura 'funcionario'
-    printf("Data de nascimento: %s\n", funcionario.data);       // Acessa o campo 'data' da estrutura 'funcionario'
-    printf("Número de telefone: %s\n", funcionario.fone);       // Acessa o campo 'fone' da estrutura 'funcionario'
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
-    
-   // Liberação da memória alocada dinamicamente
-    free (funcionario.nome);
-    free (funcionario.email);
-    free (funcionario.data);
-    free (funcionario.fone);
+
+    fp = fopen ("funcionarios.dat", "ab");
+    if(fp == NULL) {
+        perror("Erro ao abrir o arquivo funcionarios.dat");
+        exit(1);  // Mantém a saída do programa caso haja um erro ao abrir o arquivo
+    }
+    fwrite(funcionario, sizeof(Funcionario), 1, fp);
+
+    fclose (fp);  //Fecha o arquivo
+    free (funcionario);                        // libera memória da estrutura funcionario
 }
 
 void pesquisa_funcionario(void) {
@@ -257,3 +230,28 @@ void exclui_funcionario(void) {
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 }
+
+            
+int verificaCpfCadastradoF(const char *cpf) {
+    FILE *fp;
+    Funcionario funcionario;
+    
+    // Abre o arquivo de funcionários para leitura
+    fp = fopen("funcionarios.dat", "rb");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo de funcionários");
+        return 0;  // Retorna 0 para indicar erro na abertura do arquivo
+    }
+
+    // Lê os funcionários do arquivo
+    while (fread(&funcionario, sizeof(Funcionario), 1, fp)) {
+        if (strcmp(funcionario.cpf, cpf) == 0) {
+            fclose(fp);
+            return 1;  // Retorna 1 se o CPF já estiver cadastrado
+        }
+    }
+
+    fclose(fp);
+    return 0;  // Retorna 0 se o CPF não estiver cadastrado
+}
+
