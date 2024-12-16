@@ -57,7 +57,7 @@ void menu_cliente(void) {
 }
 
 void cadastra_cliente(void) {
-    char situacao[20];
+    char situacao[20];   // Declaração de variável para armazenar a situação do cliente
     
     Cliente *cliente = (Cliente*) malloc(sizeof(Cliente));      // Aloca dinamicamente memória para a estrutura Cliente
     if (cliente == NULL) {
@@ -150,6 +150,8 @@ void pesquisa_cliente(void) {
 
 // Função responsável por buscar e exibir os dados de um cliente com base no CPF informado
 void busca_cliente (const char *cpf_busca) {
+    char situacao[20];    // Declaração de variável para armazenar a situação do cliente
+    
     FILE *fp;
     Cliente *cliente;
     cliente = (Cliente*) malloc(sizeof(Cliente));
@@ -171,7 +173,7 @@ void busca_cliente (const char *cpf_busca) {
   
 
         // Verifica se o CPF corresponde ao que foi procurado
-        if (strcmp(cliente->cpf, cpf_busca) == 0) {
+       if (strcmp(cliente->cpf, cpf_busca) == 0) {
             printf("+---------------------------------------------------------------------------+\n");
             printf("| Cliente encontrado\n");
             printf("| Nome: %s\n", cliente->nome);
@@ -179,7 +181,20 @@ void busca_cliente (const char *cpf_busca) {
             printf("| Email: %s\n", cliente->email);
             printf("| Data de nascimento: %s\n", cliente->data);
             printf("| Telefone: %s\n", cliente->fone);
+            
+            // Verifica o status do cliente (ativo ou inativo)
+            if (cliente->status == 'a') {
+                strcpy(situacao, "Ativo");
+            } else if (cliente->status == 'i') {
+                strcpy(situacao, "Inativo");
+            } else {
+                strcpy(situacao, "Não informado");
+            }
+        
+            printf("| Situação do cliente: %s\n", situacao);
             printf("+---------------------------------------------------------------------------+\n");
+            printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+            getchar();
             encontrado = 1;
             break; // Encerra o loop quando encontrar o cliente
         }
@@ -285,9 +300,11 @@ void atualiza_cliente(void) {
     printf("+---------------------------------------------------------------------------+\n");
 }
 
-void exclui_cliente(void) {
+void exclui_cliente(void) {    // Exclusão lógica
+    
+    char situacao[20];   // Declaração de variável para armazenar a situação do cliente
     char cpf_busca[13];
-    FILE *fp, *fp_temp;
+    FILE *fp;
     int encontrado = 0;
     
     Cliente *cliente;
@@ -296,6 +313,7 @@ void exclui_cliente(void) {
         perror("Erro ao alocar memória em cliente");
         exit(1);
     }
+    
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
@@ -307,7 +325,7 @@ void exclui_cliente(void) {
     leCpfBusca(cpf_busca);
 
     // Abre o arquivo original para leitura
-    fp = fopen("clientes.dat", "rb");
+    fp = fopen("clientes.dat", "r+b");
     if (fp == NULL) {
         perror("Erro ao abrir o arquivo original!\n");
         exit(1);
@@ -316,7 +334,17 @@ void exclui_cliente(void) {
     // Lê os registros do arquivo original e encontra o cliente
     while (fread(cliente, sizeof(Cliente), 1, fp)) {
         // Se o CPF corresponder, exibe os dados do cliente
-        if (strcmp(cliente->cpf, cpf_busca) == 0) {
+        if (strcmp(cliente->cpf, cpf_busca) == 0 && cliente->status == 'a') {
+            
+            // Exibe a situação do cliente
+            if (cliente->status == 'a') {
+                strcpy(situacao, "Ativo");
+            } else if (cliente->status == 'i') {
+                strcpy(situacao, "Inativo");
+            } else {
+                strcpy(situacao, "Não informado");
+            }
+            
             printf("+---------------------------------------------------------------------------+\n");
             printf("| Cliente encontrado\n");
             printf("| Nome: %s\n", cliente->nome);
@@ -324,6 +352,7 @@ void exclui_cliente(void) {
             printf("| Email: %s\n", cliente->email);
             printf("| Data de nascimento: %s\n", cliente->data);
             printf("| Telefone: %s\n", cliente->fone);
+            printf("| Situação do cliente: %s\n", situacao);  // Exibe a situação do cliente
             printf("+---------------------------------------------------------------------------+\n");
 
             // Pergunta para o usuário se deseja excluir
@@ -335,59 +364,34 @@ void exclui_cliente(void) {
 
             // Trata a confirmação (sem considerar maiúsculas/minúsculas)
             if (confirmacao[0] == 'S' || confirmacao[0] == 's' || confirmacao[0] == 'Y' || confirmacao[0] == 'y') {
-                // Abre o arquivo temporário para gravação
-                fp_temp = fopen("clientes_temp.dat", "wb");
-                if (fp_temp == NULL) {
-                    perror("Erro ao criar o arquivo temporário!\n");
-                    fclose(fp);
-                    exit(1);
-                }
+                
+                // Marca o cliente como inativo
+                cliente->status = 'i';
+                fseek(fp, -sizeof(Cliente), SEEK_CUR); // Volta ao início do registro atual
+                fwrite(cliente, sizeof(Cliente), 1, fp); // Atualiza o registro no arquivo
 
-                // Lê os dados novamente e grava no arquivo temporário
-                fseek(fp, 0, SEEK_SET);  // Volta para o início do arquivo
-                while (fread(cliente, sizeof(Cliente), 1, fp)) {
-                    // Só escreve no arquivo temporário os clientes que não foram excluídos
-                    if (strcmp(cliente->cpf, cpf_busca) != 0) {
-                        fwrite(cliente, sizeof(Cliente), 1, fp_temp);
-                    }
-                }
-
-                fclose(fp);
-                fclose(fp_temp);
-                free (cliente);                        // libera memória da estrutura Cliente
-
-                // Remove o arquivo original e substitui pelo temporário
-                if (remove("clientes.dat") != 0) {
-                    perror("Erro ao remover o arquivo original\n");
-                    return;
-                }
-
-                if (rename("clientes_temp.dat", "clientes.dat") != 0) {
-                    perror("Erro ao renomear o arquivo temporário\n");
-                    return;
-                }
-
-                 // Exibe a mensagem de sucesso após a exclusão ser realizada
-                printf("\nCliente com CPF %s foi excluído com sucesso.\n", cpf_busca);
+                printf("\nCliente com CPF %s foi marcado como inativo.\n", cpf_busca);
                 printf("Pressione Enter para continuar...\n");
-                getchar();  // Aguarda o usuário pressionar Enter antes de continuar
+                getchar(); // Aguarda o usuário pressionar Enter antes de continuar
             } else {
                 printf("\nExclusão cancelada.\n");
                 printf("Pressione Enter para voltar ao menu...\n");
-                getchar();  // Aguarda o usuário pressionar Enter antes de voltar
+                getchar(); // Aguarda o usuário pressionar Enter antes de voltar
             }
             encontrado = 1;
-            break;  // Sai do loop após encontrar o cliente
+            break; // Sai do loop após encontrar o cliente
         }
     }
 
     // Se o cliente não for encontrado
     if (!encontrado) {
-        printf("Cliente com CPF %s não encontrado\n", cpf_busca);
+        printf("Cliente com CPF %s não encontrado ou já está inativo.\n", cpf_busca);
         printf("Pressione Enter para continuar...\n");
-        getchar();  // Aguarda o usuário pressionar Enter antes de continuar
-        fclose(fp);  // Fecha o arquivo caso o cliente não seja encontrado
+        getchar(); // Aguarda o usuário pressionar Enter antes de continuar
     }
+
+    fclose(fp); // Fecha o arquivo após o uso
+    free(cliente); // Libera a memória alocada
 }
 
 void leCpfBusca (char *cpf_busca) {
@@ -428,3 +432,112 @@ int verificaCpfCadastrado(const char *cpf) {
     fclose(fp);
     return 0;  // Retorna 0 se o CPF não estiver cadastrado
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Exclusão física do cliente
+//
+// void exclui_cliente(void) {
+//     char situacao[20];   // Declaração de variável para armazenar a situação do cliente
+//     char cpf_busca[13];
+//     FILE *fp, *fp_temp;
+//     int encontrado = 0;
+    
+//     Cliente *cliente;
+//     cliente = (Cliente*) malloc(sizeof(Cliente));
+//     if (cliente == NULL) {
+//         perror("Erro ao alocar memória em cliente");
+//         exit(1);
+//     }
+//     system("clear||cls");
+//     printf("\n");
+//     printf("+---------------------------------------------------------------------------+\n");
+//     printf("|                                                                           |\n");
+//     printf("|                          >>  Excluir Cliente  <<                          |\n");
+//     printf("|                                                                           |\n");
+    
+//     // Lê o CPF
+//     leCpfBusca(cpf_busca);
+
+//     // Abre o arquivo original para leitura
+//     fp = fopen("clientes.dat", "rb");
+//     if (fp == NULL) {
+//         perror("Erro ao abrir o arquivo original!\n");
+//         exit(1);
+//     }
+
+//     // Lê os registros do arquivo original e encontra o cliente
+//     while (fread(cliente, sizeof(Cliente), 1, fp)) {
+//         // Se o CPF corresponder, exibe os dados do cliente
+//         if (strcmp(cliente->cpf, cpf_busca) == 0) {
+//             printf("+---------------------------------------------------------------------------+\n");
+//             printf("| Cliente encontrado\n");
+//             printf("| Nome: %s\n", cliente->nome);
+//             printf("| CPF: %s\n", cliente->cpf);
+//             printf("| Email: %s\n", cliente->email);
+//             printf("| Data de nascimento: %s\n", cliente->data);
+//             printf("| Telefone: %s\n", cliente->fone);
+//             printf("+---------------------------------------------------------------------------+\n");
+
+//             // Pergunta para o usuário se deseja excluir
+//             char confirmacao[3];  // Usar um array de 2 caracteres
+//             printf("Tem certeza que deseja excluir este cliente? (S/N): ");
+//             fgets(&confirmacao, sizeof(confirmacao), stdin);
+//             // Remove o '\n' que pode ser deixado no buffer por causa do fgets
+//             confirmacao[strcspn(confirmacao, "\n")] = 0;
+
+//             // Trata a confirmação (sem considerar maiúsculas/minúsculas)
+//             if (confirmacao[0] == 'S' || confirmacao[0] == 's' || confirmacao[0] == 'Y' || confirmacao[0] == 'y') {
+//                 // Abre o arquivo temporário para gravação
+//                 fp_temp = fopen("clientes_temp.dat", "wb");
+//                 if (fp_temp == NULL) {
+//                     perror("Erro ao criar o arquivo temporário!\n");
+//                     fclose(fp);
+//                     exit(1);
+//                 }
+
+//                 // Lê os dados novamente e grava no arquivo temporário
+//                 fseek(fp, 0, SEEK_SET);  // Volta para o início do arquivo
+//                 while (fread(cliente, sizeof(Cliente), 1, fp)) {
+//                     // Só escreve no arquivo temporário os clientes que não foram excluídos
+//                     if (strcmp(cliente->cpf, cpf_busca) != 0) {
+//                         fwrite(cliente, sizeof(Cliente), 1, fp_temp);
+//                     }
+//                 }
+
+//                 fclose(fp);
+//                 fclose(fp_temp);
+//                 free (cliente);                        // libera memória da estrutura Cliente
+
+//                 // Remove o arquivo original e substitui pelo temporário
+//                 if (remove("clientes.dat") != 0) {
+//                     perror("Erro ao remover o arquivo original\n");
+//                     return;
+//                 }
+
+//                 if (rename("clientes_temp.dat", "clientes.dat") != 0) {
+//                     perror("Erro ao renomear o arquivo temporário\n");
+//                     return;
+//                 }
+
+//                  // Exibe a mensagem de sucesso após a exclusão ser realizada
+//                 printf("\nCliente com CPF %s foi excluído com sucesso.\n", cpf_busca);
+//                 printf("Pressione Enter para continuar...\n");
+//                 getchar();  // Aguarda o usuário pressionar Enter antes de continuar
+//             } else {
+//                 printf("\nExclusão cancelada.\n");
+//                 printf("Pressione Enter para voltar ao menu...\n");
+//                 getchar();  // Aguarda o usuário pressionar Enter antes de voltar
+//             }
+//             encontrado = 1;
+//             break;  // Sai do loop após encontrar o cliente
+//         }
+//     }
+
+//     // Se o cliente não for encontrado
+//     if (!encontrado) {
+//         printf("Cliente com CPF %s não encontrado\n", cpf_busca);
+//         printf("Pressione Enter para continuar...\n");
+//         getchar();  // Aguarda o usuário pressionar Enter antes de continuar
+//         fclose(fp);  // Fecha o arquivo caso o cliente não seja encontrado
+//     }
+// }
