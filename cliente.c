@@ -140,19 +140,8 @@ void pesquisa_cliente(void) {
     printf("|                         >>  Pesquisar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
     
-    printf("|-> CPF para pesquisa (somente números): ");     // Criar uma nova função parecida com o leCpfCliente mas para cpf_busca
-    do {
-        fgets(cpf_busca, 13, stdin);
-        cpf_busca[strcspn(cpf_busca, "\n")] = '\0';  // Remove o '\n' do final
-
-        if (validaCPF(cpf_busca)) {
-            printf("CPF válido\n");
-            break;
-        } else {
-            printf("CPF inválido, tente novamente apertando a tecla ENTER\n");
-            getchar();  // Aguarda a tecla ENTER para evitar erro de input
-        }
-    } while (!validaCPF(cpf_busca));  // Continua até o CPF ser válido
+    // Lê o CPF
+    leCpfBusca(cpf_busca);     // nova função parecida com o leCpfCliente mas para cpf_busca
     
     busca_cliente(cpf_busca);     // Busca o cliente pelo CPF informado e exibe-o 
     printf("|                                                                           |\n");
@@ -219,22 +208,9 @@ void atualiza_cliente(void) {
     printf("|                         >>  Atualizar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
     
-    printf("|-> CPF para pesquisa (somente números): ");     // Criar uma nova função parecida com o leCpfCliente mas para cpf_busca
-
     // Lê o CPF
-    do {
-        fgets(cpf_busca, 13, stdin);
-        cpf_busca[strcspn(cpf_busca, "\n")] = '\0';  // Remove o '\n' do final
-
-        if (validaCPF(cpf_busca)) {
-            printf("CPF válido\n");
-            break;
-        } else {
-            printf("CPF inválido, tente novamente apertando a tecla ENTER\n");
-            getchar();  // Aguarda a tecla ENTER para evitar erro de input
-        }
-    } while (!validaCPF(cpf_busca));  // Continua até o CPF ser válido
-
+    leCpfBusca(cpf_busca);     // nova função parecida com o leCpfCliente mas para cpf_busca
+    
     // Abre o arquivo de clientes
     fp = fopen("clientes.dat", "r+b");  // Abre o arquivo para leitura e escrita
     if (fp == NULL) {
