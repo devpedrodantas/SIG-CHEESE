@@ -7,10 +7,10 @@
 #include "validacao.h"        // Contém funções para validações gerais.
 
 
-// Funções específicas para Cliente               (Ainda é necessário evitar esta redundância com cliente, funcionário e queijo)
+// Funções específicas para Cliente (Ainda é necessário evitar esta redundância com cliente, funcionário e queijo)
 
 ///--------------------------------------------------------///
-///                        NOME                            ///
+///                        NOME C                          ///
 //---------------------------------------------------------///
 // Função para capturar apenas o nome do cliente
 void leApenasNome(Cliente *cliente) {
@@ -137,6 +137,137 @@ void leFoneCliente(Cliente *cliente) {
         }
     } while(!validaFone(cliente->fone));
 }
+
+///--------------------------------------------------------///
+///                        NOME F                          ///
+//---------------------------------------------------------///
+// Função para capturar apenas o nome do funcionário
+
+void leApenasNomeF(Funcionario *funcionario) {
+    fgets(funcionario->nome, sizeof(funcionario->nome), stdin);              
+    funcionario->nome[strcspn(funcionario->nome, "\n")] = '\0';
+}
+
+// Função para ler e validar o nome do funcionário
+void leNomeFuncionario(Funcionario *funcionario) {
+    printf("|-> Nome do funcionário: ");
+    do {
+       leApenasNome(funcionario);
+        if (validaNome(funcionario->nome)) {
+            printf("Nome válido\n");
+            break;
+        } else {
+            printf("Nome inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Nome do funcionário: ");
+        }
+    } while (!validaNome(funcionario->nome));
+}
+
+///--------------------------------------------------------///
+///                         CPF                            ///
+//---------------------------------------------------------///
+// Função para capturar apenas o CPF do funcionário
+void leApenasCpfF(Funcionario *funcionario) {
+    fgets(funcionario->cpf, sizeof(funcionario->cpf), stdin);
+    funcionario->cpf[strcspn(funcionario->cpf, "\n")] = '\0';
+}
+
+// Função para ler e validar o CPF do funcionário
+void leCpfFuncionario(Funcionario *funcionario) {
+    printf("|-> CPF (somente números): ");
+    do {
+        leApenasCpf(funcionario);
+        if (validaCPF(funcionario->cpf)) {
+            printf("CPF válido\n");
+            break;
+        } else {
+            printf("CPF inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> CPF (somente números): ");
+        }
+    } while (!validaCPF(funcionario->cpf)); // Continua até o CPF ser válido
+}
+
+
+///--------------------------------------------------------///
+///                        EMAIL                           ///
+//---------------------------------------------------------///
+// Função para capturar apenas o email do funcionário
+void leApenasEmailF(Funcionario *funcionario) {
+    fgets(funcionario->email, sizeof(funcionario->email), stdin);
+    funcionario->email[strcspn(funcionario->email, "\n")] = '\0';
+}
+
+// Função para ler e validar o Email do funcionário
+void leEmailFuncionario(Funcionario *funcionario) {
+    printf("|-> Email: ");
+    do {
+        leApenasEmail(funcionario);    // Lê o email dinamicamente através do ponteiro
+        if (validaEmail(funcionario->email)) {
+            printf("Email válido\n");
+            break;
+        } else {
+            printf("Email inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Email: ");
+        }
+    } while(!validaEmail(funcionario->email));
+}
+
+
+///--------------------------------------------------------///
+///                        DATA                            ///
+//---------------------------------------------------------///
+// Função para capturar apenas a data do funcionário
+void leApenaDataF(Funcionario *funcionario) {
+    fgets(funcionario->data, sizeof(funcionario->data), stdin);
+    funcionario->data[strcspn(funcionario->data, "\n")] = '\0';
+}
+
+// Função para ler e validar a data do funcionário
+void leDataFuncionario(Funcionario *funcionario) {
+    printf("|-> Data de nascimento (DD/MM/AAAA): ");
+        do {
+        leApenaData(funcionario);   // Lê a data dinamicamente através do ponteiro
+        if (validaData(funcionario->data)) {
+            printf("Data válida\n");
+            break;
+        } else {
+            printf("Data inválida, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Data de nascimento (DD/MM/AAAA): ");
+        }
+    } while(!validaData(funcionario->data));
+}
+
+
+///--------------------------------------------------------///
+///                        FONE                            ///
+//---------------------------------------------------------///
+// Função para capturar apenas o número de telefone do funcionário
+void leApenasFoneF(Funcionario *funcionario) {
+    fgets(funcionario->fone, sizeof(funcionario->fone), stdin);
+    funcionario->fone[strcspn(funcionario->fone, "\n")] = '\0';
+}
+
+// Função para ler e validar o  número de telefone do funcionário
+void leFoneFuncionario(Funcionario *funcionario) {
+  printf("|-> Telefone (somente números): ");
+     do {
+        leApenasFone(funcionario);    // Lê o número de telefone dinamicamente através do ponteiro
+        if (validaFone(funcionario->fone)) {
+            printf("Número de telefone válido\n");
+            break;
+        } else {
+            printf("Número de telefone inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Telefone (somente números): ");
+        }
+    } while(!validaFone(funcionario->fone));
+}
+
+////////////////////////////////////////////////
 // Função geral para leitura de entradas
 void leEntrada(char **entrada, size_t tamanho) {
     char buffer[tamanho];
