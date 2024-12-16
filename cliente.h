@@ -23,5 +23,6 @@ void atualiza_cliente(void);
 void exclui_cliente(void);
 
 void leCpfBusca (char *cpf_busca);
+int verificaCpfCadastrado(const char *cpf);
 
 #endif // Finaliza a proteção
