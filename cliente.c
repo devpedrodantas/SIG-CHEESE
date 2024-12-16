@@ -144,11 +144,6 @@ void pesquisa_cliente(void) {
     leCpfBusca(cpf_busca);     // nova função parecida com o leCpfCliente mas para cpf_busca
     
     busca_cliente(cpf_busca);     // Busca o cliente pelo CPF informado e exibe-o 
-    printf("|                                                                           |\n");
-    printf("+---------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
 }
 
 // Função responsável por buscar e exibir os dados de um cliente com base no CPF informado
@@ -282,39 +277,107 @@ void atualiza_cliente(void) {
 }
 
 void exclui_cliente(void) {
-    Cliente cliente; // Declara uma variável do tipo Cliente
+    char cpf_busca[13];
+    FILE *fp, *fp_temp;
+    int encontrado = 0;
+    
+    Cliente *cliente;
+    cliente = (Cliente*) malloc(sizeof(Cliente));
+    if (cliente == NULL) {
+        perror("Erro ao alocar memória em cliente");
+        exit(1);
+    }
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                          >>  Excluir Cliente  <<                          |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe seu CPF: ");
-    do {
-        leCpfCliente(&cliente);
-        if (validaCPF(cliente.cpf)) {
-            break;
-        } else {
-            printf("CPF inválido, tente novamente apertando a tecla ENTER");
-            getchar();
-            printf("|-> Informe seu CPF: ");
-        }
-    } while(!validaCPF(cliente.cpf));
     
-    printf("|                                                                           |\n");
-    printf("+---------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("CPF inserido: %s\n", cliente.cpf);  // Acessa o campo cpf do struct
+    // Lê o CPF
+    leCpfBusca(cpf_busca);
 
-    //    Cliente excluído:
-    //    printf("Nome: %s\n", nome);
-    //    printf("CPF: %s\n", cpf);
-    //    printf("Email: %s\n", email);
-    //    printf("Data de nascimento: %s\n", data);
-    //    printf("Número de telefone: %s\n", fone); 
+    // Abre o arquivo original para leitura
+    fp = fopen("clientes.dat", "rb");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo original!\n");
+        exit(1);
+    }
 
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
+    // Lê os registros do arquivo original e encontra o cliente
+    while (fread(cliente, sizeof(Cliente), 1, fp)) {
+        // Se o CPF corresponder, exibe os dados do cliente
+        if (strcmp(cliente->cpf, cpf_busca) == 0) {
+            printf("+---------------------------------------------------------------------------+\n");
+            printf("| Cliente encontrado\n");
+            printf("| Nome: %s\n", cliente->nome);
+            printf("| CPF: %s\n", cliente->cpf);
+            printf("| Email: %s\n", cliente->email);
+            printf("| Data de nascimento: %s\n", cliente->data);
+            printf("| Telefone: %s\n", cliente->fone);
+            printf("+---------------------------------------------------------------------------+\n");
+
+            // Pergunta para o usuário se deseja excluir
+            char confirmacao[3];  // Usar um array de 2 caracteres
+            printf("Tem certeza que deseja excluir este cliente? (S/N): ");
+            fgets(&confirmacao, sizeof(confirmacao), stdin);
+            // Remove o '\n' que pode ser deixado no buffer por causa do fgets
+            confirmacao[strcspn(confirmacao, "\n")] = 0;
+
+            // Trata a confirmação (sem considerar maiúsculas/minúsculas)
+            if (confirmacao[0] == 'S' || confirmacao[0] == 's' || confirmacao[0] == 'Y' || confirmacao[0] == 'y') {
+                // Abre o arquivo temporário para gravação
+                fp_temp = fopen("clientes_temp.dat", "wb");
+                if (fp_temp == NULL) {
+                    perror("Erro ao criar o arquivo temporário!\n");
+                    fclose(fp);
+                    exit(1);
+                }
+
+                // Lê os dados novamente e grava no arquivo temporário
+                fseek(fp, 0, SEEK_SET);  // Volta para o início do arquivo
+                while (fread(cliente, sizeof(Cliente), 1, fp)) {
+                    // Só escreve no arquivo temporário os clientes que não foram excluídos
+                    if (strcmp(cliente->cpf, cpf_busca) != 0) {
+                        fwrite(cliente, sizeof(Cliente), 1, fp_temp);
+                    }
+                }
+
+                fclose(fp);
+                fclose(fp_temp);
+
+                // Remove o arquivo original e substitui pelo temporário
+                if (remove("clientes.dat") != 0) {
+                    perror("Erro ao remover o arquivo original\n");
+                    return;
+                }
+
+                if (rename("clientes_temp.dat", "clientes.dat") != 0) {
+                    perror("Erro ao renomear o arquivo temporário\n");
+                    return;
+                }
+
+                 // Exibe a mensagem de sucesso após a exclusão ser realizada
+                printf("\nCliente com CPF %s foi excluído com sucesso.\n", cpf_busca);
+                printf("Pressione Enter para continuar...\n");
+                getchar();  // Aguarda o usuário pressionar Enter antes de continuar
+            } else {
+                printf("\nExclusão cancelada.\n");
+                printf("Pressione Enter para voltar ao menu...\n");
+                getchar();  // Aguarda o usuário pressionar Enter antes de voltar
+            }
+            encontrado = 1;
+            break;  // Sai do loop após encontrar o cliente
+        }
+    }
+
+    // Se o cliente não for encontrado
+    if (!encontrado) {
+        printf("Cliente com CPF %s não encontrado\n", cpf_busca);
+        printf("Pressione Enter para continuar...\n");
+        getchar();  // Aguarda o usuário pressionar Enter antes de continuar
+        fclose(fp);  // Fecha o arquivo caso o cliente não seja encontrado
+    }
 }
 
 void leCpfBusca (char *cpf_busca) {
