@@ -22,4 +22,6 @@ void busca_cliente (const char *cpf_busca);
 void atualiza_cliente(void);
 void exclui_cliente(void);
 
+void leCpfBusca (char *cpf_busca);
+
 #endif // Finaliza a proteção
