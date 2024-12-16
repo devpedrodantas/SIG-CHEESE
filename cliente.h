@@ -3,12 +3,12 @@
 
 // Estrutura para armazenar os dados do cliente
 typedef struct {
-    char status;      // Status do cliente (ativo, inativo, etc.)
-    char nome[52];       // Nome dinâmico
-    char cpf[13];     // CPF com tamanho fixo
-    char email[258];      // E-mail dinâmico
-    char data[15];       // Data de nascimento ou cadastro dinâmico
-    char fone[15];       // Telefone dinâmico
+    char status;          // Status do cliente (ativo, inativo, etc)
+    char nome[52];        // Nome como array estático
+    char cpf[13];         // CPF com tamanho fixo
+    char email[258];      // E-mail como array estático
+    char data[15];        // Data de nascimento como array estático
+    char fone[15];        // Telefone como array estático
 } Cliente;
 
 
