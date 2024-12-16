@@ -207,6 +207,10 @@ void atualiza_cliente(void) {
     FILE *fp;
     Cliente *cliente;
     cliente = (Cliente*) malloc(sizeof(Cliente));
+    if (cliente == NULL) {
+        perror("Erro ao alocar memória em cliente");
+        exit(1);
+    }
     
     system("clear||cls");
     printf("\n");
@@ -241,7 +245,7 @@ void atualiza_cliente(void) {
         if (strcmp(cliente->cpf, cpf_busca) == 0 && cliente->status == 'a') {
             encontrado = 1;
 
-            // Adicionar uma interface
+            // Adicionar uma interface e limpar a tela após cada mudança
             do {
                 printf("\nCliente encontrado:\n");
                 printf("1. Nome: %s\n", cliente->nome);
@@ -249,7 +253,7 @@ void atualiza_cliente(void) {
                 printf("3. Email: %s\n", cliente->email);
                 printf("4. Data: %s\n", cliente->data);
                 printf("5. Telefone: %s\n", cliente->fone);
-                printf("6. Sair da atualização\n");
+                printf("0. Sair da atualização\n");
                 printf("\n");
                 printf("Escolha o campo que deseja atualizar: ");
                 
@@ -335,4 +339,20 @@ void exclui_cliente(void) {
 
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
+}
+
+void leCpfBusca (char *cpf_busca) {
+    printf("|-> CPF (somente números): ");     // Criar uma nova função parecida com o leCpfCliente mas para cpf_busca
+    do {
+        fgets(cpf_busca, 13, stdin);
+        cpf_busca[strcspn(cpf_busca, "\n")] = '\0';  // Remove o '\n' do final
+
+        if (validaCPF(cpf_busca)) {
+            printf("CPF válido\n");
+            break;
+        } else {
+            printf("CPF inválido, tente novamente apertando a tecla ENTER\n");
+            getchar();  // Aguarda a tecla ENTER para evitar erro de input
+        }
+    } while (!validaCPF(cpf_busca));  // Continua até o CPF ser válido
 }
