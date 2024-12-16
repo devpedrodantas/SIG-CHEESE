@@ -66,18 +66,18 @@ void cadastra_cliente(void) {
     }
 
     FILE* fp;  // Ponteiro para o arquivo
-    
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                         >>  Cadastrar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
-    /// Ainda será implementado >>> printf("|-> Endereço: ");
+    /// Ainda será implementado >>> printf("|-> Endereço: ");;
     /// + opções de entradas de dados
 
-
     leNomeCliente(cliente);                 // Chama a função que agora lê e valida o nome do cliente
+    
+    // Necessário verificar se o CPF inserido já não está cadastrado
     leCpfCliente(cliente);                  // Chama a função que agora lê e valida o CPF do cliente
     leEmailCliente(cliente);                // Chama a função que agora lê e valida o Email do cliente
     leDataCliente(cliente);                 // Chama a função que agora lê e valida a data do cliente
@@ -130,39 +130,73 @@ void cadastra_cliente(void) {
     //fprintf(fp, "+---------------------------------------------------------------------------+\n");
 }
 
+// Função para validar o CPF informado pelo usuário e acionar a busca do cliente
 void pesquisa_cliente(void) {
-    Cliente cliente; // Declara uma variável do tipo Cliente
+    char cpf_busca[13];
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                         >>  Pesquisar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe seu CPF: ");
+    
+    printf("|-> CPF para pesquisa (somente números): ");     // Criar uma nova função parecida com o leCpfCliente mas para cpf_busca
     do {
-        leCpfCliente(&cliente); // Atualizado para armazenar diretamente no campo da struct
-        if (validaCPF(cliente.cpf)) {
+        fgets(cpf_busca, 13, stdin);
+        cpf_busca[strcspn(cpf_busca, "\n")] = '\0';  // Remove o '\n' do final
+
+        if (validaCPF(cpf_busca)) {
+            printf("CPF válido\n");
             break;
         } else {
-            printf("CPF inválido, tente novamente apertando a tecla ENTER");
-            getchar();
-            printf("|-> Informe seu CPF: ");
+            printf("CPF inválido, tente novamente apertando a tecla ENTER\n");
+            getchar();  // Aguarda a tecla ENTER para evitar erro de input
         }
-    } while(!validaCPF(cliente.cpf));
+    } while (!validaCPF(cpf_busca));  // Continua até o CPF ser válido
     
+    busca_cliente(cpf_busca);     // Busca o cliente pelo CPF informado e exibe-o 
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
-    printf("CPF inserido: %s\n", cliente.cpf); // Acessa o campo cpf do struct
-
-    //    printf("Nome: %s\n", nome);
-    //    printf("CPF: %s\n", cpf);
-    //    printf("Email: %s\n", email);
-    //    printf("Data de nascimento: %s\n", data);
-    //    printf("Número de telefone: %s\n", fone); 
-
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
+}
+
+// Função responsável por buscar e exibir os dados de um cliente com base no CPF informado
+void busca_cliente (const char *cpf_busca) {
+    FILE *fp;
+    Cliente *cliente;
+    cliente = (Cliente*) malloc(sizeof(Cliente));
+  
+    fp = fopen("clientes.dat", "rb");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo!\n");
+        exit(1);
+    }
+
+    int encontrado = 0;
+        // Ler os dados do arquivo cliente por cliente
+    while (fread(cliente, sizeof(Cliente), 1, fp)) {
+  
+
+        // Verifica se o CPF corresponde ao que foi procurado
+        if (strcmp(cliente->cpf, cpf_busca) == 0) {
+            printf("+---------------------------------------------------------------------------+\n");
+            printf("| Cliente encontrado\n");
+            printf("| Nome: %s\n", cliente->nome);
+            printf("| CPF: %s\n", cliente->cpf);
+            printf("| Email: %s\n", cliente->email);
+            printf("| Data de nascimento: %s\n", cliente->data);
+            printf("| Telefone: %s\n", cliente->fone);
+            printf("+---------------------------------------------------------------------------+\n");
+            encontrado = 1;
+            break; // Encerra o loop quando encontrar o cliente
+        }
+    }
+    if (!encontrado) {
+        printf("Cliente não encontrado\n");
+    }
+    fclose(fp);  // Fecha o arquivo após o uso
 }
 
 void atualiza_cliente(void) {
