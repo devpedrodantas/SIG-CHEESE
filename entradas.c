@@ -180,7 +180,7 @@ void leApenasCpfF(Funcionario *funcionario) {
 void leCpfFuncionario(Funcionario *funcionario) {
     printf("|-> CPF (somente números): ");
     do {
-        leApenasCpf(funcionario);
+        leApenasCpfF(funcionario);
         if (validaCPF(funcionario->cpf)) {
             printf("CPF válido\n");
             break;
