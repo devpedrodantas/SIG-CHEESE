@@ -140,19 +140,8 @@ void pesquisa_cliente(void) {
     printf("|                         >>  Pesquisar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
     
-    printf("|-> CPF para pesquisa (somente números): ");     // Criar uma nova função parecida com o leCpfCliente mas para cpf_busca
-    do {
-        fgets(cpf_busca, 13, stdin);
-        cpf_busca[strcspn(cpf_busca, "\n")] = '\0';  // Remove o '\n' do final
-
-        if (validaCPF(cpf_busca)) {
-            printf("CPF válido\n");
-            break;
-        } else {
-            printf("CPF inválido, tente novamente apertando a tecla ENTER\n");
-            getchar();  // Aguarda a tecla ENTER para evitar erro de input
-        }
-    } while (!validaCPF(cpf_busca));  // Continua até o CPF ser válido
+    // Lê o CPF
+    leCpfBusca(cpf_busca);     // nova função parecida com o leCpfCliente mas para cpf_busca
     
     busca_cliente(cpf_busca);     // Busca o cliente pelo CPF informado e exibe-o 
     printf("|                                                                           |\n");
@@ -200,39 +189,96 @@ void busca_cliente (const char *cpf_busca) {
 }
 
 void atualiza_cliente(void) {
-    Cliente cliente; // Declara uma variável do tipo Cliente
+    char opcao[3];
+    char cpf_busca[13];
+    int encontrado = 0;
+
+    FILE *fp;
+    Cliente *cliente;
+    cliente = (Cliente*) malloc(sizeof(Cliente));
+    if (cliente == NULL) {
+        perror("Erro ao alocar memória em cliente");
+        exit(1);
+    }
+    
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                         >>  Atualizar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe seu CPF: ");
-    do {
-        leCpfCliente(&cliente);
-        if (validaCPF(cliente.cpf)) {
-            break;
-        } else {
-            printf("CPF inválido, tente novamente apertando a tecla ENTER");
-            getchar();
-            printf("|-> Informe seu CPF: ");
-        }
-    } while(!validaCPF(cliente.cpf));
     
+    // Lê o CPF
+    leCpfBusca(cpf_busca);     // nova função parecida com o leCpfCliente mas para cpf_busca
+    
+    // Abre o arquivo de clientes
+    fp = fopen("clientes.dat", "r+b");  // Abre o arquivo para leitura e escrita
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo");
+        exit(1);
+    }
+    while (fread(cliente, sizeof(Cliente), 1, fp)) {
+        if (strcmp(cliente->cpf, cpf_busca) == 0 && cliente->status == 'a') {
+            encontrado = 1;
+
+            // Adicionar uma interface e limpar a tela após cada mudança
+            do {
+                printf("\nCliente encontrado:\n");
+                printf("1. Nome: %s\n", cliente->nome);
+                printf("2. CPF: %s\n", cliente->cpf);
+                printf("3. Email: %s\n", cliente->email);
+                printf("4. Data: %s\n", cliente->data);
+                printf("5. Telefone: %s\n", cliente->fone);
+                printf("0. Sair da atualização\n");
+                printf("\n");
+                printf("Escolha o campo que deseja atualizar: ");
+                
+                // Lê a opção utilizando fgets
+                fgets(opcao, sizeof(opcao), stdin); // Lê a opção como string
+                opcao[strcspn(opcao, "\n")] = '\0'; // Remove o '\n' do final
+
+                switch (opcao[0]) {  // Usa a primeira letra da opção
+                    case '1':
+                        leNomeCliente(cliente);
+                        break;
+                    case '2':
+                        leCpfCliente(cliente);
+                        break;
+                    case '3':
+                        leEmailCliente(cliente);
+                        break;
+                    case '4':
+                        leDataCliente(cliente);
+                        break;
+                    case '5':
+                        leFoneCliente(cliente);
+                        break;
+                    case '0':
+                        printf("Finalizando a atualização...\n");
+                        break;
+                    default:
+                        printf("Opção inválida.\n");
+                }
+
+                // Atualiza o cliente no arquivo após cada alteração
+                if (opcao[0] >= '1' && opcao[0] <= '5') {
+                    fseek(fp, -sizeof(Cliente), SEEK_CUR);     // Volta para o início do registro
+                    fwrite(cliente, sizeof(Cliente), 1, fp);
+                    printf("Dados atualizados com sucesso!\n");
+                }
+            } while (opcao[0] != '0');
+
+            break; // Sai do loop após encontrar e atualizar o cliente
+        }
+    }
+
+    if (!encontrado) {
+        printf("Cliente com CPF %s não encontrado ou inativo.\n", cpf_busca);
+    }
+
+    fclose(fp);
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("CPF inserido: %s\n", cliente.cpf);  // Acessa o campo cpf do struct
-
-    //    Dados do cliente atualizados:
-    //    printf("Nome: %s\n", nome);
-    //    printf("CPF: %s\n", cpf);
-    //    printf("Email: %s\n", email);
-    //    printf("Data de nascimento: %s\n", data);
-    //    printf("Número de telefone: %s\n", fone); 
-
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
 }
 
 void exclui_cliente(void) {
@@ -269,4 +315,20 @@ void exclui_cliente(void) {
 
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
+}
+
+void leCpfBusca (char *cpf_busca) {
+    printf("|-> CPF (somente números): ");     // Criar uma nova função parecida com o leCpfCliente mas para cpf_busca
+    do {
+        fgets(cpf_busca, 13, stdin);
+        cpf_busca[strcspn(cpf_busca, "\n")] = '\0';  // Remove o '\n' do final
+
+        if (validaCPF(cpf_busca)) {
+            printf("CPF válido\n");
+            break;
+        } else {
+            printf("CPF inválido, tente novamente apertando a tecla ENTER\n");
+            getchar();  // Aguarda a tecla ENTER para evitar erro de input
+        }
+    } while (!validaCPF(cpf_busca));  // Continua até o CPF ser válido
 }
