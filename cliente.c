@@ -72,10 +72,12 @@ void cadastra_cliente(void) {
     printf("|                                                                           |\n");
     printf("|                         >>  Cadastrar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
-    /// Ainda será implementado >>> printf("|-> Endereço: ");
+    /// Ainda será implementado >>> printf("|-> Endereço: ");;
     /// + opções de entradas de dados
 
     leNomeCliente(cliente);                 // Chama a função que agora lê e valida o nome do cliente
+    
+    // Necessário verificar se o CPF inserido já não está cadastrado
     leCpfCliente(cliente);                  // Chama a função que agora lê e valida o CPF do cliente
     leEmailCliente(cliente);                // Chama a função que agora lê e valida o Email do cliente
     leDataCliente(cliente);                 // Chama a função que agora lê e valida a data do cliente
@@ -137,7 +139,21 @@ void pesquisa_cliente(void) {
     printf("|                                                                           |\n");
     printf("|                         >>  Pesquisar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
-    leCpfCliente(cliente);        // Chama a função que lê e valida o CPF
+    
+    printf("|-> CPF para pesquisa (somente números): ");     // Criar uma nova função parecida com o leCpfCliente mas para cpf_busca
+    do {
+        fgets(cpf_busca, 13, stdin);
+        cpf_busca[strcspn(cpf_busca, "\n")] = '\0';  // Remove o '\n' do final
+
+        if (validaCPF(cpf_busca)) {
+            printf("CPF válido\n");
+            break;
+        } else {
+            printf("CPF inválido, tente novamente apertando a tecla ENTER\n");
+            getchar();  // Aguarda a tecla ENTER para evitar erro de input
+        }
+    } while (!validaCPF(cpf_busca));  // Continua até o CPF ser válido
+    
     busca_cliente(cpf_busca);     // Busca o cliente pelo CPF informado e exibe-o 
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
