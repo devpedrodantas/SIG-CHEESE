@@ -395,3 +395,26 @@ void leCpfBusca (char *cpf_busca) {
         }
     } while (!validaCPF(cpf_busca));  // Continua até o CPF ser válido
 }
+
+int verificaCpfCadastrado(const char *cpf) {
+    FILE *fp;
+    Cliente cliente;
+
+    // Abre o arquivo de clientes para leitura
+    fp = fopen("clientes.dat", "rb");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo de clientes");
+        return 0;  // Retorna 0 para indicar erro na abertura do arquivo
+    }
+
+    // Lê os clientes do arquivo
+    while (fread(&cliente, sizeof(Cliente), 1, fp)) {
+        if (strcmp(cliente.cpf, cpf) == 0) {
+            fclose(fp);
+            return 1;  // Retorna 1 se o CPF já estiver cadastrado
+        }
+    }
+
+    fclose(fp);
+    return 0;  // Retorna 0 se o CPF não estiver cadastrado
+}
