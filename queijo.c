@@ -290,31 +290,92 @@ void atualiza_queijo(void) {
 }
 
 void exclui_queijo(void) {
-    Queijo queijo;
+    char situacao[20];   // Declaração de variável para armazenar a situação do cliente
+    char codigo_busca[13];
+    FILE *fp;
+    int encontrado = 0;
+    
+    Queijo *queijo;
+    queijo = (Queijo*) malloc(sizeof(Queijo));
+    if (queijo == NULL) {
+        perror("Erro ao alocar memória em queijo");
+        exit(1);
+    }
+    
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                           >>  Excluir Queijo  <<                          |\n");
     printf("|                                                                           |\n");
-    printf("|-> Código do queijo(somente números): ");
-    do {
-        leCodigo(&queijo);
-        if (validaCodigo(queijo.codigo)) {
-            printf("Código válido\n");
-            break;
-        } else {
-            printf("Código inválido, tente novamente");
-            getchar();
-            printf("|-> Código do queijo(somente números): ");
+    leCodigoBusca(codigo_busca);
+
+    fp = fopen("queijos.dat", "r+b");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo!\n");
+        exit(1);
+    }
+    while (fread(queijo, sizeof(Queijo), 1, fp)) {
+        if (strcmp(queijo->codigo, codigo_busca) == 0 && queijo->status == 'a') {
+            encontrado = 1;
+            
+            // Exibe a situação do cliente
+            if (queijo->status == 'a') {
+                strcpy(situacao, "Ativo");
+            } else if (queijo->status == 'i') {
+                strcpy(situacao, "Inativo");
+            } else {
+                strcpy(situacao, "Não informado");
+            }
+            
+            printf("+---------------------------------------------------------------------------+\n");
+            printf("| Queijo encontrado\n");
+            printf("| Nome: %s\n", queijo->nome);
+            printf("| Código: %s\n", queijo->codigo);
+            printf("| Data de fabricação: %s\n", queijo->data_fabricacao);
+            printf("| Data de validade: %s\n", queijo->data_validade);
+            printf("| Composição: %s\n", queijo->comp);
+            printf("| Tipo: %s\n", queijo->tipo);
+            printf("| Situação do cliente: %s\n", situacao);  // Exibe a situação do cliente
+            printf("+---------------------------------------------------------------------------+\n");
+
+            // Pergunta para o usuário se deseja excluir
+            char confirmacao[3];  // Usar um array de 2 caracteres
+            printf("Tem certeza que deseja excluir este cliente? (S/N): ");
+            fgets(&confirmacao, sizeof(confirmacao), stdin);
+            // Remove o '\n' que pode ser deixado no buffer por causa do fgets
+            confirmacao[strcspn(confirmacao, "\n")] = 0;
+
+            // Trata a confirmação (sem considerar maiúsculas/minúsculas)
+            if (confirmacao[0] == 'S' || confirmacao[0] == 's' || confirmacao[0] == 'Y' || confirmacao[0] == 'y') {
+                
+                // Marca o queijo como inativo
+                queijo->status = 'i';
+                fseek(fp, -sizeof(Queijo), SEEK_CUR); // Volta ao início do registro atual
+                fwrite(queijo, sizeof(Queijo), 1, fp); // Atualiza o registro no arquivo
+
+                printf("\nQueijo com CPF %s foi marcado como inativo.\n", codigo_busca);
+                printf("Pressione Enter para continuar...\n");
+                getchar(); // Aguarda o usuário pressionar Enter antes de continuar
+            } else {
+                printf("\nExclusão cancelada.\n");
+                printf("Pressione Enter para voltar ao menu...\n");
+                getchar(); // Aguarda o usuário pressionar Enter antes de voltar
+            }
+            encontrado = 1;
+            break; // Sai do loop após encontrar o Queijo
         }
-    } while (!validaCodigo(queijo.codigo));
-    printf("|                                                                           |\n");
-    printf("+---------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("Código do produto inserido: %s\n", queijo.codigo);
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
+    }
+
+    // Se o cliente não for encontrado
+    if (!encontrado) {
+        printf("Queijo com CPF %s não encontrado ou já está inativo.\n", codigo_busca);
+        printf("Pressione Enter para continuar...\n");
+        getchar(); // Aguarda o usuário pressionar Enter antes de continuar
+    }
+
+    fclose(fp); // Fecha o arquivo após o uso
+    free(queijo); // Libera a memória alocada
 }
 
 void leCodigoBusca (char *codigo_busca) {
