@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>           // Para usar o strcpy
 #include "queijo.h"
 #include "entradas.h"
 #include "validacao.h"
@@ -56,117 +57,69 @@ void menu_queijo(void) {
 }
 
 void cadastra_queijo(void) {
-    Queijo queijo;
+    char situacao[20];   // Declaração de variável para armazenar a situação 
+    
+    Queijo *queijo = (Queijo*) malloc(sizeof(Queijo));      // Aloca dinamicamente memória para a estrutura
+    if (queijo == NULL) {
+        perror("Erro ao alocar memória em queijo");
+        exit(1);
+    }
+
+    FILE* fp;  // Ponteiro para o arquivo
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                         >>  Cadastrar Queijo  <<                          |\n");
     printf("|                                                                           |\n");
-    printf("|-> Código do queijo(somente números): ");
-    do {
-        leCodigo(&queijo);
-        if (validaCodigo(queijo.codigo)) {
-            printf("Código válido\n");
-            break;
-        } else {
-            printf("Código inválido, tente novamente");
-            getchar();
-            printf("|-> Código do queijo(somente números): ");
-        }
-    } while (!validaCodigo(queijo.codigo));
-            
-    
-    printf("|-> Nome do queijo: ");
-    do {
-        leNomeQueijo(&queijo);
-        if (validaNome(queijo.nome)) {
-            printf("Nome válido\n");
-            break;
-        } else {
-            printf("Nome inválido, tente novamente");
-            getchar();
-            printf("|-> Nome do queijo: ");
-        }
-    } while (!validaNome(queijo.nome));
-            
-    
-    printf("|-> Ingredientes: ");
-    do {
-        leComposicao(&queijo);
-        if (validaComposicao(queijo.comp)) {
-            printf("Ingrediente/composição válido\n");
-            break;
-        } else {
-            printf("Ingrediente/composição inválido, tente novamente");
-            getchar();
-            printf("|-> Ingredientes: ");
-        }
-    } while (!validaComposicao(queijo.comp));
 
-    
-    printf("|-> Data de fabricação(DD/MM/AAAA): ");
-    do {
-        leDataFabricacao(&queijo);
-        if (validaData(queijo.data_fabricacao)) {
-            printf("Data válido\n");
-            break;
-        } else {
-            printf("Data inválido, tente novamente");
-            getchar();
-            printf("|-> Data de fabricação(DD/MM/AAAA): ");
-        }
-    } while (!validaData(queijo.data_fabricacao));
+    leNomeQueijo(queijo);    // Chama a função que lê e valida o nome
 
-    
-    printf("|-> Data de validade(DD/MM/AAAA): ");
+    // Lê o código e verifica se já está cadastrado
     do {
-        leDataValidade(&queijo);
-        if (validaData(queijo.data_validade)) {
-            printf("Data válido\n");
-            break;
+        leCodigo(queijo); // Lê e valida o código do queijo
+        if (verificaCodigoCadastrado(queijo->codigo)) {
+            printf("\nErro: código %s já cadastrado!\n", queijo->codigo);
+            printf("Tente novamente.\n");
         } else {
-            printf("Data inválido, tente novamente");
-            getchar();
-            printf("|-> Data de fabricação(DD/MM/AAAA): ");
+            break; // código não está duplicado, sai do loop
         }
-    } while (!validaData(queijo.data_validade));
+    } while (1); // Continua até o código ser válido e único
 
+    leDataFabricacao(queijo);    // Chama a função que lê e valida a data de fabricação
+    leDataValidade(queijo);      // Chama a função que lê e valida a data de validade
+    leComposicao(queijo);        // Chama a função que lê e valida a composição/ingrediente
+    leTipoLeite(queijo);         // Chama a função que lê e valida o tipo do queijo
     
-    printf("|-> Tipo do leite para o queijo(cru ou pasteurizado): ");
-    do {
-        leTipoLeite(&queijo);
-        if (validaTipoLeite(queijo.tipo)) {
-            printf("Tipo de leite válido\n");
-            break;
-        } else {
-            printf("Tipo de leite inválido, tente novamente");
-            getchar();
-            printf("|-> Tipo do leite para o queijo(cru ou pasteurizado): ");
-        }
-    } while (!validaTipoLeite(queijo.tipo));
-    
+    queijo->status = 'a';                  // Coloca o status do queijo como 'ativo'
+    strcpy(situacao, "Ativo");
+
+    // Exibe as informações para o usuário
+    printf("+---------------------------------------------------------------------------+\n");
+    printf("|                                                                           |\n");
+    printf("| Queijo cadastrado com sucesso\n");
+    printf("|\n");
+    printf("| Nome do queijo: %s\n", queijo->nome);
+    printf("| Código do queijo: %s\n", queijo->codigo);
+    printf("| Ingredientes/composição: %s\n", queijo->comp);
+    printf("| Data de fabricação: %s\n", queijo->data_fabricacao);
+    printf("| Data de validade: %s\n", queijo->data_validade);
+    printf("| Tipo do queijo: %s\n", queijo->tipo);
+    printf("| Situação do queijo: %s\n", situacao);
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
-
-    //implementar uma interface 
-    printf("Queijo foi cadastrado com sucesso\n");
-    printf("\n");
-    printf("Nome do queijo: %s\n", queijo.nome);
-    printf("Código do queijo: %s\n", queijo.codigo);
-    printf("Ingredientes/composição: %s\n", queijo.comp);
-    printf("Data de fabricação: %s\n", queijo.data_fabricacao);
-    printf("Data de validade: %s\n", queijo.data_validade);
-    printf("Tipo do queijo: %s\n", queijo.tipo);
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
 
-    // Liberação da memória alocada dinamicamente
-    free(queijo.nome);
-    free(queijo.comp);
-    free(queijo.data_fabricacao);
-    free(queijo.data_validade);
-    free(queijo.tipo);
+    fp = fopen ("queijos.dat", "ab");
+    if(fp == NULL) {
+        perror("Erro ao abrir o arquivo queijos.dat");
+        exit(1);  // Mantém a saída do programa caso haja um erro ao abrir o arquivo
+    }
+    fwrite(queijo, sizeof(Queijo), 1, fp);
+
+    fclose (fp);  //Fecha o arquivo
+    free (queijo);                        // libera memória da estrutura queijo
 }
 
 void pesquisa_queijo(void) {
@@ -252,4 +205,27 @@ void exclui_queijo(void) {
     printf("Código do produto inserido: %s\n", queijo.codigo);
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
+}
+
+int verificaCodigoCadastrado(const char *codigo) {
+    FILE *fp;
+    Queijo queijo;
+
+    // Abre o arquivo de queijos para leitura
+    fp = fopen("queijos.dat", "rb");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo de queijos");
+        return 0;  // Retorna 0 para indicar erro na abertura do arquivo
+    }
+
+    // Lê os queijos do arquivo
+    while (fread(&queijo, sizeof(Queijo), 1, fp)) {
+        if (strcmp(queijo.codigo, codigo) == 0) {
+            fclose(fp);
+            return 1;  // Retorna 1 se o CPF já estiver cadastrado
+        }
+    }
+
+    fclose(fp);
+    return 0;  // Retorna 0 se o CPF não estiver cadastrado
 }
