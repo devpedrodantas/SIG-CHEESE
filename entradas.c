@@ -371,8 +371,7 @@ void leCodigo(Queijo *queijo) {
             printf("Código válido\n");
             break;
         } else {
-            printf("Código inválido, tente novamente apertando a tecla ENTER");
-            getchar();
+            printf("Código inválido, tente novamente apertando a tecla ENTER\n");
             printf("|-> Código do queijo(somente números): ");
         }
     } while (!validaCodigo(queijo->codigo));
