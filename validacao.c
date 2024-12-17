@@ -209,26 +209,22 @@ int validaFone(const char* fone) {
 //            Validação para o Código do Queijo            
 //---------------------------------------------------------
 int validaCodigo(const char* codigo) {
-    if (codigo == NULL) {
-        return 0;
-    }
-    
     int tam = strlen(codigo);
     
-
-    // Verifica se o número tem exatamente 6 dígitos
+    // Verifica se o código tem exatamente 6 dígitos
     if (tam != 6) {
-        return 0;
+        return 0;  // Código deve ter exatamente 6 caracteres
     }
     
-   // Verifica se todos os caracteres são dígitos
+    // Verifica se todos os caracteres são dígitos
     for (int i = 0; i < tam; i++) {
         if (!validaDigito(codigo[i])) {
-            return 0;
+            return 0;  // Se encontrar algum caractere não numérico, retorna inválido
         }
     }
-    return 1; // código válido
+    return 1;  // Código válido
 }
+
 
 //---------------------------------------------------------
 //         Validação para Ingredientes/composição                       
