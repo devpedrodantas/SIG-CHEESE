@@ -153,11 +153,11 @@ void busca_queijo (const char *codigo_busca) {
     }
 
     int encontrado = 0;
-        // Ler os dados do arquivo cliente por cliente
+        // Ler os dados do arquivo queijo por queijo
     while (fread(queijo, sizeof(Queijo), 1, fp)) {
   
 
-        // Verifica se o CPF corresponde ao que foi procurado
+        // Verifica se o código corresponde ao que foi procurado
        if (strcmp(queijo->codigo, codigo_busca) == 0) {
             printf("+---------------------------------------------------------------------------+\n");
             printf("| Queijo encontrado\n");
