@@ -364,7 +364,7 @@ void leApenasCodigo(Queijo *queijo) {
 
 // Função para ler e validar o código do queijo
 void leCodigo(Queijo *queijo) {
-    printf("|-> Código do queijo(somente números): ");
+    printf("|-> Código do queijo(6 dígitos): ");
     do {
        leApenasCodigo(queijo);
         if (validaCodigo(queijo->codigo)) {
@@ -372,7 +372,7 @@ void leCodigo(Queijo *queijo) {
             break;
         } else {
             printf("Código inválido, tente novamente apertando a tecla ENTER\n");
-            printf("|-> Código do queijo(somente números): ");
+            printf("|-> Código do queijo(6 dígitos): ");
         }
     } while (!validaCodigo(queijo->codigo));
 }

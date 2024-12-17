@@ -123,33 +123,76 @@ void cadastra_queijo(void) {
 }
 
 void pesquisa_queijo(void) {
-    Queijo queijo;
+    char codigo_busca[10];
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                          >> Pesquisar Queijo <<                           |\n");
     printf("|                                                                           |\n");
-    printf("|-> Código do queijo(somente números): ");
-    do {
-        leCodigo(&queijo);
-        if (validaCodigo(queijo.codigo)) {
-            printf("Código válido\n");
-            break;
-        } else {
-            printf("Código inválido, tente novamente");
-            getchar();
-            printf("|-> Código do queijo(somente números): ");
-        }
-    } while (!validaCodigo(queijo.codigo));
-    
-    printf("|                                                                           |\n");
-    printf("+---------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("Código do produto inserido: %s\n", queijo.codigo);
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
+    leCodigoBusca(codigo_busca);
+    busca_queijo(codigo_busca);
 }
+
+void busca_queijo (const char *codigo_busca) {
+    char situacao[20];    // Declaração de variável para armazenar a situação do cliente
+    
+    FILE *fp;
+    Queijo *queijo;
+    queijo = (Queijo*) malloc(sizeof(Queijo));
+    if (queijo == NULL) {
+        perror("Erro ao alocar memória em queijo");
+        exit(1);
+    }
+
+  
+    fp = fopen("queijos.dat", "rb");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo!\n");
+        exit(1);
+    }
+
+    int encontrado = 0;
+        // Ler os dados do arquivo queijo por queijo
+    while (fread(queijo, sizeof(Queijo), 1, fp)) {
+  
+
+        // Verifica se o código corresponde ao que foi procurado
+       if (strcmp(queijo->codigo, codigo_busca) == 0) {
+            printf("+---------------------------------------------------------------------------+\n");
+            printf("| Queijo encontrado\n");
+            printf("| Nome: %s\n", queijo->nome);
+            printf("| Código: %s\n", queijo->codigo);
+            printf("| Data de fabricação: %s\n", queijo->data_fabricacao);
+            printf("| Data de validade: %s\n", queijo->data_validade);
+            printf("| Composição: %s\n", queijo->comp);
+            printf("| Tipo: %s\n", queijo->tipo);
+            
+            // Verifica o status do queijo (ativo ou inativo)
+            if (queijo->status == 'a') {
+                strcpy(situacao, "Ativo");
+            } else if (queijo->status == 'i') {
+                strcpy(situacao, "Inativo");
+            } else {
+                strcpy(situacao, "Não informado");
+            }
+        
+            printf("| Situação do queijo: %s\n", situacao);
+            printf("+---------------------------------------------------------------------------+\n");
+            printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+            getchar();
+            encontrado = 1;
+            break; // Encerra o loop quando encontrar o queijo
+        }
+    }
+    if (!encontrado) {
+        printf("Queijo não encontrado\n");
+        getchar();
+    }
+    fclose(fp);  // Fecha o arquivo após o uso
+    free (queijo);                        // libera memória da estrutura queijo
+}
+
 
 void atualiza_queijo(void) {
     Queijo queijo;
@@ -205,6 +248,21 @@ void exclui_queijo(void) {
     printf("Código do produto inserido: %s\n", queijo.codigo);
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
+}
+
+void leCodigoBusca (char *codigo_busca) {
+    printf("|-> Código (6 Dígitos): ");     // Criar uma nova função parecida com o leCpfCliente mas para cpf_busca
+    do {
+        fgets(codigo_busca, 10, stdin);
+        codigo_busca[strcspn(codigo_busca, "\n")] = '\0';  // Remove o '\n' do final
+
+        if (validaCodigo(codigo_busca)) {
+            printf("Código válido\n");
+            break;
+        } else {
+            printf("Código inválido, tente novamente apertando a tecla ENTER\n");
+        }
+    } while (!validaCodigo(codigo_busca));  // Continua até o CPF ser válido
 }
 
 int verificaCodigoCadastrado(const char *codigo) {

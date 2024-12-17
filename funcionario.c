@@ -125,39 +125,75 @@ void cadastra_funcionario(void) {
 }
 
 void pesquisa_funcionario(void) {
-    Funcionario funcionario;  // Declara um struct do tipo Funcionário 
+    char cpf_busca[13];
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                       >>  Pesquisar Funcionário  <<                       |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe o seu CPF: ");
-    do {
-        leCpfFuncionario(&funcionario);
-        if (validaCPF(funcionario.cpf)) {
-            break;
-        } else {
-            printf("CPF inválido, tente novamente apertando a tecla ENTER");
-            getchar();
-            printf("|-> CPF (somente números): ");
-        }
-    } while (!validaCPF(funcionario.cpf));
-
-    printf("|                                                                           |\n");
-    printf("+---------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("CPF inserido: %s\n", funcionario.cpf);
-
-    //    printf("Nome: %s\n", nome);
-    //    printf("CPF: %s\n", cpf);
-    //    printf("Email: %s\n", email);
-    //    printf("Data de nascimento: %s\n", data);
-    //    printf("Número de telefone: %s\n", fone);
-
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
+    
+    leCpfBuscaF(cpf_busca);
+    busca_funcionario(cpf_busca);
 }
+
+void busca_funcionario (const char *cpf_busca) {
+    char situacao[20];    // Declaração de variável para armazenar a situação do cliente
+    
+    FILE *fp;
+    Funcionario *funcionario;
+    funcionario = (Funcionario*) malloc(sizeof(Funcionario));
+    if (funcionario == NULL) {
+        perror("Erro ao alocar memória em cliente");
+        exit(1);
+    }
+
+  
+    fp = fopen("funcionarios.dat", "rb");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo!\n");
+        exit(1);
+    }
+
+    int encontrado = 0;
+        // Ler os dados do arquivo cliente por cliente
+    while (fread(funcionario, sizeof(Funcionario), 1, fp)) {
+  
+
+        // Verifica se o CPF corresponde ao que foi procurado
+       if (strcmp(funcionario->cpf, cpf_busca) == 0) {
+            printf("+---------------------------------------------------------------------------+\n");
+            printf("| Cliente encontrado\n");
+            printf("| Nome: %s\n", funcionario->nome);
+            printf("| CPF: %s\n", funcionario->cpf);
+            printf("| Email: %s\n", funcionario->email);
+            printf("| Data de nascimento: %s\n", funcionario->data);
+            printf("| Telefone: %s\n", funcionario->fone);
+            
+            // Verifica o status do cliente (ativo ou inativo)
+            if (funcionario->status == 'a') {
+                strcpy(situacao, "Ativo");
+            } else if (funcionario->status == 'i') {
+                strcpy(situacao, "Inativo");
+            } else {
+                strcpy(situacao, "Não informado");
+            }
+        
+            printf("| Situação do funcionário: %s\n", situacao);
+            printf("+---------------------------------------------------------------------------+\n");
+            printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+            getchar();
+            encontrado = 1;
+            break; // Encerra o loop quando encontrar o cliente
+        }
+    }
+    if (!encontrado) {
+        printf("funcionário não encontrado\n");
+    }
+    fclose(fp);  // Fecha o arquivo após o uso
+    free (funcionario);                        // libera memória da estrutura Funcionario
+}
+
 
 void atualiza_funcionario(void) {
     Funcionario funcionario;  // Declara um struct do tipo Funcionário 
@@ -229,6 +265,22 @@ void exclui_funcionario(void) {
 
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
+}
+
+void leCpfBuscaF (char *cpf_busca) {
+    printf("|-> CPF (somente números): ");     // Criar uma nova função parecida com o leCpfCliente mas para cpf_busca
+    do {
+        fgets(cpf_busca, 13, stdin);
+        cpf_busca[strcspn(cpf_busca, "\n")] = '\0';  // Remove o '\n' do final
+
+        if (validaCPF(cpf_busca)) {
+            printf("CPF válido\n");
+            break;
+        } else {
+            printf("CPF inválido, tente novamente apertando a tecla ENTER\n");
+            getchar();  // Aguarda a tecla ENTER para evitar erro de input
+        }
+    } while (!validaCPF(cpf_busca));  // Continua até o CPF ser válido
 }
 
             

@@ -15,10 +15,14 @@ typedef struct {
 // Declaração das funções relacionadas ao queijo
 void menu_queijo(void);
 void cadastra_queijo(void);
+
 void pesquisa_queijo(void);
+void busca_queijo (const char *codigo_busca);
+
 void atualiza_queijo(void);
 void exclui_queijo(void);
 
+void leCodigoBusca (char *codigo_busca);
 int verificaCodigoCadastrado(const char *codigo);
 
 

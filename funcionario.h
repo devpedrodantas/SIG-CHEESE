@@ -14,10 +14,14 @@ typedef struct {
 // Declaração das funções relacionadas ao funcionário
 void menu_funcionario(void);
 void cadastra_funcionario(void);
+
 void pesquisa_funcionario(void);
+void busca_funcionario (const char *cpf_busca);
+
 void atualiza_funcionario(void);
 void exclui_funcionario(void);
 
+void leCpfBuscaF (char *cpf_busca);
 int verificaCpfCadastradoF(const char *cpf);
 
 
