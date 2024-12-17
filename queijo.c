@@ -195,31 +195,98 @@ void busca_queijo (const char *codigo_busca) {
 
 
 void atualiza_queijo(void) {
-    Queijo queijo;
+    char opcao[3];
+    char codigo_busca[10];
+    int encontrado = 0;
+
+    FILE *fp;
+    Queijo *queijo;
+    queijo = (Queijo*) malloc(sizeof(Queijo));
+    if (queijo == NULL) {
+        perror("Erro ao alocar memória em queijo");
+        exit(1);
+    }
+
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                      >>  Alterar Dados do Queijo  <<                      |\n");
     printf("|                                                                           |\n");
-    printf("|-> Código do queijo(somente números): ");
-    do {
-        leCodigo(&queijo);
-        if (validaCodigo(queijo.codigo)) {
-            printf("Código válido\n");
-            break;
-        } else {
-            printf("Código inválido, tente novamente");
-            getchar();
-            printf("|-> Código do queijo(somente números): ");
+    leCodigoBusca(codigo_busca);
+
+    fp = fopen("queijos.dat", "r+b");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo!\n");
+        exit(1);
+    }
+    while (fread(queijo, sizeof(Queijo), 1, fp)) {
+        if (strcmp(queijo->codigo, codigo_busca) == 0 && queijo->status == 'a') {
+            encontrado = 1;
+
+            // Adicionar uma interface e limpar a tela após cada mudança
+            do {
+                printf("\nCliente encontrado:\n");
+                printf("1. Nome: %s\n", queijo->nome);
+                printf("2. Código: %s\n", queijo->codigo);
+                printf("3. Data de fabricação: %s\n", queijo->data_fabricacao);
+                printf("4. Data de validade: %s\n", queijo->data_validade);
+                printf("5. Composição: %s\n", queijo->comp);
+                printf("6. Tipo: %s\n", queijo->tipo);
+                printf("0. Sair da atualização\n");
+                printf("\n");
+                printf("Escolha o campo que deseja atualizar: ");
+                
+                // Lê a opção utilizando fgets
+                fgets(opcao, sizeof(opcao), stdin); // Lê a opção como string
+                opcao[strcspn(opcao, "\n")] = '\0'; // Remove o '\n' do final
+
+                switch (opcao[0]) {  // Usa a primeira letra da opção
+                    case '1':
+                        leNomeQueijo(queijo);
+                        break;
+                    case '2':
+                        leCodigo(queijo);
+                        break;
+                    case '3':
+                        leDataFabricacao(queijo);
+                        break;
+                    case '4':
+                        leDataValidade(queijo);
+                        break;
+                    case '5':
+                        leComposicao(queijo);
+                        break;
+                    case '6':
+                        leTipoLeite(queijo);;
+                        break;
+                    case '0':
+                        printf("Finalizando a atualização...\n");
+                        break;
+                    default:
+                        printf("Opção inválida.\n");
+                }
+
+                // Atualiza o cliente no arquivo após cada alteração
+                if (opcao[0] >= '1' && opcao[0] <= '6') {
+                    fseek(fp, -sizeof(Queijo), SEEK_CUR);     // Volta para o início do registro
+                    fwrite(queijo, sizeof(Queijo), 1, fp);
+                    printf("Dados atualizados com sucesso!\n");
+                }
+            } while (opcao[0] != '0');
+
+            break; // Sai do loop após encontrar e atualizar o queijo
         }
-    } while (!validaCodigo(queijo.codigo));
+    }
+
+    if (!encontrado) {
+        printf("Queijo com CPF %s não encontrado ou inativo.\n", codigo_busca);
+    }
+
+    fclose(fp);
+    free (queijo);                        // libera memória da estrutura queijo
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("Código do produto inserido: %s\n", queijo.codigo);
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
 }
 
 void exclui_queijo(void) {
