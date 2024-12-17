@@ -196,39 +196,99 @@ void busca_funcionario (const char *cpf_busca) {
 
 
 void atualiza_funcionario(void) {
-    Funcionario funcionario;  // Declara um struct do tipo Funcionário 
+    char opcao[3];
+    char cpf_busca[13];
+    int encontrado = 0;
+
+    FILE *fp;
+    Funcionario *funcionario;
+    funcionario = (Funcionario*) malloc(sizeof(Funcionario));
+    if (funcionario == NULL) {
+        perror("Erro ao alocar memória em cliente");
+        exit(1);
+    }
+    
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                       >> Atualizar Funcionário  <<                        |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe seu CPF: ");
-    do {
-        leCpfFuncionario(&funcionario);
-        if (validaCPF(funcionario.cpf)) {
-            break;
-        } else {
-            printf("CPF inválido, tente novamente apertando a tecla ENTER");
-            getchar();
-            printf("|-> Informe seu CPF: ");
-        }
-    } while(!validaCPF(funcionario.cpf));
+    
+    leCpfBuscaF(cpf_busca);
 
+    fp = fopen("funcionarios.dat", "r+b");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo!\n");
+        exit(1);
+    }
+        // Ler os dados do arquivo funcionario por funcionario
+    while (fread(funcionario, sizeof(Funcionario), 1, fp)) {
+  
+
+        // Verifica se o CPF corresponde ao que foi procurado
+       if (strcmp(funcionario->cpf, cpf_busca) == 0 && funcionario->status == 'a') {
+           encontrado = 1;
+           
+            // Adicionar uma interface e limpar a tela após cada mudança
+            do {
+                printf("\n Funcionário encontrado:\n");
+                printf("1. Nome: %s\n", funcionario->nome);
+                printf("2. CPF: %s\n", funcionario->cpf);
+                printf("3. Email: %s\n", funcionario->email);
+                printf("4. Data: %s\n", funcionario->data);
+                printf("5. Telefone: %s\n", funcionario->fone);
+                printf("0. Sair da atualização\n");
+                printf("\n");
+                printf("Escolha o campo que deseja atualizar: ");
+                
+                // Lê a opção utilizando fgets
+                fgets(opcao, sizeof(opcao), stdin); // Lê a opção como string
+                opcao[strcspn(opcao, "\n")] = '\0'; // Remove o '\n' do final
+
+                switch (opcao[0]) {  // Usa a primeira letra da opção
+                    case '1':
+                        leNomeFuncionario(funcionario);
+                        break;
+                    case '2':
+                        leCpfFuncionario(funcionario);
+                        break;
+                    case '3':
+                        leEmailFuncionario(funcionario);
+                        break;
+                    case '4':
+                        leDataFuncionario(funcionario);
+                        break;
+                    case '5':
+                        leFoneFuncionario(funcionario);
+                        break;
+                    case '0':
+                        printf("Finalizando a atualização...\n");
+                        break;
+                    default:
+                        printf("Opção inválida.\n");
+                }
+
+                // Atualiza o cliente no arquivo após cada alteração
+                if (opcao[0] >= '1' && opcao[0] <= '5') {
+                    fseek(fp, -sizeof(Funcionario), SEEK_CUR);     // Volta para o início do registro
+                    fwrite(funcionario, sizeof(Funcionario), 1, fp);
+                    printf("Dados atualizados com sucesso!\n");
+                }
+            } while (opcao[0] != '0');
+
+            break; // Sai do loop após encontrar e atualizar o cliente
+        }
+    }
+
+    if (!encontrado) {
+        printf("Funcionario com CPF %s não encontrado ou inativo.\n", cpf_busca);
+    }
+
+    fclose(fp);
+    free (funcionario);                        // libera memória da estrutura funcionario
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("CPF inserido: %s\n", funcionario.cpf);
-
-    //    Dados do funcionário atualizados:
-    //    printf("Nome: %s\n", nome);
-    //    printf("CPF: %s\n", cpf);
-    //    printf("Email: %s\n", email);
-    //    printf("Data de nascimento: %s\n", data);
-    //    printf("Número de telefone: %s\n", fone);
-
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
 }
 
 void exclui_funcionario(void) {
