@@ -292,39 +292,94 @@ void atualiza_funcionario(void) {
 }
 
 void exclui_funcionario(void) {
-    Funcionario funcionario;  // Declara um struct do tipo Funcionário 
+    char situacao[20];   // Declaração de variável para armazenar a situação do cliente
+    char cpf_busca[13];
+    int encontrado = 0;
+
+    FILE *fp;
+    Funcionario *funcionario;
+    funcionario = (Funcionario*) malloc(sizeof(Funcionario));
+    if (funcionario == NULL) {
+        perror("Erro ao alocar memória em cliente");
+        exit(1);
+    }
+    
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                        >>  Excluir Funcionário  <<                        |\n");
     printf("|                                                                           |\n");
-    printf("|-> Informe seu CPF: ");
-    do {
-        leCpfFuncionario(&funcionario);
-        if (validaCPF(funcionario.cpf)) {
-            break;
-        } else {
-            printf("CPF inválido, tente novamente apertando a tecla ENTER");
-            getchar();
-            printf("|-> Informe seu CPF: ");
+    
+    leCpfBuscaF(cpf_busca);
+
+    fp = fopen("funcionarios.dat", "r+b");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo!\n");
+        exit(1);
+    }
+
+  // Lê os registros do arquivo original e encontra o funcionario
+    while (fread(funcionario, sizeof(Funcionario), 1, fp)) {
+        // Se o CPF corresponder, exibe os dados do funcionario
+        if (strcmp(funcionario->cpf, cpf_busca) == 0 && funcionario->status == 'a') {
+            
+            // Exibe a situação do funcionario
+            if (funcionario->status == 'a') {
+                strcpy(situacao, "Ativo");
+            } else if (funcionario->status == 'i') {
+                strcpy(situacao, "Inativo");
+            } else {
+                strcpy(situacao, "Não informado");
+            }
+            
+            printf("+---------------------------------------------------------------------------+\n");
+            printf("| Funcionário encontrado\n");
+            printf("| Nome: %s\n", funcionario->nome);
+            printf("| CPF: %s\n", funcionario->cpf);
+            printf("| Email: %s\n", funcionario->email);
+            printf("| Data de nascimento: %s\n", funcionario->data);
+            printf("| Telefone: %s\n", funcionario->fone);
+            printf("| Situação do cliente: %s\n", situacao);  // Exibe a situação do cliente
+            printf("+---------------------------------------------------------------------------+\n");
+
+            // Pergunta para o usuário se deseja excluir
+            char confirmacao[3];  // Usar um array de 2 caracteres
+            printf("Tem certeza que deseja excluir este Funcionário? (S/N): ");
+            fgets(&confirmacao, sizeof(confirmacao), stdin);
+            // Remove o '\n' que pode ser deixado no buffer por causa do fgets
+            confirmacao[strcspn(confirmacao, "\n")] = 0;
+
+            // Trata a confirmação (sem considerar maiúsculas/minúsculas)
+            if (confirmacao[0] == 'S' || confirmacao[0] == 's' || confirmacao[0] == 'Y' || confirmacao[0] == 'y') {
+                
+                // Marca o funcionario como inativo
+                funcionario->status = 'i';
+                fseek(fp, -sizeof(Funcionario), SEEK_CUR); // Volta ao início do registro atual
+                fwrite(funcionario, sizeof(Funcionario), 1, fp); // Atualiza o registro no arquivo
+
+                printf("\nFuncionário com CPF %s foi marcado como inativo.\n", cpf_busca);
+                printf("Pressione Enter para continuar...\n");
+                getchar(); // Aguarda o usuário pressionar Enter antes de continuar
+            } else {
+                printf("\nExclusão cancelada.\n");
+                printf("Pressione Enter para voltar ao menu...\n");
+                getchar(); // Aguarda o usuário pressionar Enter antes de voltar
+            }
+            encontrado = 1;
+            break; // Sai do loop após encontrar o cliente
         }
-    } while(!validaCPF(funcionario.cpf));
+    }
 
-    printf("|                                                                           |\n");
-    printf("+---------------------------------------------------------------------------+\n");
-    printf("\n");
-    printf("CPF inserido: %s\n", funcionario.cpf);
+    // Se o cliente não for encontrado
+    if (!encontrado) {
+        printf("Funcionário com CPF %s não encontrado ou já está inativo.\n", cpf_busca);
+        printf("Pressione Enter para continuar...\n");
+        getchar(); // Aguarda o usuário pressionar Enter antes de continuar
+    }
 
-    //    Funcionário excluído:
-    //    printf("Nome: %s\n", nome);
-    //    printf("CPF: %s\n", cpf);
-    //    printf("Email: %s\n", email);
-    //    printf("Data de nascimento: %s\n", data);
-    //    printf("Número de telefone: %s\n", fone);
-
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
+    fclose(fp); // Fecha o arquivo após o uso
+    free(funcionario); // Libera a memória alocada
 }
 
 void leCpfBuscaF (char *cpf_busca) {
