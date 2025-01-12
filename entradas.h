@@ -4,6 +4,7 @@
 #include "cliente.h"          // Inclui a definição do tipo Cliente
 #include "funcionario.h"      // Inclui a definição do tipo Funcionário
 #include "queijo.h"           // Inclui a definição do tipo Queijo
+#include "estruturas.h"         
 
 #define TAM_CODIGO 7
 
@@ -28,6 +29,13 @@ void leDataValidade(Queijo *queijo);
 void leCodigo(Queijo *queijo);
 void leComposicao(Queijo *queijo);
 void leTipoLeite(Queijo *queijo);
+
+// Funções que recebem um ponteiro para a struct Endereco
+void leBairro(Endereco *endereco);
+void leCidade(Endereco *endereco);
+void leEstado(Endereco *endereco);
+
+
 
 // ///////////////////////////////////////////////////////////////////////////////////////
 // Funções que fazem apenas a captura das entradas
