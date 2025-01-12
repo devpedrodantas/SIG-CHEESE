@@ -2,10 +2,10 @@
 TARGET = projeto
 
 # Arquivos fonte
-SRCS = main.c cliente.c funcionario.c queijo.c entradas.c validacao.c
+SRCS = main.c cliente.c funcionario.c queijo.c entradas.c validacao.c relatorio.c
 
 # Arquivos de cabeçalho
-HDRS = validacao.h cliente.h funcionario.h queijo.h entradas.h
+HDRS = validacao.h cliente.h funcionario.h queijo.h entradas.h relatorio.h estruturas.h
 
 # Diretório de objetos
 OBJ_DIR = obj
@@ -47,4 +47,4 @@ depend: $(SRCS)
 # Incluir as dependências geradas
 -include .depend
 
-#Créditos ao chatGPT
+# Créditos ao chatGPT
