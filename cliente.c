@@ -4,6 +4,7 @@
 #include "cliente.h"
 #include "entradas.h"
 #include "validacao.h"
+#include "estruturas.h"
 
 void menu_cliente(void) {
     char op;
@@ -63,8 +64,8 @@ void cadastra_cliente(void) {
     if (cliente == NULL) {
         perror("Erro ao alocar memória em cliente");
         exit(1);
-    }
-
+    } 
+    
     FILE* fp;  // Ponteiro para o arquivo
     system("clear||cls");
     printf("\n");
@@ -72,9 +73,6 @@ void cadastra_cliente(void) {
     printf("|                                                                           |\n");
     printf("|                         >>  Cadastrar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
-    /// Ainda será implementado >>> printf("|-> Endereço: ");;
-    /// + opções de entradas de dados
-
     leNomeCliente(cliente);                 // Chama a função que agora lê e valida o nome do cliente
     
     // Lê o CPF e verifica se já está cadastrado
@@ -91,6 +89,10 @@ void cadastra_cliente(void) {
     leEmailCliente(cliente);                // Chama a função que agora lê e valida o Email do cliente
     leDataCliente(cliente);                 // Chama a função que agora lê e valida a data do cliente
     leFoneCliente(cliente);                 // Chama a função que agora lê e valida o telefone do cliente
+
+    leBairro(&cliente->endereco);
+    leCidade(&cliente->endereco);
+    leEstado(&cliente->endereco);
     
     cliente->status = 'a';                  // Coloca o status do cliente como 'ativo'
     strcpy(situacao, "Ativo");
@@ -105,6 +107,9 @@ void cadastra_cliente(void) {
     printf("| Email: %s\n", cliente->email);
     printf("| Data de nascimento: %s\n", cliente->data);
     printf("| Número de telefone: %s\n", cliente->fone);
+    printf("| Bairro: %s\n", cliente->endereco.bairro);
+    printf("| Cidade: %s\n", cliente->endereco.cidade);
+    printf("| Estado: %s\n", cliente->endereco.estado);
     printf("| Situação do cliente: %s\n", situacao);
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
@@ -417,7 +422,6 @@ int verificaCpfCadastrado(const char *cpf) {
     // Abre o arquivo de clientes para leitura
     fp = fopen("clientes.dat", "rb");
     if (fp == NULL) {
-        perror("Erro ao abrir o arquivo de clientes");
         return 0;  // Retorna 0 para indicar erro na abertura do arquivo
     }
 
