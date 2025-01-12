@@ -5,6 +5,7 @@
 #include "funcionario.h"      // Define a estrutura e funções do Funcionário.
 #include "queijo.h"           // Define a estrutura e funções do Queijo.
 #include "validacao.h"        // Contém funções para validações gerais.
+#include "estruturas.h"       // Contém estruturas genéricas (Endereço).
 
 
 // Funções específicas para Cliente (Ainda é necessário evitar esta redundância com cliente, funcionário e queijo)
@@ -429,6 +430,80 @@ void leTipoLeite(Queijo *queijo) {
     } while (!validaTipoLeite(queijo->tipo));
 }
 
+///--------------------------------------------------------///
+///                        Bairro                          ///
+//---------------------------------------------------------///
+// Função para capturar apenas o bairro
+
+void leApenasBairro(Endereco *endereco) {
+    fgets(endereco->bairro, sizeof(endereco->bairro), stdin);
+    endereco->bairro[strcspn(endereco->bairro, "\n")] = '\0';
+}
+
+// Função para ler e validar o bairro
+void leBairro(Endereco *endereco) {
+    printf("|-> Bairro: ");
+    do {
+       leApenasBairro(endereco);
+        if (validaNome(endereco->bairro)) {
+            break;
+        } else {
+            printf("Bairro inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Bairro: ");
+        }
+    } while (!validaNome(endereco->bairro));
+}
+
+///--------------------------------------------------------///
+///                         Cidade                         ///
+///--------------------------------------------------------///
+/// Função para capturar apenas a cidade
+
+void leApenasCidade(Endereco *endereco) {
+    fgets(endereco->cidade, sizeof(endereco->cidade), stdin);
+    endereco->cidade[strcspn(endereco->cidade, "\n")] = '\0';
+}
+
+// Função para ler e validar a cidade
+void leCidade(Endereco *endereco) {
+    printf("|-> Cidade: ");
+    do {
+       leApenasCidade(endereco);
+        if (validaNome(endereco->cidade)) {
+            break;
+        } else {
+            printf("Cidade inválida, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Cidade: ");
+        }
+    } while (!validaNome(endereco->cidade));
+}
+
+///--------------------------------------------------------///
+///                         Estado                         ///
+///--------------------------------------------------------///
+/// Função para capturar apenas o estado
+
+void leApenasEstado(Endereco *endereco) {
+    fgets(endereco->estado, sizeof(endereco->estado), stdin);
+    endereco->estado[strcspn(endereco->estado, "\n")] = '\0';
+}
+
+// Função para ler e validar o estado
+void leEstado(Endereco *endereco) {
+    printf("|-> Estado: ");
+    do {
+       leApenasEstado(endereco);
+        if (validaNome(endereco->estado)) {
+            break;
+        } else {
+            printf("Estado inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Estado: ");
+        }
+    } while (!validaNome(endereco->estado));
+}
 
 
 ///////////////////////////////////////////////////
