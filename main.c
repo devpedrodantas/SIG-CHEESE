@@ -13,7 +13,9 @@
 #include "cliente.h"
 #include "funcionario.h"
 #include "queijo.h"
-///// + 1 CRUD e adcionar um módulo para relatórios
+#include "relatorio.h"
+
+///// + 1 CRUD
 //// Atualizar o menu sobre e equipe
 //// Melhorar as validações
 
@@ -41,9 +43,12 @@ int main(void) {
                 menu_queijo();
                 break;
             case 4:
-                menu_sobre();
+                menu_relatorio();
                 break;
             case 5:
+                menu_sobre();
+                break;
+            case 6:
                 menu_equipe();
                 break;
         }
@@ -66,8 +71,9 @@ int menu_principal(void) {
     printf("| 1. Módulo Cliente                                                         |\n");
     printf("| 2. Módulo Funcionário                                                     |\n");
     printf("| 3. Módulo Queijo                                                          |\n");
-    printf("| 4. Menu Sobre                                                             |\n");
-    printf("| 5. Menu Equipe                                                            |\n");
+    printf("| 4. Módulo Relatório                                                       |\n");
+    printf("| 5. Menu Sobre                                                             |\n");
+    printf("| 6. Menu Equipe                                                            |\n");
     printf("| 0. Sair                                                                   |\n");
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
