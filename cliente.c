@@ -58,8 +58,6 @@ void menu_cliente(void) {
 }
 
 void cadastra_cliente(void) {
-    char situacao[20];   // Declaração de variável para armazenar a situação do cliente
-    
     Cliente *cliente = (Cliente*) malloc(sizeof(Cliente));      // Aloca dinamicamente memória para a estrutura Cliente
     if (cliente == NULL) {
         perror("Erro ao alocar memória em cliente");
@@ -94,8 +92,7 @@ void cadastra_cliente(void) {
     leCidade(&cliente->endereco);
     leEstado(&cliente->endereco);
     
-    cliente->status = 'a';                  // Coloca o status do cliente como 'ativo'
-    strcpy(situacao, "Ativo");
+    cliente->status = 'a';                // Define status como ativo
 
     // Exibe as informações para o usuário
     printf("+---------------------------------------------------------------------------+\n");
@@ -110,7 +107,7 @@ void cadastra_cliente(void) {
     printf("| Bairro: %s\n", cliente->endereco.bairro);
     printf("| Cidade: %s\n", cliente->endereco.cidade);
     printf("| Estado: %s\n", cliente->endereco.estado);
-    printf("| Situação do cliente: %s\n", situacao);
+    printf("| Situação do cliente: Ativo\n");
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
@@ -154,61 +151,40 @@ void pesquisa_cliente(void) {
 }
 
 // Função responsável por buscar e exibir os dados de um cliente com base no CPF informado
-void busca_cliente (const char *cpf_busca) {
-    char situacao[20];    // Declaração de variável para armazenar a situação do cliente
-    
+void busca_cliente (const char *cpf_busca) { 
     FILE *fp;
-    Cliente *cliente;
-    cliente = (Cliente*) malloc(sizeof(Cliente));
-    if (cliente == NULL) {
-        perror("Erro ao alocar memória em cliente");
-        exit(1);
-    }
+    Cliente cliente;
 
-  
     fp = fopen("clientes.dat", "rb");
     if (fp == NULL) {
-        perror("Erro ao abrir o arquivo!\n");
-        exit(1);
+        printf("Nenhum cliente cadastrado até o momento.\n");
+        printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+        getchar();
+        return;
     }
 
     int encontrado = 0;
-        // Ler os dados do arquivo cliente por cliente
-    while (fread(cliente, sizeof(Cliente), 1, fp)) {
   
-
+    // Ler os dados do arquivo cliente por cliente
+    while (fread(&cliente, sizeof(Cliente), 1, fp)) {
+      
         // Verifica se o CPF corresponde ao que foi procurado
-       if (strcmp(cliente->cpf, cpf_busca) == 0) {
-            printf("+---------------------------------------------------------------------------+\n");
-            printf("| Cliente encontrado\n");
-            printf("| Nome: %s\n", cliente->nome);
-            printf("| CPF: %s\n", cliente->cpf);
-            printf("| Email: %s\n", cliente->email);
-            printf("| Data de nascimento: %s\n", cliente->data);
-            printf("| Telefone: %s\n", cliente->fone);
-            
-            // Verifica o status do cliente (ativo ou inativo)
-            if (cliente->status == 'a') {
-                strcpy(situacao, "Ativo");
-            } else if (cliente->status == 'i') {
-                strcpy(situacao, "Inativo");
-            } else {
-                strcpy(situacao, "Não informado");
-            }
-        
-            printf("| Situação do cliente: %s\n", situacao);
-            printf("+---------------------------------------------------------------------------+\n");
+       if (strcmp(cliente.cpf, cpf_busca) == 0) {
+            exibe_cliente(&cliente);
             printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-            getchar();
+            getchar();  // Espera o usuário pressionar ENTER para continuar
             encontrado = 1;
             break; // Encerra o loop quando encontrar o cliente
         }
     }
     if (!encontrado) {
-        printf("Cliente não encontrado\n");
+      printf("Nenhum cliente encontrado com o CPF informado.\n");
+      printf("Certifique-se de que o CPF foi digitado corretamente.\n");
+      printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+      getchar();
     }
+  
     fclose(fp);  // Fecha o arquivo após o uso
-    free (cliente);                        // libera memória da estrutura Cliente
 }
 
 void atualiza_cliente(void) {
@@ -306,8 +282,6 @@ void atualiza_cliente(void) {
 }
 
 void exclui_cliente(void) {    // Exclusão lógica
-    
-    char situacao[20];   // Declaração de variável para armazenar a situação do cliente
     char cpf_busca[13];
     FILE *fp;
     int encontrado = 0;
@@ -339,33 +313,17 @@ void exclui_cliente(void) {    // Exclusão lógica
     // Lê os registros do arquivo original e encontra o cliente
     while (fread(cliente, sizeof(Cliente), 1, fp)) {
         // Se o CPF corresponder, exibe os dados do cliente
-        if (strcmp(cliente->cpf, cpf_busca) == 0 && cliente->status == 'a') {
-            
-            // Exibe a situação do cliente
-            if (cliente->status == 'a') {
-                strcpy(situacao, "Ativo");
-            } else if (cliente->status == 'i') {
-                strcpy(situacao, "Inativo");
-            } else {
-                strcpy(situacao, "Não informado");
-            }
-            
-            printf("+---------------------------------------------------------------------------+\n");
-            printf("| Cliente encontrado\n");
-            printf("| Nome: %s\n", cliente->nome);
-            printf("| CPF: %s\n", cliente->cpf);
-            printf("| Email: %s\n", cliente->email);
-            printf("| Data de nascimento: %s\n", cliente->data);
-            printf("| Telefone: %s\n", cliente->fone);
-            printf("| Situação do cliente: %s\n", situacao);  // Exibe a situação do cliente
-            printf("+---------------------------------------------------------------------------+\n");
+        if (strcmp(cliente->cpf, cpf_busca) == 0 && cliente->status == 'a') {            
+            exibe_cliente(cliente);
+            printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+            getchar();  // Espera o usuário pressionar ENTER para continuar
 
             // Pergunta para o usuário se deseja excluir
-            char confirmacao[3];  // Usar um array de 2 caracteres
+            char confirmacao[3]; 
             printf("Tem certeza que deseja excluir este cliente? (S/N): ");
             fgets(&confirmacao, sizeof(confirmacao), stdin);
-            // Remove o '\n' que pode ser deixado no buffer por causa do fgets
-            confirmacao[strcspn(confirmacao, "\n")] = 0;
+          
+            confirmacao[strcspn(confirmacao, "\n")] = 0;                     // Remove o '\n' que pode ser deixado no buffer por causa do fgets
 
             // Trata a confirmação (sem considerar maiúsculas/minúsculas)
             if (confirmacao[0] == 'S' || confirmacao[0] == 's' || confirmacao[0] == 'Y' || confirmacao[0] == 'y') {
@@ -413,6 +371,20 @@ void leCpfBusca (char *cpf_busca) {
             getchar();  // Aguarda a tecla ENTER para evitar erro de input
         }
     } while (!validaCPF(cpf_busca));  // Continua até o CPF ser válido
+}
+
+void exibe_cliente(const Cliente *cliente) {
+    printf("+---------------------------------------------------------------------------+\n");
+    printf("| Nome: %s\n", cliente->nome);
+    printf("| CPF: %s\n", cliente->cpf);
+    printf("| Email: %s\n", cliente->email);
+    printf("| Data de nascimento: %s\n", cliente->data);
+    printf("| Telefone: %s\n", cliente->fone);
+    printf("| Bairro: %s\n", cliente->endereco.bairro);
+    printf("| Cidade: %s\n", cliente->endereco.cidade);
+    printf("| Estado: %s\n", cliente->endereco.estado);
+    printf("| Situação do cliente: %s\n", cliente->status == 'a' ? "Ativo" : "Inativo");
+    printf("+---------------------------------------------------------------------------+\n");
 }
 
 int verificaCpfCadastrado(const char *cpf) {
