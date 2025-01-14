@@ -415,3 +415,16 @@ int verificaCodigoCadastrado(const char *codigo) {
     fclose(fp);
     return 0;  // Retorna 0 se o CPF não estiver cadastrado
 }
+
+void exibe_queijo(const Queijo *queijo) {
+    printf("+---------------------------------------------------------------------------+\n");
+    printf("| Nome: %s\n", queijo->nome);
+    printf("| Código: %s\n", queijo->codigo);
+    printf("| Fabricação: %s\n", queijo->data_fabricacao);
+    printf("| Vencimento: %s\n", queijo->data_validade);
+    printf("| Composição: %s\n", queijo->comp);
+    printf("| Tipo: %s\n", queijo->tipo);
+    printf("| Situação do queijo: %s\n", queijo->status == 'a' ? "Ativo" : "Inativo");
+    printf("+---------------------------------------------------------------------------+\n");
+}
+
