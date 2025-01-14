@@ -23,7 +23,9 @@ void atualiza_queijo(void);
 void exclui_queijo(void);
 
 void leCodigoBusca (char *codigo_busca);
-int verificaCodigoCadastrado(const char *codigo);
+int verificaCodigoCadastrado(const char *codigo); 
+
+void exibe_queijo(const Queijo *queijo);
 
 
 #endif // Finaliza a proteção
