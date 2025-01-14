@@ -272,4 +272,49 @@ void leBairroRelatorio(char* bairro_lido) {
             printf("Digite o bairro para o relatório: ");
         }
     } while (!validaNome(bairro_lido));
-}
+} 
+
+void busca_tipo_queijo_Relatorio(char* tipo_lido) {
+  FILE *fp;
+  Queijo *queijo = (Queijo*) malloc(sizeof(Queijo));
+  int encontrou = 0;  // Variável para verificar se algum queijo foi encontrado
+
+  fp = fopen("queijos.dat", "rb");
+  if (fp == NULL) {
+      perror("Erro ao abrir o arquivo queijos.dat");
+      exit(1);
+  }
+
+  while(fread(queijo, sizeof(Queijo), 1, fp)) {
+      if (strcmp(queijo->tipo, tipo_lido) == 0 && queijo->status == 'a') {
+          exibe_queijo(queijo);
+          encontrou = 1;          // Marca que encontrou ao menos um queijo
+      }
+  }
+  
+  fclose(fp);
+  free (queijo);
+
+  if (!encontrou) {
+        printf("\nNenhum queijo do tipo \"%s\".\n", tipo_lido);
+  }
+  printf("\n>>> Tecle <ENTER> para continuar...\n");
+  getchar();
+} 
+
+void leTipoRelatorio(char* tipo_lido) {
+  printf("Digite o tipo de queijo para o relatório(cru ou pasteurizado): ");
+  do {
+      fgets(tipo_lido, 30, stdin);
+      tipo_lido[strcspn(tipo_lido, "\n")] = '\0';  // Remove o '\n'
+    
+      if (validaNome(tipo_lido)) {
+            break;
+        } else {
+            printf("Tipo inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("Digite o tipo de queijo para o relatório(cru ou pasteurizado): ");
+        }
+    } while (!validaNome(tipo_lido));
+} 
+
