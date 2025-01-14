@@ -133,9 +133,9 @@ void relatorio_funcionario(void) {
   }
 
   // Leitura e exibição dos dados
-  int count = 0;  // Contador de clientes lidos
+  int count = 0;  // Contador de funcionarios lidos
   while (fread(funcionario, sizeof(Funcionario), 1, fp) == 1) {
-      // Exibe o status do cliente: "Ativo" ou "Inativo"
+      // Exibe o status do funcionario: "Ativo" ou "Inativo"
       const char* status_funcionario = (funcionario->status == 'a') ? "Ativo" : "Inativo";
     
       printf("|%-30s %-15s %-30s %-12s %-15s %-20s \n", 
@@ -144,7 +144,7 @@ void relatorio_funcionario(void) {
   }
 
   if (count == 0) {
-    printf("Nenhum cliente encontrado.\n");
+    printf("Nenhum funcionario encontrado.\n");
   }
   
   printf("|                                                                                                                                 |\n");
@@ -153,7 +153,7 @@ void relatorio_funcionario(void) {
   getchar(); 
   
   fclose (fp);                  // Fecha o arquivo
-  free (funcionario);               // libera memória da estrutura Cliente
+  free (funcionario);               // libera memória da estrutura funcionario
 }
     
 void relatorio_queijo(void) {
