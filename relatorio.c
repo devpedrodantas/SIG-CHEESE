@@ -30,7 +30,7 @@ void menu_relatorio(void) {      // Menu inicial, ainda será reestruturado para
         op[strcspn(op, "\n")] = '\0';    // Remover a quebra de linha
         getchar();
     
-        printf("\n");
+       printf("\n");
         printf("+---------------------------------------------------------------------------+\n");
         switch(op[0]) {
           case '1':
@@ -44,6 +44,9 @@ void menu_relatorio(void) {      // Menu inicial, ainda será reestruturado para
             break;
            case '4':
             lista_clientes_por_bairro();
+            break;
+           case '5': 
+            lista_queijo_tipo();
             break;
           case '0':
             printf("Voltando ao menu anterior...\n");
