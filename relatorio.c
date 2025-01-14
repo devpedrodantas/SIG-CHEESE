@@ -204,7 +204,19 @@ void relatorio_queijo(void) {
   
   fclose (fp);                  // Fecha o arquivo
   free (queijo);               // libera memória da estrutura queijo
+} 
+
+void lista_queijo_tipo(void){
+  char tipo_lido[30]; 
+  system("clear||cls");
+  printf("\n");
+  printf("+---------------------------------------------------------------------------+\n");
+  printf("|                                                                           |\n");
+  printf("|                   >>  Relatório dos queijos por tipo  <<                  |\n");
+  leTipoRelatorio(tipo_lido);
+  busca_tipo_queijo_Relatorio(tipo_lido);
 }
+
 
 void lista_clientes_por_bairro(void) {
   char bairro_lido[30];  // Definindo a variável bairro_lido
