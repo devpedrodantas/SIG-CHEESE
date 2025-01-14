@@ -108,15 +108,52 @@ void relatorio_cliente(void) {
 
 
 void relatorio_funcionario(void) {
-  system("clear||cls");
+   FILE* fp;
+  
+  char arquivo[] = "funcionarios.dat";
+  Funcionario *funcionario = (Funcionario*) malloc(sizeof(Funcionario));     // Variável para armazenar cada registro
+  if (funcionario == NULL) {
+      perror("Erro ao alocar memória em funcionario");
+      exit(1);
+  }
+   system("clear||cls");
   printf("\n");
-  printf("+---------------------------------------------------------------------------+\n");
-  printf("|                                                                           |\n");
-  printf("|                         >>  Relatório dos Funcionários  <<                |\n");
-  printf("|                                                                           |\n");
-  printf("+---------------------------------------------------------------------------+\n");
+  printf("+---------------------------------------------------------------------------------------------------------------------------------+\n");
+  printf("|                                                                                                                                 |\n");
+  printf("|                                         >>  Relatório dos Funcionários  <<                                                      |\n");
+  printf("|                                                                                                                                 |\n");
+  printf("| %-30s %-15s %-30s %-12s %-15s %-20s \n", 
+           "Nome", "CPF", "E-mail", "Nascimento", "Telefone","Situação");
+  printf("|                                                                                                                                 |\n");
+  fp = fopen(arquivo, "rb");
+    
+  if (fp == NULL) {
+    perror("Erro ao abrir o arquivo!\n");
+    exit(1);
+  }
+
+  // Leitura e exibição dos dados
+  int count = 0;  // Contador de clientes lidos
+  while (fread(funcionario, sizeof(Funcionario), 1, fp) == 1) {
+      // Exibe o status do cliente: "Ativo" ou "Inativo"
+      const char* status_funcionario = (funcionario->status == 'a') ? "Ativo" : "Inativo";
+    
+      printf("|%-30s %-15s %-30s %-12s %-15s %-20s \n", 
+               funcionario->nome, funcionario->cpf, funcionario->email, funcionario->data, funcionario->fone,status_funcionario);
+      count++;
+  }
+
+  if (count == 0) {
+    printf("Nenhum cliente encontrado.\n");
+  }
+  
+  printf("|                                                                                                                                 |\n");
+  printf("+---------------------------------------------------------------------------------------------------------------------------------+\n");
   printf("\t\t\t>>> Tecle ENTER para continuar...\n");
   getchar(); 
+  
+  fclose (fp);                  // Fecha o arquivo
+  free (funcionario);               // libera memória da estrutura Cliente
 }
     
 void relatorio_queijo(void) {
