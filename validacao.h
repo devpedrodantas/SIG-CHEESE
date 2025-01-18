@@ -1,3 +1,5 @@
+#include <stdbool.h>  // Inclua esta linha para habilitar o uso de bool
+
 // Assinaturas das funções de validação
 
 int validaNome(const char* nome);
@@ -12,3 +14,5 @@ int validaCodigo(const char* codigo);
 int validaComposicao(const char* comp);
 int validaTipoLeite(const char* tipo);
 int validaCodigoQueijo(int codigoQueijo, int codigoEsperado);
+bool validaEstoque(int estoque);
+bool validaPreco(float preco);
