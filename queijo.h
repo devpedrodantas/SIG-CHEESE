@@ -10,6 +10,8 @@ typedef struct {
     char data_validade[15];              // Data de validade como array estático
     char comp[200];                      // Composição/ingredientes como array estático
     char tipo[20];                       // Tipo como array estático
+    float preco;
+    int estoque;
 } Queijo;
 
 // Declaração das funções relacionadas ao queijo
@@ -23,7 +25,9 @@ void atualiza_queijo(void);
 void exclui_queijo(void);
 
 void leCodigoBusca (char *codigo_busca);
-int verificaCodigoCadastrado(const char *codigo);
+int verificaCodigoCadastrado(const char *codigo); 
+
+void exibe_queijo(const Queijo *queijo);
 
 
 #endif // Finaliza a proteção
