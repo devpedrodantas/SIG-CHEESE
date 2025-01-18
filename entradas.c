@@ -6,6 +6,7 @@
 #include "queijo.h"           // Define a estrutura e funções do Queijo.
 #include "validacao.h"        // Contém funções para validações gerais.
 #include "estruturas.h"       // Contém estruturas genéricas (Endereço).
+#include "util.h"
 
 
 // Funções específicas para Cliente (Ainda é necessário evitar esta redundância com cliente, funcionário e queijo)
@@ -431,6 +432,51 @@ void leTipoLeite(Queijo *queijo) {
 }
 
 ///--------------------------------------------------------///
+///                         Estoque                        ///
+///--------------------------------------------------------///
+// Função para ler e validar o estoque
+
+void leEstoque(Queijo *queijo) {
+    do {
+        printf("|-> Estoque (ex: 1000): ");
+        if (scanf("%d", &queijo->estoque) != 1) {
+            printf("Entrada inválida. Digite um número inteiro.\n");
+            limparBuffer(); // Garante que o buffer será limpo
+            continue;
+        }
+        if (queijo->estoque >= 0) {
+            printf("Estoque válido\n");
+            break;
+        } else {
+            printf("Estoque inválido, tente novamente apertando a tecla ENTER\n");
+            limparBuffer();
+        }
+    } while (1);
+}
+///--------------------------------------------------------///
+///                          Preço                         ///
+///--------------------------------------------------------///
+// Função para ler e validar preço
+
+void lePreco(Queijo *queijo) {
+    do {
+        printf("|-> Preço (30): ");
+        scanf("%f", &queijo->preco);  
+        if (validaPreco(queijo->preco)) {
+            printf("Preço válido\n");
+            break;
+        } else {
+            printf("Preço inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Preço (30): ");
+        }
+    } while (!validaPreco(queijo->preco));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////// ---- Endereço ---- /////////////////////////////////////
+
+///--------------------------------------------------------///
 ///                        Bairro                          ///
 //---------------------------------------------------------///
 // Função para capturar apenas o bairro
@@ -504,7 +550,6 @@ void leEstado(Endereco *endereco) {
         }
     } while (!validaNome(endereco->estado));
 }
-
 
 ///////////////////////////////////////////////////
 //            Funções não mais usadas            
