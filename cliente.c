@@ -321,7 +321,7 @@ void exclui_cliente(void) {    // Exclusão lógica
             // Pergunta para o usuário se deseja excluir
             char confirmacao[3]; 
             printf("Tem certeza que deseja excluir este cliente? (S/N): ");
-            fgets(&confirmacao, sizeof(confirmacao), stdin);
+            fgets(confirmacao, sizeof(confirmacao), stdin);
           
             confirmacao[strcspn(confirmacao, "\n")] = 0;                     // Remove o '\n' que pode ser deixado no buffer por causa do fgets
 

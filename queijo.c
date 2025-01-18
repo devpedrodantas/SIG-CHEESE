@@ -4,6 +4,7 @@
 #include "queijo.h"
 #include "entradas.h"
 #include "validacao.h"
+#include "util.h"
 
 void menu_queijo(void) {
     char op;
@@ -90,6 +91,8 @@ void cadastra_queijo(void) {
     leDataValidade(queijo);      // Chama a função que lê e valida a data de validade
     leComposicao(queijo);        // Chama a função que lê e valida a composição/ingrediente
     leTipoLeite(queijo);         // Chama a função que lê e valida o tipo do queijo
+    leEstoque(queijo);
+    lePreco(queijo);
     
     queijo->status = 'a';                  // Coloca o status do queijo como 'ativo'
     strcpy(situacao, "Ativo");
@@ -105,10 +108,13 @@ void cadastra_queijo(void) {
     printf("| Data de fabricação: %s\n", queijo->data_fabricacao);
     printf("| Data de validade: %s\n", queijo->data_validade);
     printf("| Tipo do queijo: %s\n", queijo->tipo);
+    printf("| Preço do queijo: %.2f\n", queijo->preco);
+    printf("| Estoque do queijo: %d\n", queijo->estoque);
     printf("| Situação do queijo: %s\n", situacao);
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    limparBuffer();  // Limpa qualquer resíduo no buffer
     getchar();
 
     fp = fopen ("queijos.dat", "ab");
@@ -167,6 +173,8 @@ void busca_queijo (const char *codigo_busca) {
             printf("| Data de validade: %s\n", queijo->data_validade);
             printf("| Composição: %s\n", queijo->comp);
             printf("| Tipo: %s\n", queijo->tipo);
+            printf("| Estoque do queijo: %d\n", queijo->estoque);
+            printf("| Preço do queijo: %.2f\n", queijo->preco);
             
             // Verifica o status do queijo (ativo ou inativo)
             if (queijo->status == 'a') {
@@ -233,6 +241,8 @@ void atualiza_queijo(void) {
                 printf("4. Data de validade: %s\n", queijo->data_validade);
                 printf("5. Composição: %s\n", queijo->comp);
                 printf("6. Tipo: %s\n", queijo->tipo);
+                printf("7. Estoque: %d\n", queijo->estoque);
+                printf("8. Preço: %.2f\n", queijo->preco);
                 printf("0. Sair da atualização\n");
                 printf("\n");
                 printf("Escolha o campo que deseja atualizar: ");
@@ -259,6 +269,12 @@ void atualiza_queijo(void) {
                         break;
                     case '6':
                         leTipoLeite(queijo);;
+                        break;
+                    case '7':
+                        leEstoque(queijo);;
+                        break;
+                    case '8':
+                        lePreco(queijo);;
                         break;
                     case '0':
                         printf("Finalizando a atualização...\n");
@@ -336,13 +352,15 @@ void exclui_queijo(void) {
             printf("| Data de validade: %s\n", queijo->data_validade);
             printf("| Composição: %s\n", queijo->comp);
             printf("| Tipo: %s\n", queijo->tipo);
+            printf("| Estoque do queijo: %d\n", queijo->estoque);
+            printf("| Preço do queijo: %.2f\n", queijo->preco);
             printf("| Situação do cliente: %s\n", situacao);  // Exibe a situação do cliente
             printf("+---------------------------------------------------------------------------+\n");
 
             // Pergunta para o usuário se deseja excluir
             char confirmacao[3];  // Usar um array de 2 caracteres
             printf("Tem certeza que deseja excluir este cliente? (S/N): ");
-            fgets(&confirmacao, sizeof(confirmacao), stdin);
+            fgets(confirmacao, sizeof(confirmacao), stdin);
             // Remove o '\n' que pode ser deixado no buffer por causa do fgets
             confirmacao[strcspn(confirmacao, "\n")] = 0;
 
@@ -424,7 +442,8 @@ void exibe_queijo(const Queijo *queijo) {
     printf("| Vencimento: %s\n", queijo->data_validade);
     printf("| Composição: %s\n", queijo->comp);
     printf("| Tipo: %s\n", queijo->tipo);
+    printf("| Estoque do queijo: %d\n", queijo->estoque);
+    printf("| Preço do queijo: %.2f\n", queijo->preco);
     printf("| Situação do queijo: %s\n", queijo->status == 'a' ? "Ativo" : "Inativo");
     printf("+---------------------------------------------------------------------------+\n");
 }
-
