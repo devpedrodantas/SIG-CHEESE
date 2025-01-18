@@ -29,6 +29,8 @@ void leDataValidade(Queijo *queijo);
 void leCodigo(Queijo *queijo);
 void leComposicao(Queijo *queijo);
 void leTipoLeite(Queijo *queijo);
+void lePreco(Queijo *queijo);
+void leEstoque(Queijo *queijo);
 
 // Funções que recebem um ponteiro para a struct Endereco
 void leBairro(Endereco *endereco);
@@ -37,7 +39,7 @@ void leEstado(Endereco *endereco);
 
 
 
-// ///////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
 // Funções que fazem apenas a captura das entradas
 // void leApenasNome(Cliente *cliente);
 // void leApenasCpf(Cliente *cliente);
