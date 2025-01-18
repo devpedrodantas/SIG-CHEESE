@@ -276,5 +276,21 @@ int validaTipoLeite(const char* tipo) {
     }
 }
 
+//---------------------------------------------------------
+//          Validação para o estoque do queijo
+//---------------------------------------------------------
+// Função de validação de estoque
+bool validaEstoque(int estoque) {
+    return estoque >= 0; // Estoque é válido quando for maior ou igual a zero
+}
+
+//---------------------------------------------------------
+//          Validação para o preço do queijo
+//---------------------------------------------------------
+// Função de validação do preço
+bool validaPreco(float preco) {
+    return preco > 0; // Preço válido quando é maior que zero
+}
+
 
 
