@@ -30,7 +30,7 @@ void menu_relatorio(void) {      // Menu inicial, ainda será reestruturado para
         op[strcspn(op, "\n")] = '\0';    // Remover a quebra de linha
         getchar();
     
-        printf("\n");
+       printf("\n");
         printf("+---------------------------------------------------------------------------+\n");
         switch(op[0]) {
           case '1':
@@ -44,6 +44,9 @@ void menu_relatorio(void) {      // Menu inicial, ainda será reestruturado para
             break;
            case '4':
             lista_clientes_por_bairro();
+            break;
+           case '5': 
+            lista_queijo_tipo();
             break;
           case '0':
             printf("Voltando ao menu anterior...\n");
@@ -108,28 +111,115 @@ void relatorio_cliente(void) {
 
 
 void relatorio_funcionario(void) {
-  system("clear||cls");
+   FILE* fp;
+  
+  char arquivo[] = "funcionarios.dat";
+  Funcionario *funcionario = (Funcionario*) malloc(sizeof(Funcionario));     // Variável para armazenar cada registro
+  if (funcionario == NULL) {
+      perror("Erro ao alocar memória em funcionario");
+      exit(1);
+  }
+   system("clear||cls");
   printf("\n");
-  printf("+---------------------------------------------------------------------------+\n");
-  printf("|                                                                           |\n");
-  printf("|                         >>  Relatório dos Funcionários  <<                |\n");
-  printf("|                                                                           |\n");
-  printf("+---------------------------------------------------------------------------+\n");
+  printf("+---------------------------------------------------------------------------------------------------------------------------------+\n");
+  printf("|                                                                                                                                 |\n");
+  printf("|                                         >>  Relatório dos Funcionários  <<                                                      |\n");
+  printf("|                                                                                                                                 |\n");
+  printf("| %-30s %-15s %-30s %-12s %-15s %-20s \n", 
+           "Nome", "CPF", "E-mail", "Nascimento", "Telefone","Situação");
+  printf("|                                                                                                                                 |\n");
+  fp = fopen(arquivo, "rb");
+    
+  if (fp == NULL) {
+    perror("Erro ao abrir o arquivo!\n");
+    exit(1);
+  }
+
+  // Leitura e exibição dos dados
+  int count = 0;  // Contador de funcionarios lidos
+  while (fread(funcionario, sizeof(Funcionario), 1, fp) == 1) {
+      // Exibe o status do funcionario: "Ativo" ou "Inativo"
+      const char* status_funcionario = (funcionario->status == 'a') ? "Ativo" : "Inativo";
+    
+      printf("|%-30s %-15s %-30s %-12s %-15s %-20s \n", 
+               funcionario->nome, funcionario->cpf, funcionario->email, funcionario->data, funcionario->fone,status_funcionario);
+      count++;
+  }
+
+  if (count == 0) {
+    printf("Nenhum funcionario encontrado.\n");
+  }
+  
+  printf("|                                                                                                                                 |\n");
+  printf("+---------------------------------------------------------------------------------------------------------------------------------+\n");
   printf("\t\t\t>>> Tecle ENTER para continuar...\n");
   getchar(); 
+  
+  fclose (fp);                  // Fecha o arquivo
+  free (funcionario);               // libera memória da estrutura funcionario
 }
     
 void relatorio_queijo(void) {
+  FILE* fp;
+  
+  char arquivo[] = "queijos.dat";
+  Queijo *queijo = (Queijo*) malloc(sizeof(Queijo));      // Aloca dinamicamente memória para a estrutura
+    if (queijo == NULL) {
+        perror("Erro ao alocar memória em queijo");
+        exit(1);
+    }
+  
+   system("clear||cls");
+  printf("\n");
+  printf("+---------------------------------------------------------------------------------------------------------------------------------+\n");
+  printf("|                                                                                                                                 |\n");
+  printf("|                                         >>  Relatório dos Funcionários  <<                                                      |\n");
+  printf("|                                                                                                                                 |\n");
+  printf("| %-30s %-15s %-30s %-12s %-15s %-20s %-20s  \n", 
+           "Nome", "Codigo", "Fabricação", "Vencimento", "Composição","Tipo","Situação");
+  printf("|                                                                                                                                 |\n");
+  fp = fopen(arquivo, "rb");
+    
+  if (fp == NULL) {
+    perror("Erro ao abrir o arquivo!\n");
+    exit(1);
+  }
+
+  // Leitura e exibição dos dados
+  int count = 0;  // Contador de clientes lidos
+  while (fread(queijo, sizeof(Queijo), 1, fp) == 1) {
+      // Exibe o status do queijo: "Ativo" ou "Inativo"
+      const char* status_queijo = (queijo->status == 'a') ? "Ativo" : "Inativo";
+    
+      printf("|%-30s %-15s %-30s %-12s %-15s %-20s %-20s \n", 
+               queijo->nome, queijo->codigo, queijo->data_fabricacao, queijo->data_validade, queijo->comp,queijo->tipo,status_queijo);
+      count++;
+  }
+
+  if (count == 0) {
+    printf("Nenhum queijo encontrado.\n");
+  }
+  
+  printf("|                                                                                                                                 |\n");
+  printf("+---------------------------------------------------------------------------------------------------------------------------------+\n");
+  printf("\t\t\t>>> Tecle ENTER para continuar...\n");
+  getchar(); 
+  
+  fclose (fp);                  // Fecha o arquivo
+  free (queijo);               // libera memória da estrutura queijo
+} 
+
+void lista_queijo_tipo(void){
+  char tipo_lido[30]; 
   system("clear||cls");
   printf("\n");
   printf("+---------------------------------------------------------------------------+\n");
   printf("|                                                                           |\n");
-  printf("|                         >>  Relatório dos Queijos <<                      |\n");
-  printf("|                                                                           |\n");
-  printf("+---------------------------------------------------------------------------+\n");
-  printf("\t\t\t>>> Tecle ENTER para continuar...\n");
-  getchar(); 
+  printf("|                   >>  Relatório dos queijos por tipo  <<                  |\n");
+  leTipoRelatorio(tipo_lido);
+  busca_tipo_queijo_Relatorio(tipo_lido);
 }
+
 
 void lista_clientes_por_bairro(void) {
   char bairro_lido[30];  // Definindo a variável bairro_lido
@@ -185,4 +275,49 @@ void leBairroRelatorio(char* bairro_lido) {
             printf("Digite o bairro para o relatório: ");
         }
     } while (!validaNome(bairro_lido));
-}
+} 
+
+void busca_tipo_queijo_Relatorio(char* tipo_lido) {
+  FILE *fp;
+  Queijo *queijo = (Queijo*) malloc(sizeof(Queijo));
+  int encontrou = 0;  // Variável para verificar se algum queijo foi encontrado
+
+  fp = fopen("queijos.dat", "rb");
+  if (fp == NULL) {
+      perror("Erro ao abrir o arquivo queijos.dat");
+      exit(1);
+  }
+
+  while(fread(queijo, sizeof(Queijo), 1, fp)) {
+      if (strcmp(queijo->tipo, tipo_lido) == 0 && queijo->status == 'a') {
+          exibe_queijo(queijo);
+          encontrou = 1;          // Marca que encontrou ao menos um queijo
+      }
+  }
+  
+  fclose(fp);
+  free (queijo);
+
+  if (!encontrou) {
+        printf("\nNenhum queijo do tipo \"%s\".\n", tipo_lido);
+  }
+  printf("\n>>> Tecle <ENTER> para continuar...\n");
+  getchar();
+} 
+
+void leTipoRelatorio(char* tipo_lido) {
+  printf("Digite o tipo de queijo para o relatório(cru ou pasteurizado): ");
+  do {
+      fgets(tipo_lido, 30, stdin);
+      tipo_lido[strcspn(tipo_lido, "\n")] = '\0';  // Remove o '\n'
+    
+      if (validaNome(tipo_lido)) {
+            break;
+        } else {
+            printf("Tipo inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("Digite o tipo de queijo para o relatório(cru ou pasteurizado): ");
+        }
+    } while (!validaNome(tipo_lido));
+} 
+

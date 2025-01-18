@@ -17,7 +17,7 @@
 
 ///// + 1 CRUD
 //// Atualizar o menu sobre e equipe
-//// Melhorar as validações
+//// Melhorar as validações 
 
 /////
 // Assinatura das funções
