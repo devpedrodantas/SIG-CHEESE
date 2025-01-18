@@ -346,7 +346,7 @@ void exclui_funcionario(void) {
             // Pergunta para o usuário se deseja excluir
             char confirmacao[3];  // Usar um array de 2 caracteres
             printf("Tem certeza que deseja excluir este Funcionário? (S/N): ");
-            fgets(&confirmacao, sizeof(confirmacao), stdin);
+            fgets(confirmacao, sizeof(confirmacao), stdin);
             // Remove o '\n' que pode ser deixado no buffer por causa do fgets
             confirmacao[strcspn(confirmacao, "\n")] = 0;
 
