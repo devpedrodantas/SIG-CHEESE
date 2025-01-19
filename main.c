@@ -5,7 +5,7 @@
 ///                  Disciplina DCT1106 -- Programação                      ///
 ///             Projeto Sistema de Gestão Para uma Fábrica de Queijo        ///
 ///           Developed by @devpedrodantas & @MizaelFGT &IvysonWNM          ///
-///                              Versão: 0.10                               ///
+///                              Versão: 0.14                               ///
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <stdio.h>
@@ -14,8 +14,8 @@
 #include "funcionario.h"
 #include "queijo.h"
 #include "relatorio.h"
+#include "venda.h"
 
-///// + 1 CRUD
 //// Atualizar o menu sobre e equipe
 //// Melhorar as validações 
 
@@ -43,12 +43,14 @@ int main(void) {
                 menu_queijo();
                 break;
             case 4:
+                menu_venda();
+            case 5:
                 menu_relatorio();
                 break;
-            case 5:
+            case 6:
                 menu_sobre();
                 break;
-            case 6:
+            case 7:
                 menu_equipe();
                 break;
         }
@@ -71,9 +73,10 @@ int menu_principal(void) {
     printf("| 1. Módulo Cliente                                                         |\n");
     printf("| 2. Módulo Funcionário                                                     |\n");
     printf("| 3. Módulo Queijo                                                          |\n");
-    printf("| 4. Módulo Relatório                                                       |\n");
-    printf("| 5. Menu Sobre                                                             |\n");
-    printf("| 6. Menu Equipe                                                            |\n");
+    printf("| 4. Módulo Venda                                                           |\n");
+    printf("| 5. Módulo Relatório                                                       |\n");
+    printf("| 6. Menu Sobre                                                             |\n");
+    printf("| 7. Menu Equipe                                                            |\n");
     printf("| 0. Sair                                                                   |\n");
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
