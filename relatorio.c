@@ -232,6 +232,29 @@ void lista_clientes_por_bairro(void) {
   buscaBairroRelatorio(bairro_lido);
 }
 
+void busca_cliente_por_compras(void) {
+    char cpf_relatorio[13];
+    int continuar = 1;
+
+    while (continuar) {
+        system("clear||cls");
+        printf("\n");
+        printf("+---------------------------------------------------------------------------------------------------------------------------------+\n");
+        printf("|                                                                                                                                 |\n");
+        printf("|                                     >>  Relatório do cliente por compras  <<                                                    |\n");
+        printf("|                                                                                                                                 |\n");
+
+        leCpfRelatorio(cpf_relatorio);
+        buscaVendas(cpf_relatorio);
+
+        // Pergunta se o usuário deseja continuar
+        printf("\nDeseja realizar outra busca? (1 - Sim / 0 - Não): ");
+        scanf("%d", &continuar);
+        while (getchar() != '\n'); // Limpa o buffer
+    }
+}
+
+
 void buscaBairroRelatorio(char* bairro_lido) {
   FILE *fp;
   Cliente *cliente = (Cliente*) malloc(sizeof(Cliente));
