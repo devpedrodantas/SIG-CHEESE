@@ -321,3 +321,92 @@ void leTipoRelatorio(char* tipo_lido) {
     } while (!validaNome(tipo_lido));
 } 
 
+void buscaVendas(const char *cpf_relatorio) {
+    FILE *fp_clientes, *fp_vendas, *fp_queijos;
+    
+    Cliente cliente;
+    Queijo queijo;
+    Venda venda;
+    
+    fp_vendas = fopen("vendas.dat", "rb");
+    if (fp_vendas == NULL) {
+        perror("Erro ao abrir o arquivo de vendas!");
+        getchar(); 
+        return;
+    }
+
+    fp_clientes = fopen("clientes.dat", "rb");
+    if (fp_clientes == NULL) {
+        perror("Erro ao abrir o arquivo de clientes!");
+        getchar(); 
+        fclose(fp_clientes);
+        return;
+    }
+
+    fp_queijos = fopen("queijos.dat", "rb");
+    if (fp_queijos == NULL) {
+        perror("Erro ao abrir o arquivo de queijos!");
+        getchar(); 
+        fclose(fp_queijos);
+        return;
+    }
+
+    int vendas_encontrada = 0;
+    while (fread(&venda, sizeof(Venda), 1, fp_vendas)) {
+        if (strcmp(venda.cpf_cliente, cpf_relatorio) == 0) {
+            vendas_encontrada = 1;
+
+            // Busca o nome do cliente através do CPF
+            rewind(fp_clientes);                           // reposiciona o ponteiro de leitura/escrita no início do arquivo
+            int cliente_encontrado = 0;
+            while (fread(&cliente, sizeof(Cliente), 1, fp_clientes)) {
+                if (strcmp(cliente.cpf, cpf_relatorio) == 0) {
+                    printf("\n+---------------------------------------------------------------------------+\n");
+                    printf("| Nome do comprador: %s\n", cliente.nome);
+                    cliente_encontrado = 1;
+                    break;
+                }
+            }
+            if (!cliente_encontrado) {
+                printf("| O cliente com este CPF %s não foi encontrado no sistema.\n", cpf_relatorio);
+                getchar();
+            }
+
+            // Busca o nome do queijo no arquivo queijos.dat
+            rewind(fp_queijos);                                               // reposiciona o ponteiro de leitura/escrita no início do arquivo
+            while (fread(&queijo, sizeof(Queijo), 1, fp_queijos)) {
+                if (strcmp(queijo.codigo, venda.codigo_produto) == 0) {
+                    printf("| Nome do produto: %s\n", queijo.nome);
+                    break;
+                }
+            }
+
+            printf("| Código do produto: %s\n", venda.codigo_produto);
+            printf("| Quantidade: %.2f\n", venda.quantidade_comprada);
+            printf("| Data: %s\n", venda.data);
+            printf("+---------------------------------------------------------------------------+\n");
+        }
+    }
+    if (!vendas_encontrada) {
+        printf("\n| Nenhuma venda encontrada para o CPF informado.\n");
+        getchar(); 
+    }
+
+    fclose(fp_vendas);
+    fclose(fp_clientes);
+}
+
+void leCpfRelatorio(char *cpf) {
+    printf("|-> CPF (somente números): ");
+    do {
+        scanf("%12s", cpf);
+        if (validaCPF(cpf)) {
+            printf("CPF válido\n");
+            break;
+        } else {
+            printf("CPF inválido, tente novamente apertando a tecla ENTER\n");
+            getchar();
+            printf("|-> CPF (somente números): ");
+        }
+    } while (!validaCPF(cpf));
+}
