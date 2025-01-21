@@ -7,8 +7,9 @@
 #include "funcionario.h"
 #include "queijo.h"
 #include "validacao.h"
+#include "venda.h"
 
-void menu_relatorio(void) {      // Menu inicial, ainda será reestruturado para as outras semanas
+void menu_relatorio(void) {    
     char op[2];
     do {
         system("clear||cls");
@@ -21,6 +22,8 @@ void menu_relatorio(void) {      // Menu inicial, ainda será reestruturado para
         printf("|-> 2. Lista dos funcionários cadastrados                                   |\n");
         printf("|-> 3. Lista dos queijos cadastrados                                        |\n");
         printf("|-> 4. Lista de clientes por bairro                                         |\n");
+        printf("|-> 5. Lista de queijos por tipo                                            |\n");
+        printf("|-> 6. Lista das vendas por cpf                                             |\n");
         printf("|-> 0. Voltar ao menu anterior                                              |\n");
         printf("|                                                                           |\n");
         printf("+---------------------------------------------------------------------------+\n");
@@ -34,29 +37,33 @@ void menu_relatorio(void) {      // Menu inicial, ainda será reestruturado para
         printf("+---------------------------------------------------------------------------+\n");
         switch(op[0]) {
           case '1':
-            relatorio_cliente();
-            break;
+                relatorio_cliente();
+                break;
           case '2':
-            relatorio_funcionario();
-            break;
+                relatorio_funcionario();
+                break;
           case '3':
-            relatorio_queijo();
-            break;
+                relatorio_queijo();
+                break;
            case '4':
-            lista_clientes_por_bairro();
-            break;
+                lista_clientes_por_bairro();
+                break;
            case '5': 
-            lista_queijo_tipo();
-            break;
+                lista_queijo_tipo();
+                break;
+           case '6': 
+                busca_cliente_por_compras();
+                break;
           case '0':
-            printf("Voltando ao menu anterior...\n");
-            break;
+                printf("Voltando ao menu anterior...\n");
+                break;
           default:
-            printf("Opção inválida! Tente novamente.\n");
-            break;
+                printf("Opção inválida! Tente novamente.\n");
+                break;
         }
     } while (op[0] != '0');
 }
+
 
 void relatorio_cliente(void) {
   FILE* fp;
