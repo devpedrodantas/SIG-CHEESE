@@ -7,8 +7,9 @@
 #include "funcionario.h"
 #include "queijo.h"
 #include "validacao.h"
+#include "venda.h"
 
-void menu_relatorio(void) {      // Menu inicial, ainda será reestruturado para as outras semanas
+void menu_relatorio(void) {    
     char op[2];
     do {
         system("clear||cls");
@@ -21,6 +22,8 @@ void menu_relatorio(void) {      // Menu inicial, ainda será reestruturado para
         printf("|-> 2. Lista dos funcionários cadastrados                                   |\n");
         printf("|-> 3. Lista dos queijos cadastrados                                        |\n");
         printf("|-> 4. Lista de clientes por bairro                                         |\n");
+        printf("|-> 5. Lista de queijos por tipo                                            |\n");
+        printf("|-> 6. Lista das vendas por cpf                                             |\n");
         printf("|-> 0. Voltar ao menu anterior                                              |\n");
         printf("|                                                                           |\n");
         printf("+---------------------------------------------------------------------------+\n");
@@ -34,26 +37,29 @@ void menu_relatorio(void) {      // Menu inicial, ainda será reestruturado para
         printf("+---------------------------------------------------------------------------+\n");
         switch(op[0]) {
           case '1':
-            relatorio_cliente();
-            break;
+                relatorio_cliente();
+                break;
           case '2':
-            relatorio_funcionario();
-            break;
+                relatorio_funcionario();
+                break;
           case '3':
-            relatorio_queijo();
-            break;
+                relatorio_queijo();
+                break;
            case '4':
-            lista_clientes_por_bairro();
-            break;
+                lista_clientes_por_bairro();
+                break;
            case '5': 
-            lista_queijo_tipo();
-            break;
+                lista_queijo_tipo();
+                break;
+           case '6': 
+                busca_cliente_por_compras();
+                break;
           case '0':
-            printf("Voltando ao menu anterior...\n");
-            break;
+                printf("Voltando ao menu anterior...\n");
+                break;
           default:
-            printf("Opção inválida! Tente novamente.\n");
-            break;
+                printf("Opção inválida! Tente novamente.\n");
+                break;
         }
     } while (op[0] != '0');
 }
@@ -119,7 +125,7 @@ void relatorio_funcionario(void) {
       perror("Erro ao alocar memória em funcionario");
       exit(1);
   }
-   system("clear||cls");
+  system("clear||cls");
   printf("\n");
   printf("+---------------------------------------------------------------------------------------------------------------------------------+\n");
   printf("|                                                                                                                                 |\n");
@@ -169,11 +175,11 @@ void relatorio_queijo(void) {
         exit(1);
     }
   
-   system("clear||cls");
+  system("clear||cls");
   printf("\n");
   printf("+---------------------------------------------------------------------------------------------------------------------------------+\n");
   printf("|                                                                                                                                 |\n");
-  printf("|                                         >>  Relatório dos Funcionários  <<                                                      |\n");
+  printf("|                                         >>  Relatório dos Queijos  <<                                                           |\n");
   printf("|                                                                                                                                 |\n");
   printf("| %-30s %-15s %-30s %-12s %-15s %-20s %-20s  \n", 
            "Nome", "Codigo", "Fabricação", "Vencimento", "Composição","Tipo","Situação");
@@ -232,32 +238,55 @@ void lista_clientes_por_bairro(void) {
   buscaBairroRelatorio(bairro_lido);
 }
 
-void buscaBairroRelatorio(char* bairro_lido) {
-  FILE *fp;
-  Cliente *cliente = (Cliente*) malloc(sizeof(Cliente));
-  int encontrou = 0;  // Variável para verificar se algum cliente foi encontrado
+void busca_cliente_por_compras(void) {
+    char cpf_relatorio[13];
+    int continuar = 1;
 
-  fp = fopen("clientes.dat", "rb");
-  if (fp == NULL) {
+    while (continuar) {
+        system("clear||cls");
+        printf("\n");
+        printf("+---------------------------------------------------------------------------------------------------------------------------------+\n");
+        printf("|                                                                                                                                 |\n");
+        printf("|                                     >>  Relatório do cliente por compras  <<                                                    |\n");
+        printf("|                                                                                                                                 |\n");
+
+        leCpfRelatorio(cpf_relatorio);
+        buscaVendas(cpf_relatorio);
+
+        // Pergunta se o usuário deseja continuar
+        printf("\nDeseja realizar outra busca? (1 - Sim / 0 - Não): ");
+        scanf("%d", &continuar);
+        while (getchar() != '\n'); // Limpa o buffer
+    }
+}
+
+
+void buscaBairroRelatorio(char* bairro_lido) {
+    FILE *fp;
+    Cliente *cliente = (Cliente*) malloc(sizeof(Cliente));
+    int encontrou = 0;  // Variável para verificar se algum cliente foi encontrado
+    
+    fp = fopen("clientes.dat", "rb");
+    if (fp == NULL) {
       perror("Erro ao abrir o arquivo clientes.dat");
       exit(1);
-  }
-
-  while(fread(cliente, sizeof(Cliente), 1, fp)) {
+    }
+    
+    while(fread(cliente, sizeof(Cliente), 1, fp)) {
       if (strcmp(cliente->endereco.bairro, bairro_lido) == 0 && cliente->status == 'a') {
           exibe_cliente(cliente);
           encontrou = 1;          // Marca que encontrou ao menos um cliente
       }
-  }
-  
-  fclose(fp);
-  free (cliente);
-
-  if (!encontrou) {
+    }
+    
+    fclose(fp);
+    free (cliente);
+    
+    if (!encontrou) {
         printf("\nNenhum cliente ativo encontrado no bairro \"%s\".\n", bairro_lido);
-  }
-  printf("\n>>> Tecle <ENTER> para continuar...\n");
-  getchar();
+    }
+    printf("\n>>> Tecle <ENTER> para continuar...\n");
+    getchar();
 }
 
 
@@ -321,3 +350,92 @@ void leTipoRelatorio(char* tipo_lido) {
     } while (!validaNome(tipo_lido));
 } 
 
+void buscaVendas(const char *cpf_relatorio) {
+    FILE *fp_clientes, *fp_vendas, *fp_queijos;
+    
+    Cliente cliente;
+    Queijo queijo;
+    Venda venda;
+    
+    fp_vendas = fopen("vendas.dat", "rb");
+    if (fp_vendas == NULL) {
+        perror("Erro ao abrir o arquivo de vendas!");
+        getchar(); 
+        return;
+    }
+
+    fp_clientes = fopen("clientes.dat", "rb");
+    if (fp_clientes == NULL) {
+        perror("Erro ao abrir o arquivo de clientes!");
+        getchar(); 
+        fclose(fp_clientes);
+        return;
+    }
+
+    fp_queijos = fopen("queijos.dat", "rb");
+    if (fp_queijos == NULL) {
+        perror("Erro ao abrir o arquivo de queijos!");
+        getchar(); 
+        fclose(fp_queijos);
+        return;
+    }
+
+    int vendas_encontrada = 0;
+    while (fread(&venda, sizeof(Venda), 1, fp_vendas)) {
+        if (strcmp(venda.cpf_cliente, cpf_relatorio) == 0) {
+            vendas_encontrada = 1;
+
+            // Busca o nome do cliente através do CPF
+            rewind(fp_clientes);                           // reposiciona o ponteiro de leitura/escrita no início do arquivo
+            int cliente_encontrado = 0;
+            while (fread(&cliente, sizeof(Cliente), 1, fp_clientes)) {
+                if (strcmp(cliente.cpf, cpf_relatorio) == 0) {
+                    printf("\n+---------------------------------------------------------------------------+\n");
+                    printf("| Nome do comprador: %s\n", cliente.nome);
+                    cliente_encontrado = 1;
+                    break;
+                }
+            }
+            if (!cliente_encontrado) {
+                printf("| O cliente com este CPF %s não foi encontrado no sistema.\n", cpf_relatorio);
+                getchar();
+            }
+
+            // Busca o nome do queijo no arquivo queijos.dat
+            rewind(fp_queijos);                                               // reposiciona o ponteiro de leitura/escrita no início do arquivo
+            while (fread(&queijo, sizeof(Queijo), 1, fp_queijos)) {
+                if (strcmp(queijo.codigo, venda.codigo_produto) == 0) {
+                    printf("| Nome do produto: %s\n", queijo.nome);
+                    break;
+                }
+            }
+
+            printf("| Código do produto: %s\n", venda.codigo_produto);
+            printf("| Quantidade: %.2f\n", venda.quantidade_comprada);
+            printf("| Data: %s\n", venda.data);
+            printf("+---------------------------------------------------------------------------+\n");
+        }
+    }
+    if (!vendas_encontrada) {
+        printf("\n| Nenhuma venda encontrada para o CPF informado.\n");
+        getchar(); 
+    }
+
+    fclose(fp_vendas);
+    fclose(fp_clientes);
+}
+
+void leCpfRelatorio(char *cpf) {
+    printf("|-> CPF (somente números): ");
+    do {
+        scanf("%12s", cpf);
+        if (validaCPF(cpf)) {
+            printf("CPF válido\n");
+            break;
+        } else {
+            printf("CPF inválido, tente novamente apertando a tecla ENTER\n");
+            getchar();
+            printf("|-> CPF (somente números): ");
+        }
+    } while (!validaCPF(cpf));
+}
