@@ -64,7 +64,6 @@ void menu_relatorio(void) {
     } while (op[0] != '0');
 }
 
-
 void relatorio_cliente(void) {
   FILE* fp;
   
@@ -126,7 +125,7 @@ void relatorio_funcionario(void) {
       perror("Erro ao alocar memória em funcionario");
       exit(1);
   }
-   system("clear||cls");
+  system("clear||cls");
   printf("\n");
   printf("+---------------------------------------------------------------------------------------------------------------------------------+\n");
   printf("|                                                                                                                                 |\n");
@@ -176,11 +175,11 @@ void relatorio_queijo(void) {
         exit(1);
     }
   
-   system("clear||cls");
+  system("clear||cls");
   printf("\n");
   printf("+---------------------------------------------------------------------------------------------------------------------------------+\n");
   printf("|                                                                                                                                 |\n");
-  printf("|                                         >>  Relatório dos Funcionários  <<                                                      |\n");
+  printf("|                                         >>  Relatório dos Queijos  <<                                                           |\n");
   printf("|                                                                                                                                 |\n");
   printf("| %-30s %-15s %-30s %-12s %-15s %-20s %-20s  \n", 
            "Nome", "Codigo", "Fabricação", "Vencimento", "Composição","Tipo","Situação");
@@ -263,31 +262,31 @@ void busca_cliente_por_compras(void) {
 
 
 void buscaBairroRelatorio(char* bairro_lido) {
-  FILE *fp;
-  Cliente *cliente = (Cliente*) malloc(sizeof(Cliente));
-  int encontrou = 0;  // Variável para verificar se algum cliente foi encontrado
-
-  fp = fopen("clientes.dat", "rb");
-  if (fp == NULL) {
+    FILE *fp;
+    Cliente *cliente = (Cliente*) malloc(sizeof(Cliente));
+    int encontrou = 0;  // Variável para verificar se algum cliente foi encontrado
+    
+    fp = fopen("clientes.dat", "rb");
+    if (fp == NULL) {
       perror("Erro ao abrir o arquivo clientes.dat");
       exit(1);
-  }
-
-  while(fread(cliente, sizeof(Cliente), 1, fp)) {
+    }
+    
+    while(fread(cliente, sizeof(Cliente), 1, fp)) {
       if (strcmp(cliente->endereco.bairro, bairro_lido) == 0 && cliente->status == 'a') {
           exibe_cliente(cliente);
           encontrou = 1;          // Marca que encontrou ao menos um cliente
       }
-  }
-  
-  fclose(fp);
-  free (cliente);
-
-  if (!encontrou) {
+    }
+    
+    fclose(fp);
+    free (cliente);
+    
+    if (!encontrou) {
         printf("\nNenhum cliente ativo encontrado no bairro \"%s\".\n", bairro_lido);
-  }
-  printf("\n>>> Tecle <ENTER> para continuar...\n");
-  getchar();
+    }
+    printf("\n>>> Tecle <ENTER> para continuar...\n");
+    getchar();
 }
 
 
