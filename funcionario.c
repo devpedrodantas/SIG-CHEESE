@@ -57,7 +57,6 @@ void menu_funcionario(void) {
 }
 
 void cadastra_funcionario(void) {
-    char situacao[20];   // Declaração de variável para armazenar a situação 
     
     Funcionario *funcionario = (Funcionario*) malloc(sizeof(Funcionario));      // Aloca dinamicamente memória para a estrutura
     if (funcionario == NULL) {
@@ -95,7 +94,6 @@ void cadastra_funcionario(void) {
     ///printf("|-> Endereço:  |\n");
     
     funcionario->status = 'a';                  // Coloca o status do funcionário como 'ativo'
-    strcpy(situacao, "Ativo");
 
     // Exibe as informações para o usuário
     printf("+---------------------------------------------------------------------------+\n");
@@ -107,7 +105,7 @@ void cadastra_funcionario(void) {
     printf("| Email: %s\n", funcionario->email);                   // Acessa o campo 'email' da estrutura 'funcionario'
     printf("| Data de nascimento: %s\n", funcionario->data);       // Acessa o campo 'data' da estrutura 'funcionario'
     printf("| Número de telefone: %s\n", funcionario->fone);       // Acessa o campo 'fone' da estrutura 'funcionario'
-    printf("| Situação do funcionário: %s\n", situacao);
+    printf("| Situação do funcionário: Ativo\n");
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
@@ -138,7 +136,6 @@ void pesquisa_funcionario(void) {
 }
 
 void busca_funcionario (const char *cpf_busca) {
-    char situacao[20];    // Declaração de variável para armazenar a situação do cliente
     
     FILE *fp;
     Funcionario *funcionario;
