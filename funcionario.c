@@ -163,7 +163,6 @@ void busca_funcionario (const char *cpf_busca) {
         printf("funcionário não encontrado\n");
     }
     fclose(fp);  // Fecha o arquivo após o uso
-    free (funcionario);                        // libera memória da estrutura Funcionario
 }
 
 
