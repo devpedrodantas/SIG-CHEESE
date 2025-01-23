@@ -419,3 +419,12 @@ int verificaCpfCadastradoF(const char *cpf) {
     return 0;  // Retorna 0 se o CPF não estiver cadastrado
 }
 
+void exibe_funcionario(const Funcionario *funcionario){
+    printf("+---------------------------------------------------------------------------+\n");
+    printf("| Nome: %s\n", funcionario->nome);
+    printf("| CPF: %s\n", funcionario->cpf);
+    printf("| Email: %s\n", funcionario->email);
+    printf("| Data de nascimento: %s\n", funcionario->data);
+    printf("| Telefone: %s\n", funcionario->fone);
+    printf("+---------------------------------------------------------------------------+\n");
+}
