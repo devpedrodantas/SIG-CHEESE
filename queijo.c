@@ -94,7 +94,6 @@ void cadastra_queijo(void) {
     lePreco(queijo);
     
     queijo->status = 'a';                  // Coloca o status do queijo como 'ativo'
-    strcpy(situacao, "Ativo");
 
     // Exibe as informações para o usuário
     printf("+---------------------------------------------------------------------------+\n");
@@ -303,7 +302,7 @@ void exclui_queijo(void) {
         if (strcmp(queijo->codigo, codigo_busca) == 0 && queijo->status == 'a') {
             encontrado = 1;
             
-            exibe_queijo(&queijo);
+            exibe_queijo(queijo);
             printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
             getchar();  // Espera o usuário pressionar ENTER para continuar
             encontrado = 1;
