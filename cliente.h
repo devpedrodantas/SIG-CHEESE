@@ -3,20 +3,22 @@
 #include "estruturas.h"  // Inclui a definição da estrutura Endereco
 
 // Estrutura para armazenar os dados do cliente
-typedef struct {
-    char status;          // Status do cliente (ativo, inativo, etc)
-    char nome[52];        // Nome como array estático
-    char cpf[13];         // CPF com tamanho fixo
-    char email[258];      // E-mail como array estático
-    char data[15];        // Data de nascimento como array estático
-    char fone[15];        // Telefone como array estático
-    Endereco endereco;    // Endereço associado ao cliente (definido em estruturas.h)
+typedef struct cliente {
+    char status;
+    char nome[52];
+    char cpf[13];
+    char email[258];
+    char data[15];
+    char fone[15];
+    Endereco endereco;
+    struct cliente* prox; // Ponteiro para o próximo cliente
 } Cliente;
+
 
 
 // Declaração das funções relacionadas ao cliente
 void menu_cliente(void);
-void cadastra_cliente(void);
+Cliente* cadastra_cliente(Cliente* lista);
 
 void pesquisa_cliente(void);
 void busca_cliente (const char *cpf_busca);
