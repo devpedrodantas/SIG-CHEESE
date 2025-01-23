@@ -154,32 +154,13 @@ void busca_funcionario (const char *cpf_busca) {
 
     int encontrado = 0;
         // Ler os dados do arquivo cliente por cliente
-    while (fread(funcionario, sizeof(Funcionario), 1, fp)) {
+    while (fread(&funcionario, sizeof(Funcionario), 1, fp)) {
   
-
-        // Verifica se o CPF corresponde ao que foi procurado
-       if (strcmp(funcionario->cpf, cpf_busca) == 0) {
-            printf("+---------------------------------------------------------------------------+\n");
-            printf("| Cliente encontrado\n");
-            printf("| Nome: %s\n", funcionario->nome);
-            printf("| CPF: %s\n", funcionario->cpf);
-            printf("| Email: %s\n", funcionario->email);
-            printf("| Data de nascimento: %s\n", funcionario->data);
-            printf("| Telefone: %s\n", funcionario->fone);
-            
-            // Verifica o status do cliente (ativo ou inativo)
-            if (funcionario->status == 'a') {
-                strcpy(situacao, "Ativo");
-            } else if (funcionario->status == 'i') {
-                strcpy(situacao, "Inativo");
-            } else {
-                strcpy(situacao, "Não informado");
-            }
-        
-            printf("| Situação do funcionário: %s\n", situacao);
-            printf("+---------------------------------------------------------------------------+\n");
+              // Verifica se o CPF corresponde ao que foi procurado
+       if (strcmp(funcionario.cpf, cpf_busca) == 0) {
+            exibe_funcionario(&funcionario);
             printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-            getchar();
+            getchar();  // Espera o usuário pressionar ENTER para continuar
             encontrado = 1;
             break; // Encerra o loop quando encontrar o cliente
         }
