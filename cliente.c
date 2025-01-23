@@ -6,6 +6,8 @@
 #include "validacao.h"
 #include "estruturas.h"
 
+Cliente* lista = NULL;  // Variável global
+
 void menu_cliente(void) {
     char op;
     do {
@@ -30,7 +32,7 @@ void menu_cliente(void) {
         printf("+---------------------------------------------------------------------------+\n");
         switch (op) {
             case '1':
-                cadastra_cliente();
+                lista = cadastra_cliente(lista);
                 break;
             case '2':
                 pesquisa_cliente();
@@ -57,11 +59,11 @@ void menu_cliente(void) {
     } while (op != '0');
 }
 
-void cadastra_cliente(void) {
-    Cliente *cliente = (Cliente*) malloc(sizeof(Cliente));      // Aloca dinamicamente memória para a estrutura Cliente
-    if (cliente == NULL) {
+Cliente* cadastra_cliente(Cliente* lista) {
+    Cliente *novo_cliente = (Cliente*) malloc(sizeof(Cliente));      // Aloca dinamicamente memória para a estrutura Cliente
+    if (novo_cliente == NULL) {
         perror("Erro ao alocar memória em cliente");
-        exit(1);
+        return lista;  // Retorna a lista sem alterações
     } 
     
     FILE* fp;  // Ponteiro para o arquivo
@@ -71,68 +73,74 @@ void cadastra_cliente(void) {
     printf("|                                                                           |\n");
     printf("|                         >>  Cadastrar Cliente  <<                         |\n");
     printf("|                                                                           |\n");
-    leNomeCliente(cliente);                 // Chama a função que agora lê e valida o nome do cliente
+    leNomeCliente(novo_cliente);                 // Chama a função que agora lê e valida o nome do cliente
     
     // Lê o CPF e verifica se já está cadastrado
     do {
-        leCpfCliente(cliente); // Lê e valida o CPF do cliente
-        if (verificaCpfCadastrado(cliente->cpf)) {
-            printf("\nErro: CPF %s já cadastrado!\n", cliente->cpf);
+        leCpfCliente(novo_cliente); // Lê e valida o CPF do cliente
+        if (verificaCpfCadastrado(novo_cliente->cpf)) {
+            printf("\nErro: CPF %s já cadastrado!\n", novo_cliente->cpf);
             printf("Tente novamente.\n");
         } else {
             break; // CPF não está duplicado, sai do loop
         }
     } while (1); // Continua até o CPF ser válido e único
     
-    leEmailCliente(cliente);                // Chama a função que agora lê e valida o Email do cliente
-    leDataCliente(cliente);                 // Chama a função que agora lê e valida a data do cliente
-    leFoneCliente(cliente);                 // Chama a função que agora lê e valida o telefone do cliente
+    leEmailCliente(novo_cliente);                // Chama a função que agora lê e valida o Email do cliente
+    leDataCliente(novo_cliente);                 // Chama a função que agora lê e valida a data do cliente
+    leFoneCliente(novo_cliente);                 // Chama a função que agora lê e valida o telefone do cliente
 
-    leBairro(&cliente->endereco);
-    leCidade(&cliente->endereco);
-    leEstado(&cliente->endereco);
+    leBairro(&novo_cliente->endereco);
+    leCidade(&novo_cliente->endereco);
+    leEstado(&novo_cliente->endereco);
     
-    cliente->status = 'a';                // Define status como ativo
+    novo_cliente->status = 'a';                // Define status como ativo
+
+    // Insere o novo cliente no início da lista
+    novo_cliente->prox = lista;
+    lista = novo_cliente;
 
     // Exibe as informações para o usuário
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("| Cliente cadastrado com sucesso\n");
     printf("|\n");
-    printf("| Nome: %s\n", cliente->nome);
-    printf("| CPF: %s\n", cliente->cpf);
-    printf("| Email: %s\n", cliente->email);
-    printf("| Data de nascimento: %s\n", cliente->data);
-    printf("| Número de telefone: %s\n", cliente->fone);
-    printf("| Bairro: %s\n", cliente->endereco.bairro);
-    printf("| Cidade: %s\n", cliente->endereco.cidade);
-    printf("| Estado: %s\n", cliente->endereco.estado);
+    printf("| Nome: %s\n", novo_cliente->nome);
+    printf("| CPF: %s\n", novo_cliente->cpf);
+    printf("| Email: %s\n", novo_cliente->email);
+    printf("| Data de nascimento: %s\n", novo_cliente->data);
+    printf("| Número de telefone: %s\n", novo_cliente->fone);
+    printf("| Bairro: %s\n", novo_cliente->endereco.bairro);
+    printf("| Cidade: %s\n", novo_cliente->endereco.cidade);
+    printf("| Estado: %s\n", novo_cliente->endereco.estado);
     printf("| Situação do cliente: Ativo\n");
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
     getchar();
-    
+
+    // Gravando apenas o novo cliente no arquivo
     fp = fopen ("clientes.dat", "ab");
     if(fp == NULL) {
         perror("Erro ao abrir o arquivo clientes.dat");
-        exit(1);  // Mantém a saída do programa caso haja um erro ao abrir o arquivo
+        free(novo_cliente);
+        return lista;
     }
-    fwrite(cliente, sizeof(Cliente), 1, fp);
-
-    fclose (fp);  //Fecha o arquivo
-    free (cliente);                        // libera memória da estrutura Cliente
-
     
-    // A pedido de Flavius (Informações em arquivo texto chamada a partir de clientes.txt) 
-    //fprintf(fp, "+---------------------------------------------------------------------------+\n");
-    //fprintf(fp, "| Nome: %s\n", cliente->nome);
-    //fprintf(fp, "| CPF: %s\n", cliente->cpf);
-    //fprintf(fp, "| Email: %s\n", cliente->email);
-    //fprintf(fp, "| Data de nascimento: %s\n", cliente->data);
-    //fprintf(fp, "| Número de telefone: %s\n", cliente->fone);                                                              
-    //fprintf(fp, "+---------------------------------------------------------------------------+\n");
+    fwrite(novo_cliente, sizeof(Cliente), 1, fp);
+    fclose (fp);
+            
+    return lista;  // Retorna a lista após a depuração
 }
+
+        // A pedido de Flavius (Informações em arquivo texto chamada a partir de clientes.txt) 
+        //fprintf(fp, "+---------------------------------------------------------------------------+\n");
+        //fprintf(fp, "| Nome: %s\n", cliente->nome);
+        //fprintf(fp, "| CPF: %s\n", cliente->cpf);
+        //fprintf(fp, "| Email: %s\n", cliente->email);
+        //fprintf(fp, "| Data de nascimento: %s\n", cliente->data);
+        //fprintf(fp, "| Número de telefone: %s\n", cliente->fone);                                                              
+        //fprintf(fp, "+---------------------------------------------------------------------------+\n");
 
 // Função para validar o CPF informado pelo usuário e acionar a busca do cliente
 void pesquisa_cliente(void) {
