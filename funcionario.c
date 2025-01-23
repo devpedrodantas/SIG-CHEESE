@@ -57,7 +57,6 @@ void menu_funcionario(void) {
 }
 
 void cadastra_funcionario(void) {
-    char situacao[20];   // Declaração de variável para armazenar a situação 
     
     Funcionario *funcionario = (Funcionario*) malloc(sizeof(Funcionario));      // Aloca dinamicamente memória para a estrutura
     if (funcionario == NULL) {
@@ -95,7 +94,6 @@ void cadastra_funcionario(void) {
     ///printf("|-> Endereço:  |\n");
     
     funcionario->status = 'a';                  // Coloca o status do funcionário como 'ativo'
-    strcpy(situacao, "Ativo");
 
     // Exibe as informações para o usuário
     printf("+---------------------------------------------------------------------------+\n");
@@ -107,7 +105,7 @@ void cadastra_funcionario(void) {
     printf("| Email: %s\n", funcionario->email);                   // Acessa o campo 'email' da estrutura 'funcionario'
     printf("| Data de nascimento: %s\n", funcionario->data);       // Acessa o campo 'data' da estrutura 'funcionario'
     printf("| Número de telefone: %s\n", funcionario->fone);       // Acessa o campo 'fone' da estrutura 'funcionario'
-    printf("| Situação do funcionário: %s\n", situacao);
+    printf("| Situação do funcionário: Ativo\n");
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
@@ -138,7 +136,6 @@ void pesquisa_funcionario(void) {
 }
 
 void busca_funcionario (const char *cpf_busca) {
-    char situacao[20];    // Declaração de variável para armazenar a situação do cliente
     
     FILE *fp;
     Funcionario *funcionario;
@@ -157,32 +154,13 @@ void busca_funcionario (const char *cpf_busca) {
 
     int encontrado = 0;
         // Ler os dados do arquivo cliente por cliente
-    while (fread(funcionario, sizeof(Funcionario), 1, fp)) {
+    while (fread(&funcionario, sizeof(Funcionario), 1, fp)) {
   
-
-        // Verifica se o CPF corresponde ao que foi procurado
-       if (strcmp(funcionario->cpf, cpf_busca) == 0) {
-            printf("+---------------------------------------------------------------------------+\n");
-            printf("| Cliente encontrado\n");
-            printf("| Nome: %s\n", funcionario->nome);
-            printf("| CPF: %s\n", funcionario->cpf);
-            printf("| Email: %s\n", funcionario->email);
-            printf("| Data de nascimento: %s\n", funcionario->data);
-            printf("| Telefone: %s\n", funcionario->fone);
-            
-            // Verifica o status do cliente (ativo ou inativo)
-            if (funcionario->status == 'a') {
-                strcpy(situacao, "Ativo");
-            } else if (funcionario->status == 'i') {
-                strcpy(situacao, "Inativo");
-            } else {
-                strcpy(situacao, "Não informado");
-            }
-        
-            printf("| Situação do funcionário: %s\n", situacao);
-            printf("+---------------------------------------------------------------------------+\n");
+              // Verifica se o CPF corresponde ao que foi procurado
+       if (strcmp(funcionario.cpf, cpf_busca) == 0) {
+            exibe_funcionario(&funcionario);
             printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-            getchar();
+            getchar();  // Espera o usuário pressionar ENTER para continuar
             encontrado = 1;
             break; // Encerra o loop quando encontrar o cliente
         }
@@ -323,26 +301,11 @@ void exclui_funcionario(void) {
     while (fread(funcionario, sizeof(Funcionario), 1, fp)) {
         // Se o CPF corresponder, exibe os dados do funcionario
         if (strcmp(funcionario->cpf, cpf_busca) == 0 && funcionario->status == 'a') {
+            exibe_funcionario(&funcionario);
+            printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+            getchar();  // Espera o usuário pressionar ENTER para continuar
+            encontrado = 1;
             
-            // Exibe a situação do funcionario
-            if (funcionario->status == 'a') {
-                strcpy(situacao, "Ativo");
-            } else if (funcionario->status == 'i') {
-                strcpy(situacao, "Inativo");
-            } else {
-                strcpy(situacao, "Não informado");
-            }
-            
-            printf("+---------------------------------------------------------------------------+\n");
-            printf("| Funcionário encontrado\n");
-            printf("| Nome: %s\n", funcionario->nome);
-            printf("| CPF: %s\n", funcionario->cpf);
-            printf("| Email: %s\n", funcionario->email);
-            printf("| Data de nascimento: %s\n", funcionario->data);
-            printf("| Telefone: %s\n", funcionario->fone);
-            printf("| Situação do cliente: %s\n", situacao);  // Exibe a situação do cliente
-            printf("+---------------------------------------------------------------------------+\n");
-
             // Pergunta para o usuário se deseja excluir
             char confirmacao[3];  // Usar um array de 2 caracteres
             printf("Tem certeza que deseja excluir este Funcionário? (S/N): ");
@@ -422,3 +385,12 @@ int verificaCpfCadastradoF(const char *cpf) {
     return 0;  // Retorna 0 se o CPF não estiver cadastrado
 }
 
+void exibe_funcionario(const Funcionario *funcionario){
+    printf("+---------------------------------------------------------------------------+\n");
+    printf("| Nome: %s\n", funcionario->nome);
+    printf("| CPF: %s\n", funcionario->cpf);
+    printf("| Email: %s\n", funcionario->email);
+    printf("| Data de nascimento: %s\n", funcionario->data);
+    printf("| Telefone: %s\n", funcionario->fone);
+    printf("+---------------------------------------------------------------------------+\n");
+}

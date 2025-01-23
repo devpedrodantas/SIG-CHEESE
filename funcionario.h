@@ -22,7 +22,8 @@ void atualiza_funcionario(void);
 void exclui_funcionario(void);
 
 void leCpfBuscaF (char *cpf_busca);
-int verificaCpfCadastradoF(const char *cpf);
+int verificaCpfCadastradoF(const char *cpf); 
+void exibe_funcionario(const Funcionario *funcionario);
 
 
 #endif // Finaliza a proteção
