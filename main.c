@@ -26,10 +26,11 @@
 //// Incluir pastas para organização dos demais arquivos
 //// Estrutura genérica em estruturas.h (nome,email,cpf,data,fone)
 //// Organizar os relatórios em módulos (clnt,func,quei,vend)
-//// 
-//// 
+////  
 //// Refatorar funções grandes em funções menores
 //// Fazer uso do util para implementar funções de utilidades 
+//// 
+//// Colocar cargos no módulo funcionário (estoque)
 //// -----------------------------------------------------------------
 
 
