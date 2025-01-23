@@ -60,6 +60,7 @@ int main(void) {
                 break;
             case 4:
                 menu_venda();
+                break;
             case 5:
                 menu_relatorio();
                 break;
