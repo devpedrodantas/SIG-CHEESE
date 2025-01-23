@@ -301,26 +301,11 @@ void exclui_funcionario(void) {
     while (fread(funcionario, sizeof(Funcionario), 1, fp)) {
         // Se o CPF corresponder, exibe os dados do funcionario
         if (strcmp(funcionario->cpf, cpf_busca) == 0 && funcionario->status == 'a') {
+            exibe_funcionario(&funcionario);
+            printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+            getchar();  // Espera o usuário pressionar ENTER para continuar
+            encontrado = 1;
             
-            // Exibe a situação do funcionario
-            if (funcionario->status == 'a') {
-                strcpy(situacao, "Ativo");
-            } else if (funcionario->status == 'i') {
-                strcpy(situacao, "Inativo");
-            } else {
-                strcpy(situacao, "Não informado");
-            }
-            
-            printf("+---------------------------------------------------------------------------+\n");
-            printf("| Funcionário encontrado\n");
-            printf("| Nome: %s\n", funcionario->nome);
-            printf("| CPF: %s\n", funcionario->cpf);
-            printf("| Email: %s\n", funcionario->email);
-            printf("| Data de nascimento: %s\n", funcionario->data);
-            printf("| Telefone: %s\n", funcionario->fone);
-            printf("| Situação do cliente: %s\n", situacao);  // Exibe a situação do cliente
-            printf("+---------------------------------------------------------------------------+\n");
-
             // Pergunta para o usuário se deseja excluir
             char confirmacao[3];  // Usar um array de 2 caracteres
             printf("Tem certeza que deseja excluir este Funcionário? (S/N): ");
