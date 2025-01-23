@@ -1,6 +1,8 @@
 #ifndef RELATORIO_H
 #define RELATORIO_H 
 
+#include "cliente.h"
+
 // ========================= RELATÓRIOS GERAIS =========================
 void menu_relatorio(void);         // Exibe o menu principal de relatórios
 void relatorio_cliente(void);      // Exibe o relatório de clientes
@@ -24,5 +26,11 @@ void lista_queijo_tipo(void);
 void busca_cliente_por_compras(void);
 void buscaVendas(const char *cpf_relatorio);
 void leCpfRelatorio(char *cpf);
+
+// ================= Listas =================
+void menu_listas_cliente(Cliente* lista);
+void lista_direta_cliente(Cliente* lista);
+void lista_cliente_ativos(Cliente* lista);
+void lista_alfa_cliente(Cliente* lista);
 
 #endif 
