@@ -81,7 +81,7 @@ void cadastra_venda(void) {
     getchar(); 
 }
 
-void realiza_compra() {
+void realiza_compra() {     // Créditos ao GPT (19/01/2025)
     char cpf_cliente[13];
     char codigo_busca[10];
     float quantidade;
