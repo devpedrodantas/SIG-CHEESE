@@ -108,7 +108,7 @@ void cadastra_queijo(void) {
     printf("| Tipo do queijo: %s\n", queijo->tipo);
     printf("| Preço do queijo: %.2f\n", queijo->preco);
     printf("| Estoque do queijo: %d\n", queijo->estoque);
-    printf("| Situação do queijo: %s\n", situacao);
+    printf("| Situação do cliente: Ativo\n");
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
@@ -151,7 +151,7 @@ void busca_queijo (const char *codigo_busca) {
 
     int encontrado = 0;
         // Ler os dados do arquivo queijo por queijo
-    while (fread(queijo, sizeof(Queijo), 1, fp)) {
+    while (fread(&queijo, sizeof(Queijo), 1, fp)) {
   
 
         if (strcmp(queijo.codigo, codigo_busca) == 0) {
