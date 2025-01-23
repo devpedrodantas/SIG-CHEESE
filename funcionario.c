@@ -138,14 +138,8 @@ void pesquisa_funcionario(void) {
 void busca_funcionario (const char *cpf_busca) {
     
     FILE *fp;
-    Funcionario *funcionario;
-    funcionario = (Funcionario*) malloc(sizeof(Funcionario));
-    if (funcionario == NULL) {
-        perror("Erro ao alocar memória em cliente");
-        exit(1);
-    }
+    Funcionario funcionario;
 
-  
     fp = fopen("funcionarios.dat", "rb");
     if (fp == NULL) {
         perror("Erro ao abrir o arquivo!\n");
@@ -270,7 +264,6 @@ void atualiza_funcionario(void) {
 }
 
 void exclui_funcionario(void) {
-    char situacao[20];   // Declaração de variável para armazenar a situação do cliente
     char cpf_busca[13];
     int encontrado = 0;
 
@@ -301,7 +294,7 @@ void exclui_funcionario(void) {
     while (fread(funcionario, sizeof(Funcionario), 1, fp)) {
         // Se o CPF corresponder, exibe os dados do funcionario
         if (strcmp(funcionario->cpf, cpf_busca) == 0 && funcionario->status == 'a') {
-            exibe_funcionario(&funcionario);
+            exibe_funcionario(funcionario);
             printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
             getchar();  // Espera o usuário pressionar ENTER para continuar
             encontrado = 1;
@@ -392,5 +385,6 @@ void exibe_funcionario(const Funcionario *funcionario){
     printf("| Email: %s\n", funcionario->email);
     printf("| Data de nascimento: %s\n", funcionario->data);
     printf("| Telefone: %s\n", funcionario->fone);
+    printf("| Situação do funcionário: %s\n", funcionario->status == 'a' ? "Ativo" : "Inativo");
     printf("+---------------------------------------------------------------------------+\n");
 }
