@@ -346,6 +346,158 @@ void lista_direta_cliente(Cliente* lista) {
     getchar();
 }
 
+void lista_cliente_ativos(Cliente* lista) {     // Créditos ao GPT   (22/01/2025)
+    FILE* fp = fopen("clientes.dat", "rb");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo de clientes");
+        return;
+    }
+
+    // lista_filtrada: Lista dinâmica que irá armazenar os clientes que atendem ao critério de filtro (status ativo).
+    // novo_cliente: Variável temporária usada para armazenar os dados de um cliente lido do arquivo.
+    // novo_node: Ponteiro para um novo nó de cliente alocado dinamicamente. Cada nó contém os dados de um cliente e é adicionado à lista filtrada.
+
+    
+    // Lista dinâmica que será criada com os dados do arquivo
+    Cliente* lista_filtrada = NULL;
+
+    // Variável temporária para armazenar os dados lidos do arquivo
+    Cliente novo_cliente;
+    while (fread(&novo_cliente, sizeof(Cliente), 1, fp)) {
+        if (novo_cliente.status == 'a') {  
+            
+             // Aloca memória para um novo nó de cliente
+            Cliente* novo_node = (Cliente*)malloc(sizeof(Cliente));
+            if (novo_node == NULL) {
+                printf("Erro de alocação de memória\n");
+                fclose(fp);
+                return;
+            }
+
+            // Copia os dados de novo_cliente para o novo_node
+            *novo_node = novo_cliente;
+            
+            // Insere o novo nó no início da lista ligada
+            novo_node->prox = lista_filtrada;
+            lista_filtrada = novo_node;  // Insere no início da lista
+        }
+    }
+
+    fclose(fp);
+
+    if (lista_filtrada == NULL) {
+        printf("\nNenhum cliente cadastrado com o critério especificado.\n");
+        printf("\nTecle ENTER para continuar...\n");
+        getchar();
+        return;
+    }
+
+    printf("\nLista dos Clientes Cadastrados (Ativos):\n");
+    printf("=====================================\n");
+
+    // Anda pela lista e exibe as informações de cada cliente
+    int i = 1;
+    Cliente* atual = lista_filtrada;
+
+    while (atual != NULL) {
+        printf("\nCliente %d:\n", i);
+        printf("Nome: %s\n", atual->nome);
+        printf("CPF: %s\n", atual->cpf);
+        printf("Fone: %s\n", atual->fone);
+        printf("=====================================\n");
+        printf("\n");
+        atual = atual->prox;  // Avança para o próximo cliente
+        i++;  // Incrementa o contador de clientes
+    }
+
+    printf("\nTecle ENTER para continuar...\n");
+    getchar();
+}
+
+void lista_alfa_cliente(Cliente* lista) {         // Créditos ao GPT e ClaudeAI (23/01/2025)
+    FILE* fp = fopen("clientes.dat", "rb");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo de clientes");
+        return;
+    }
+
+    // Lista dinâmica para armazenar clientes ordenados
+    Cliente* lista_clientes = NULL;
+    Cliente novo_cliente;
+
+    // Leitura dos clientes do arquivo com inserção ordenada
+    while (fread(&novo_cliente, sizeof(Cliente), 1, fp)) {
+        // Aloca memória para um novo nó de cliente
+        Cliente* novo_node = (Cliente*)malloc(sizeof(Cliente));
+        if (novo_node == NULL) {
+            printf("Erro de alocação de memória\n");
+            fclose(fp);
+            return;
+        }
+        *novo_node = novo_cliente;
+        novo_node->prox = NULL;
+
+        // Inserção ordenada por nome
+        if (lista_clientes == NULL) {
+            lista_clientes = novo_node;
+        } else if (strcmp(novo_node->nome, lista_clientes->nome) < 0) {
+            // Inserir no início se alfabeticamente menor
+            novo_node->prox = lista_clientes;
+            lista_clientes = novo_node;
+        } else {
+            // Encontrar posição de inserção
+            Cliente* ant = lista_clientes;
+            Cliente* atual = lista_clientes->prox;
+
+            while (atual != NULL && strcmp(novo_node->nome, atual->nome) > 0) {
+                ant = atual;
+                atual = atual->prox;
+            }
+
+            novo_node->prox = atual;
+            ant->prox = novo_node;
+        }
+    }
+    fclose(fp);
+
+    // Verifica se a lista de clientes está vazia
+    if (lista_clientes == NULL) {
+        printf("\nNenhum cliente cadastrado.\n");
+        printf("\nTecle ENTER para continuar...\n");
+        getchar();
+        return;
+    }
+
+    printf("\nLista de Clientes Cadastrados (Ordem Alfabética):\n");
+    printf("=====================================\n");
+    
+    // Exibe os dados de cada cliente na lista
+    int i = 1;
+    Cliente* atual = lista_clientes;
+    while (atual != NULL) {
+        printf("\nCliente %d:\n", i);
+        printf("Nome: %s\n", atual->nome);
+        printf("CPF: %s\n", atual->cpf);
+        printf("Fone: %s\n", atual->fone);
+        printf("=====================================\n");
+        printf("\n");
+        atual = atual->prox;
+        i++;
+    }
+
+    printf("\nTecle ENTER para continuar...\n");
+    getchar();
+
+    // Liberar memória alocada
+    atual = lista_clientes;
+    while (atual != NULL) {
+        Cliente* temp = atual;
+        atual = atual->prox;
+        free(temp);
+    }
+}
+
+
 void buscaBairroRelatorio(char* bairro_lido) {
     FILE *fp;
     Cliente *cliente = (Cliente*) malloc(sizeof(Cliente));
