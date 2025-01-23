@@ -142,13 +142,7 @@ void pesquisa_queijo(void) {
 void busca_queijo (const char *codigo_busca) {
     
     FILE *fp;
-    Queijo *queijo;
-    queijo = (Queijo*) malloc(sizeof(Queijo));
-    if (queijo == NULL) {
-        perror("Erro ao alocar memória em queijo");
-        exit(1);
-    }
-
+    Queijo queijo;
   
     fp = fopen("queijos.dat", "rb");
     if (fp == NULL) {
@@ -174,7 +168,6 @@ void busca_queijo (const char *codigo_busca) {
         getchar();
     }
     fclose(fp);  // Fecha o arquivo após o uso
-    free (queijo);                        // libera memória da estrutura queijo
 }
 
 
@@ -282,7 +275,6 @@ void atualiza_queijo(void) {
 }
 
 void exclui_queijo(void) {
-    char situacao[20];   // Declaração de variável para armazenar a situação do cliente
     char codigo_busca[13];
     FILE *fp;
     int encontrado = 0;
