@@ -5,7 +5,7 @@
 ///                  Disciplina DCT1106 -- Programação                      ///
 ///             Projeto Sistema de Gestão Para uma Fábrica de Queijo        ///
 ///           Developed by @devpedrodantas & @MizaelFGT &IvysonWNM          ///
-///                              Versão: 0.14                               ///
+///                              Versão: 0.17                               ///
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <stdio.h>
@@ -16,8 +16,23 @@
 #include "relatorio.h"
 #include "venda.h"
 
+//// -----------------------------------------------------------------
+//// Correções Pendentes
+//// 
+//// Concluir o restante do CRUD do módulo venda
+////
 //// Atualizar o menu sobre e equipe
 //// Melhorar as validações 
+//// Incluir pastas para organização dos demais arquivos
+//// Estrutura genérica em estruturas.h (nome,email,cpf,data,fone)
+//// Organizar os relatórios em módulos (clnt,func,quei,vend)
+//// 
+//// 
+//// Refatorar funções grandes em funções menores
+//// Fazer uso do util para implementar funções de utilidades 
+//// -----------------------------------------------------------------
+
+
 
 /////
 // Assinatura das funções
@@ -145,6 +160,8 @@ void menu_equipe(void) {
     printf("|                                                                           |\n");
     printf("|            Ivyson Wanderson Nunes Martins                                 |\n");
     printf("|            E-mail: ivyson.nunes.707@ufrn.edu.br                           |\n");
+    printf("|                                                                           |\n");
+    printf("|            Jonas                                                          |\n");
     printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
