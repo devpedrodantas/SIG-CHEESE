@@ -58,7 +58,6 @@ void menu_queijo(void) {
 }
 
 void cadastra_queijo(void) {
-    char situacao[20];   // Declaração de variável para armazenar a situação 
     
     Queijo *queijo = (Queijo*) malloc(sizeof(Queijo));      // Aloca dinamicamente memória para a estrutura
     if (queijo == NULL) {
@@ -141,7 +140,6 @@ void pesquisa_queijo(void) {
 }
 
 void busca_queijo (const char *codigo_busca) {
-    char situacao[20];    // Declaração de variável para armazenar a situação do cliente
     
     FILE *fp;
     Queijo *queijo;
@@ -163,34 +161,12 @@ void busca_queijo (const char *codigo_busca) {
     while (fread(queijo, sizeof(Queijo), 1, fp)) {
   
 
-        // Verifica se o código corresponde ao que foi procurado
-       if (strcmp(queijo->codigo, codigo_busca) == 0) {
-            printf("+---------------------------------------------------------------------------+\n");
-            printf("| Queijo encontrado\n");
-            printf("| Nome: %s\n", queijo->nome);
-            printf("| Código: %s\n", queijo->codigo);
-            printf("| Data de fabricação: %s\n", queijo->data_fabricacao);
-            printf("| Data de validade: %s\n", queijo->data_validade);
-            printf("| Composição: %s\n", queijo->comp);
-            printf("| Tipo: %s\n", queijo->tipo);
-            printf("| Estoque do queijo: %d\n", queijo->estoque);
-            printf("| Preço do queijo: %.2f\n", queijo->preco);
-            
-            // Verifica o status do queijo (ativo ou inativo)
-            if (queijo->status == 'a') {
-                strcpy(situacao, "Ativo");
-            } else if (queijo->status == 'i') {
-                strcpy(situacao, "Inativo");
-            } else {
-                strcpy(situacao, "Não informado");
-            }
-        
-            printf("| Situação do queijo: %s\n", situacao);
-            printf("+---------------------------------------------------------------------------+\n");
+        if (strcmp(queijo.codigo, codigo_busca) == 0) {
+            exibe_queijo(&queijo);
             printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-            getchar();
+            getchar();  // Espera o usuário pressionar ENTER para continuar
             encontrado = 1;
-            break; // Encerra o loop quando encontrar o queijo
+            break; // Encerra o loop quando encontrar o cliente
         }
     }
     if (!encontrado) {
@@ -335,28 +311,11 @@ void exclui_queijo(void) {
         if (strcmp(queijo->codigo, codigo_busca) == 0 && queijo->status == 'a') {
             encontrado = 1;
             
-            // Exibe a situação do cliente
-            if (queijo->status == 'a') {
-                strcpy(situacao, "Ativo");
-            } else if (queijo->status == 'i') {
-                strcpy(situacao, "Inativo");
-            } else {
-                strcpy(situacao, "Não informado");
-            }
-            
-            printf("+---------------------------------------------------------------------------+\n");
-            printf("| Queijo encontrado\n");
-            printf("| Nome: %s\n", queijo->nome);
-            printf("| Código: %s\n", queijo->codigo);
-            printf("| Data de fabricação: %s\n", queijo->data_fabricacao);
-            printf("| Data de validade: %s\n", queijo->data_validade);
-            printf("| Composição: %s\n", queijo->comp);
-            printf("| Tipo: %s\n", queijo->tipo);
-            printf("| Estoque do queijo: %d\n", queijo->estoque);
-            printf("| Preço do queijo: %.2f\n", queijo->preco);
-            printf("| Situação do cliente: %s\n", situacao);  // Exibe a situação do cliente
-            printf("+---------------------------------------------------------------------------+\n");
-
+            exibe_queijo(&queijo);
+            printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+            getchar();  // Espera o usuário pressionar ENTER para continuar
+            encontrado = 1;
+            break; // Encerra o loop quando encontrar o cliente
             // Pergunta para o usuário se deseja excluir
             char confirmacao[3];  // Usar um array de 2 caracteres
             printf("Tem certeza que deseja excluir este cliente? (S/N): ");
