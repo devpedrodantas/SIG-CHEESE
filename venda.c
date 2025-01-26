@@ -350,16 +350,77 @@ void atualiza_venda(void) {
     printf("+---------------------------------------------------------------------------+\n");
 }
 
-void exclui_venda(void) {
+void exclui_venda(void) {  // Exclusão lógica
+    char id_busca[7];
+    FILE *fp;
+    int encontrado = 0;
+
+    Venda *venda;
+    venda = (Venda*) malloc(sizeof(Venda));
+    if (venda == NULL) {
+        perror("Erro ao alocar memória em venda");
+        exit(1);
+    }  
+    
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
-    printf("|                             >>  Exclui Venda <<                         |\n");
+    printf("|                              >>  Exclui Venda <<                          |\n");
     printf("|                                                                           |\n");
-    printf("+---------------------------------------------------------------------------+\n");
-    printf("\t\t\t>>> Tecle ENTER para continuar...\n");
-    getchar(); 
+    leIdVenda(id_busca);
+
+    fp = fopen("vendas.dat", "r+b");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo de vendas!");
+        free(venda);
+        exit(1);
+    }
+    
+    // Lê os registros do arquivo original e encontra a venda
+    while (fread(venda, sizeof(Venda), 1, fp)) {
+  
+        if (strcmp(venda->id_venda, id_busca) == 0 && venda->status == 'a') {            
+            exibe_venda(venda);
+            printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+            getchar(); 
+
+            // Pergunta para o usuário se deseja excluir
+            char confirmacao[3]; 
+            printf("Tem certeza que deseja cancelar esta venda? (S/N): ");
+            fgets(confirmacao, sizeof(confirmacao), stdin);
+          
+            confirmacao[strcspn(confirmacao, "\n")] = 0;                     // Remove o '\n' que pode ser deixado no buffer por causa do fgets
+
+            // Trata a confirmação (sem considerar maiúsculas/minúsculas)
+            if (confirmacao[0] == 'S' || confirmacao[0] == 's' || confirmacao[0] == 'Y' || confirmacao[0] == 'y') {
+                
+                // Marca a venda como inativa
+                venda->status = 'i';
+                fseek(fp, -sizeof(Venda), SEEK_CUR);
+                fwrite(venda, sizeof(Venda), 1, fp); 
+
+                printf("\nVenda com o ID %s foi marcado como inativo.\n", id_busca);
+                printf("Pressione Enter para continuar...\n");
+                getchar(); 
+            } else {
+                printf("\nExclusão cancelada.\n");
+                printf("Pressione Enter para voltar ao menu...\n");
+                getchar();
+            }
+            encontrado = 1;
+            break; 
+        }
+    }
+
+    if (!encontrado) {
+        printf("Cliente com CPF %s não encontrado ou já está inativo.\n", id_busca);
+        printf("Pressione Enter para continuar...\n");
+        getchar(); 
+    }
+
+    fclose(fp); 
+    free(venda); 
 }
 
 void atualiza_estoque(void) {
