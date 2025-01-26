@@ -5,7 +5,7 @@
 ///                  Disciplina DCT1106 -- Programação                      ///
 ///             Projeto Sistema de Gestão Para uma Fábrica de Queijo        ///
 ///           Developed by @devpedrodantas & @MizaelFGT &IvysonWNM          ///
-///                              Versão: 0.17                               ///
+///                              Versão: 0.18                               ///
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <stdio.h>
@@ -19,18 +19,11 @@
 //// -----------------------------------------------------------------
 //// Correções Pendentes
 //// 
-//// Concluir o restante do CRUD do módulo venda
-////
 //// Atualizar o menu sobre e equipe
 //// Melhorar as validações 
-//// Incluir pastas para organização dos demais arquivos
 //// Estrutura genérica em estruturas.h (nome,email,cpf,data,fone)
 //// Organizar os relatórios em módulos (clnt,func,quei,vend)
 ////  
-//// Refatorar funções grandes em funções menores
-//// Fazer uso do util para implementar funções de utilidades 
-//// 
-//// Colocar cargos no módulo funcionário (estoque)
 //// -----------------------------------------------------------------
 
 
