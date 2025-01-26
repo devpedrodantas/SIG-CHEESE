@@ -194,7 +194,7 @@ void registra_venda(const char *cpf_cliente, Queijo *queijo, float quantidade) {
     strcpy(venda.codigo_produto, queijo->codigo);
     venda.quantidade_comprada = quantidade;
     venda.preco_total = quantidade * queijo->preco;
-    venda.status = 'A';
+    venda.status = 'a';
     strcpy(venda.id_venda, id_venda);
     
 
@@ -243,7 +243,7 @@ void pesquisa_venda(void) {
         if (strcmp(venda.id_venda, id_busca) == 0) {
             encontrado = 1;
 
-            if (venda.status == 'A') {     // Exibir a venda apenas se estiver ativa
+            if (venda.status == 'a') {     // Exibir a venda apenas se estiver ativa
                 exibe_venda(&venda);
             } else {
                 printf("\nA venda com o ID %s está marcada como inativa e não será exibida.\n", id_busca);
@@ -365,6 +365,6 @@ void exibe_venda(const Venda *venda) {
     printf("| Preço Total: R$ %.2f\n", venda->preco_total);
     printf("| Data da Venda: %s\n", venda->data);
     printf("| ID da Venda: %s\n", venda->id_venda);
-    printf("| Status: %s\n", (venda->status == 'A') ? "Ativo" : "Inativo");
+    printf("| Status: %s\n", (venda->status == 'a') ? "Ativo" : "Inativo");
     printf("+---------------------------------------------------------------------------+\n");
 }
