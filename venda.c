@@ -126,7 +126,7 @@ void realiza_compra() {     // Créditos ao GPT (19/01/2025)
 
     // Solicitar o código do produto
     leCodigoBusca(codigo_busca);
-
+    
     int produto_encontrado = 0;
 
     // Buscar o produto no arquivo
@@ -184,11 +184,19 @@ void registra_venda(const char *cpf_cliente, Queijo *queijo, float quantidade) {
     time_t t;
     struct tm *tm_info;
 
+    // Gerar ID único
+    char id_venda[7];
+    gera_id_unico(id_venda);
+    
+    
     // Preencher os dados da venda
     strcpy(venda.cpf_cliente, cpf_cliente);
     strcpy(venda.codigo_produto, queijo->codigo);
     venda.quantidade_comprada = quantidade;
     venda.preco_total = quantidade * queijo->preco;
+    venda.status = 'A';
+    strcpy(venda.id_venda, id_venda);
+    
 
     // Obter data atual do sistema
     t = time(NULL);
@@ -205,21 +213,7 @@ void registra_venda(const char *cpf_cliente, Queijo *queijo, float quantidade) {
     fwrite(&venda, sizeof(Venda), 1, fp);
     fclose(fp);
 
-    // Exibir detalhes da venda registrada
-    printf("\nVenda registrada com sucesso!\n");
-    printf("CPF do cliente: %s\n", venda.cpf_cliente);
-    printf("Código do produto: %s\n", venda.codigo_produto);
-    printf("Quantidade: ");
-    if (venda.quantidade_comprada == (int)venda.quantidade_comprada) {
-        // Exibe sem casas decimais se for um número inteiro
-        printf("%.0f\n", venda.quantidade_comprada);
-    } else {
-        // Exibe com duas casas decimais se for um número decimal
-        printf("%.2f\n", venda.quantidade_comprada);
-    }
-
-    printf("Total: %.2f\n", venda.preco_total);
-    printf("Data: %s\n", venda.data);
+    exibe_venda(&venda);
 }
 
 void pesquisa_venda(void) {
@@ -268,4 +262,57 @@ void atualiza_estoque(void) {
     printf("+---------------------------------------------------------------------------+\n");
     printf("\t\t\t>>> Tecle ENTER para continuar...\n");
     getchar(); 
+}
+
+void gera_id_unico(char *id_venda) {
+    const char caracteres[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    int num_caracteres = sizeof(caracteres) - 1; // Exclui o '\0' no final da string
+    do {
+        for (int i = 0; i < 6; i++) { // Gera 6 caracteres
+            int indice = rand() % num_caracteres; // Gera um índice aleatório
+            id_venda[i] = caracteres[indice]; // Atribui o caractere correspondente
+        }
+        id_venda[6] = '\0';
+    } while (verifica_id(id_venda)); 
+}
+
+int verifica_id(const char *id_venda) {
+    FILE *fp;
+    Venda venda;
+
+    fp = fopen("vendas.dat", "rb");
+    if (fp == NULL) {
+        return 0;
+    }
+
+    while (fread(&venda, sizeof(Venda), 1, fp)) {
+        if (strcmp(venda.id_venda, id_venda) == 0) {
+            fclose(fp);
+            return 1; 
+        }
+    }
+
+    fclose(fp);
+    return 0;
+}
+
+void exibe_venda(const Venda *venda) {
+    printf("\n+---------------------------------------------------------------------------+\n");
+    printf("|                               Detalhes da Venda                           |\n");
+    printf("+---------------------------------------------------------------------------+\n");
+    printf("| CPF do Cliente: %s\n", venda->cpf_cliente);
+    printf("| Código do Produto: %s\n", venda->codigo_produto);
+    printf("| Quantidade Comprada: ");
+    if (venda->quantidade_comprada == (int)venda->quantidade_comprada) {
+        // Exibe sem casas decimais se for um número inteiro
+        printf("%.0f\n", venda->quantidade_comprada);
+    } else {
+        // Exibe com duas casas decimais se for um número decimal
+        printf("%.2f\n", venda->quantidade_comprada);
+    }
+    printf("| Preço Total: R$ %.2f\n", venda->preco_total);
+    printf("| Data da Venda: %s\n", venda->data);
+    printf("| ID da Venda: %s\n", venda->id_venda);
+    printf("| Status: %s\n", (venda->status == 'A') ? "Ativo" : "Inativo");
+    printf("+---------------------------------------------------------------------------+\n");
 }
