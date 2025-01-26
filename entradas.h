@@ -4,9 +4,9 @@
 #include "cliente.h"          // Inclui a definição do tipo Cliente
 #include "funcionario.h"      // Inclui a definição do tipo Funcionário
 #include "queijo.h"           // Inclui a definição do tipo Queijo
+#include "venda.h"
 #include "estruturas.h"         
 
-#define TAM_CODIGO 7
 
 // Funções que recebem um ponteiro para a struct Cliente
 void leNomeCliente(Cliente *cliente);
@@ -26,10 +26,10 @@ void leFoneFuncionario(Funcionario *funcionario);
 void leNomeQueijo(Queijo *queijo);
 void leDataFabricacao(Queijo *queijo);
 void leDataValidade(Queijo *queijo);
-void leCodigo(Queijo *queijo);
+void leCodigoQueijo(Queijo *queijo);
 void leComposicao(Queijo *queijo);
 void leTipoLeite(Queijo *queijo);
-void lePreco(Queijo *queijo);
+void lePrecoQueijo(Queijo *queijo);
 void leEstoque(Queijo *queijo);
 
 // Funções que recebem um ponteiro para a struct Endereco
@@ -37,6 +37,10 @@ void leBairro(Endereco *endereco);
 void leCidade(Endereco *endereco);
 void leEstado(Endereco *endereco);
 
+// Funções que recebem um ponteiro para a struct Venda
+void leQuantidade(Venda *venda);
+void lePrecoVenda(Venda *venda);
+void leCodigoVenda(Venda *venda);
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
