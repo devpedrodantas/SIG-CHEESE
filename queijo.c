@@ -77,7 +77,7 @@ void cadastra_queijo(void) {
 
     // Lê o código e verifica se já está cadastrado
     do {
-        leCodigo(queijo); // Lê e valida o código do queijo
+        leCodigoQueijo(queijo); // Lê e valida o código do queijo
         if (verificaCodigoCadastrado(queijo->codigo)) {
             printf("\nErro: código %s já cadastrado!\n", queijo->codigo);
             printf("Tente novamente.\n");
@@ -91,7 +91,7 @@ void cadastra_queijo(void) {
     leComposicao(queijo);        // Chama a função que lê e valida a composição/ingrediente
     leTipoLeite(queijo);         // Chama a função que lê e valida o tipo do queijo
     leEstoque(queijo);
-    lePreco(queijo);
+    lePrecoQueijo(queijo);
     
     queijo->status = 'a';                  // Coloca o status do queijo como 'ativo'
 
@@ -224,7 +224,7 @@ void atualiza_queijo(void) {
                         leNomeQueijo(queijo);
                         break;
                     case '2':
-                        leCodigo(queijo);
+                        leCodigoQueijo(queijo);
                         break;
                     case '3':
                         leDataFabricacao(queijo);
@@ -242,7 +242,7 @@ void atualiza_queijo(void) {
                         leEstoque(queijo);;
                         break;
                     case '8':
-                        lePreco(queijo);;
+                        lePrecoQueijo(queijo);;
                         break;
                     case '0':
                         printf("Finalizando a atualização...\n");

@@ -14,5 +14,8 @@ int validaCodigo(const char* codigo);
 int validaComposicao(const char* comp);
 int validaTipoLeite(const char* tipo);
 int validaCodigoQueijo(int codigoQueijo, int codigoEsperado);
-bool validaEstoque(int estoque);
 bool validaPreco(float preco);
+bool validaEstoque(int estoque);
+
+int validaId(const char *id_venda);
+int validaQuantidade(char *entrada);

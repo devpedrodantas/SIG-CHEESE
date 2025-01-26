@@ -292,5 +292,37 @@ bool validaPreco(float preco) {
     return preco > 0; // Preço válido quando é maior que zero
 }
 
+//---------------------------------------------------------
+//                  Validação para o ID
+//---------------------------------------------------------
+int validaId(const char *id_venda) {
+    // Implementar a lógica de validação do ID (por exemplo, verificar se tem 6 caracteres alfanuméricos)
+    if (strlen(id_venda) == 6) {
+        return 1;  // Retorna 1 se o ID for válido
+    }
+    return 0;  // Retorna 0 se o ID for inválido
+}
 
+//---------------------------------------------------------
+//                  Validação para Quantidade
+//---------------------------------------------------------
 
+// Função para validar a quantidade
+int validaQuantidade(char *entrada) {
+    // Verifica se todos os caracteres são dígitos
+    for (int i = 0; entrada[i] != '\0'; i++) {
+        if (!isdigit(entrada[i])) {
+            return 0;  // Retorna 0 se algum caractere não for dígito
+        }
+    }
+    
+    // Converte para inteiro
+    int quantidade = atoi(entrada);
+
+    // Verifica se a quantidade é positiva
+    if (quantidade <= 0) {
+        return 0;  // Retorna 0 se a quantidade for inválida
+    }
+    
+    return 1;  // Retorna 1 se a quantidade for válida
+}

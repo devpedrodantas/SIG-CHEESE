@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>           // Inclusão da biblioteca para manipulação de memória dinâmica.
 #include <string.h>           // Inclusão da biblioteca para manipulação de strings.
-#include "cliente.h"          // Define a estrutura e funções do Cliente.
-#include "funcionario.h"      // Define a estrutura e funções do Funcionário.
-#include "queijo.h"           // Define a estrutura e funções do Queijo.
+
+#include "cliente.h"          // Inclui a definição do tipo Cliente
+#include "funcionario.h"      // Inclui a definição do tipo Funcionário
+#include "queijo.h"           // Inclui a definição do tipo Queijo
+#include "venda.h"        
 #include "validacao.h"        // Contém funções para validações gerais.
 #include "estruturas.h"       // Contém estruturas genéricas (Endereço).
 #include "util.h"
@@ -355,20 +357,20 @@ void leDataValidade(Queijo *queijo) {
 }
 
 ///--------------------------------------------------------///
-///                        CÓDIGO                          ///
+///                    CÓDIGO do Queijo                    ///
 //---------------------------------------------------------///
 // Função para capturar apenas o código do queijo
 
-void leApenasCodigo(Queijo *queijo) {
+void leApenasCodigoQueijo(Queijo *queijo) {
     fgets(queijo->codigo, sizeof(queijo->codigo), stdin);              
     queijo->codigo[strcspn(queijo->codigo, "\n")] = '\0';
 }
 
 // Função para ler e validar o código do queijo
-void leCodigo(Queijo *queijo) {
+void leCodigoQueijo(Queijo *queijo) {
     printf("|-> Código do queijo(6 dígitos): ");
     do {
-       leApenasCodigo(queijo);
+       leApenasCodigoQueijo(queijo);
         if (validaCodigo(queijo->codigo)) {
             printf("Código válido\n");
             break;
@@ -453,12 +455,13 @@ void leEstoque(Queijo *queijo) {
         }
     } while (1);
 }
+
 ///--------------------------------------------------------///
-///                          Preço                         ///
+///                     Preço do Queijo                    ///
 ///--------------------------------------------------------///
 // Função para ler e validar preço
 
-void lePreco(Queijo *queijo) {
+void lePrecoQueijo(Queijo *queijo) {
     do {
         printf("|-> Preço (30): ");
         scanf("%f", &queijo->preco);  
@@ -471,6 +474,75 @@ void lePreco(Queijo *queijo) {
             printf("|-> Preço (30): ");
         }
     } while (!validaPreco(queijo->preco));
+}
+
+///--------------------------------------------------------///
+///                         Quantidade                     ///
+///--------------------------------------------------------///
+
+void leApenasQuantidade(char *entrada) {
+    fgets(entrada, 20, stdin);
+    entrada[strcspn(entrada, "\n")] = '\0'; // Remove o '\n'
+}
+
+void leQuantidade(Venda *venda) {
+    char entrada[10];  // Para armazenar a entrada do usuário (tamanho reduzido)
+
+    printf("|-> Informe a quantidade: ");
+    leApenasQuantidade(entrada);  // Lê a entrada com a função modificada
+
+    // Verifica se a quantidade é válida
+    if (validaQuantidade(entrada)) {
+        // Converte a entrada para inteiro e atribui a quantidade
+        venda->quantidade_comprada = atoi(entrada);
+        printf("Quantidade válida: %.2f\n", venda->quantidade_comprada);
+    } else {
+        printf("Quantidade inválida, tente novamente.\n");
+        leQuantidade(venda);  // Chama novamente caso a entrada seja inválida
+    }
+}
+
+///--------------------------------------------------------///
+///                     Preço da venda                     ///
+///--------------------------------------------------------///
+
+void lePrecoVenda(Venda *venda) {
+    do {
+        printf("|-> Preço (30): ");
+        scanf("%f", &venda->preco_total);  
+        if (validaPreco(venda->preco_total)) {
+            printf("Preço válido\n");
+            break;
+        } else {
+            printf("Preço inválido, tente novamente apertando a tecla ENTER");
+            getchar();
+            printf("|-> Preço (30): ");
+        }
+    } while (!validaPreco(venda->preco_total));
+}
+
+///--------------------------------------------------------///
+///                 CÓDIGO do Queijo Vendido               ///
+//---------------------------------------------------------///
+// Função para ler o código do produto (venda)
+void leApenasCodigoVenda(Venda *venda) {
+    fgets(venda->codigo_produto, sizeof(venda->codigo_produto), stdin);              
+    venda->codigo_produto[strcspn(venda->codigo_produto, "\n")] = '\0';  // Remove o '\n'
+}
+
+// Função para ler e validar o código do produto (venda)
+void leCodigoVenda(Venda *venda) {
+    printf("|-> Código do produto (6 dígitos): ");
+    do {
+        leApenasCodigoVenda(venda);  // Lê o código do produto
+        if (validaCodigo(venda->codigo_produto)) {  // Valida o código do produto
+            printf("Código válido\n");
+            break;  // Código válido, sai do loop
+        } else {
+            printf("Código inválido, tente novamente apertando a tecla ENTER\n");
+            printf("|-> Código do produto (6 dígitos): ");
+        }
+    } while (!validaCodigo(venda->codigo_produto));  // Repete até o código ser válido
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
