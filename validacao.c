@@ -292,5 +292,14 @@ bool validaPreco(float preco) {
     return preco > 0; // Preço válido quando é maior que zero
 }
 
-
+//---------------------------------------------------------
+//                  Validação para o ID
+//---------------------------------------------------------
+int validaId(const char *id_venda) {
+    // Implementar a lógica de validação do ID (por exemplo, verificar se tem 6 caracteres alfanuméricos)
+    if (strlen(id_venda) == 6) {
+        return 1;  // Retorna 1 se o ID for válido
+    }
+    return 0;  // Retorna 0 se o ID for inválido
+}
 
