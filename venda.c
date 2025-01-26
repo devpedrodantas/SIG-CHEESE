@@ -217,15 +217,51 @@ void registra_venda(const char *cpf_cliente, Queijo *queijo, float quantidade) {
 }
 
 void pesquisa_venda(void) {
+    Venda venda;
+    FILE *fp;
+    char id_busca[7];
+    int encontrado = 0;
+
+   
     system("clear||cls");
-    printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                            >>  Pesquisa Venda  <<                         |\n");
     printf("|                                                                           |\n");
+    // Solicitar o ID da venda ao usuário
+    leIdVenda(id_busca);
+
+    // Abrir o arquivo de vendas
+    fp = fopen("vendas.dat", "rb");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo de vendas!");
+        exit(1);
+    }
+
+    // Buscar a venda com o ID especificado
+    while (fread(&venda, sizeof(Venda), 1, fp)) {
+        if (strcmp(venda.id_venda, id_busca) == 0) {
+            encontrado = 1;
+
+            if (venda.status == 'A') {     // Exibir a venda apenas se estiver ativa
+                exibe_venda(&venda);
+            } else {
+                printf("\nA venda com o ID %s está marcada como inativa e não será exibida.\n", id_busca);
+            }
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        printf("\nNenhuma venda encontrada com o ID %s.\n", id_busca);
+    }
+
+    fclose(fp);
+
     printf("+---------------------------------------------------------------------------+\n");
-    printf("\t\t\t>>> Tecle ENTER para continuar...\n");
-    getchar(); 
+    printf("\nPressione Enter para voltar ao menu...");
+    while (getchar() != '\n'); // Aguarda até o usuário pressionar Enter
+    getchar(); // Espera pela próxima entrada
 }
 
 void atualiza_venda(void) {
@@ -294,6 +330,22 @@ int verifica_id(const char *id_venda) {
 
     fclose(fp);
     return 0;
+}
+
+void leIdVenda(char *id_venda) {
+    printf("|-> ID da Venda (6 Dígitos): ");  // Solicita o ID da venda
+    do {
+        fgets(id_venda, 7, stdin);  // Lê a entrada do ID (6 dígitos + '\0')
+        id_venda[strcspn(id_venda, "\n")] = '\0';  // Remove o '\n' do final
+
+        if (validaId(id_venda)) {
+            printf("ID válido\n");
+            break;
+        } else {
+            printf("ID inválido, tente novamente apertando a tecla ENTER\n");
+        }
+        while (getchar() != '\n');
+    } while (1);
 }
 
 void exibe_venda(const Venda *venda) {
