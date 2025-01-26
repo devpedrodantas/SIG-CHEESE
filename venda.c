@@ -6,6 +6,7 @@
 #include "validacao.h"
 #include "estruturas.h"
 #include "venda.h"
+#include "util.h"
 
 
 void menu_venda(void) {
@@ -265,15 +266,88 @@ void pesquisa_venda(void) {
 }
 
 void atualiza_venda(void) {
+    char opcao[3];
+    char id_busca[7];
+    int encontrado = 0;
+
+    FILE *fp;
+    Venda *venda;
+    venda = (Venda*) malloc(sizeof(Venda));
+    if (venda == NULL) {
+        perror("Erro ao alocar memória em venda");
+        exit(1);
+    }  
+    
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
     printf("|                                                                           |\n");
     printf("|                            >>  Atualiza Venda  <<                         |\n");
     printf("|                                                                           |\n");
+    leIdVenda(id_busca);
+
+    fp = fopen("vendas.dat", "r+b");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo de vendas!");
+        free(venda);
+        exit(1);
+    }
+
+    while (fread(venda, sizeof(Venda), 1, fp)) {
+        if (strcmp(venda->id_venda, id_busca) == 0 && venda->status == 'a') {
+            encontrado = 1;
+    
+            // Adicionar uma interface e limpar a tela após cada mudança
+            do {
+                printf("\n Venda encontrado:\n");
+                printf("1. Código do produto: %s\n", venda->codigo_produto);
+                printf("2. Quantidade comprada: %.2f\n", venda->quantidade_comprada);
+                printf("3. Preço total: %.2f\n", venda->preco_total);
+                printf("0. Sair da atualização\n");
+                printf("\n");
+                printf("Escolha o campo que deseja atualizar: ");
+    
+                // Limpa o buffer de entrada antes de ler a próxima opção
+                fgets(opcao, sizeof(opcao), stdin); // Lê a opção como string
+                limparBuffer();
+                opcao[strcspn(opcao, "\n")] = '\0'; 
+    
+                switch (opcao[0]) {  // Usa a primeira letra da opção
+                    case '1':
+                        leCodigoVenda(venda);
+                        break;
+                    case '2':
+                        leQuantidade(venda);
+                        break;
+                    case '3':
+                        lePrecoVenda(venda);
+                        break;
+                    case '0':
+                        printf("Finalizando a atualização...\n");
+                        break;
+                    default:
+                        printf("Opção inválida.\n");
+                }
+
+                // Atualiza a venda no arquivo após cada alteração
+                if (opcao[0] >= '1' && opcao[0] <= '3') {
+                    fseek(fp, -sizeof(Venda), SEEK_CUR);     // Volta para o início do registro
+                    fwrite(venda, sizeof(Venda), 1, fp);
+                    printf("Dados atualizados com sucesso!\n");
+                }
+            } while (opcao[0] != '0');
+            break; 
+        }
+    }
+
+    if (!encontrado) {
+        printf("Venda com ID %s não encontrado ou inativo.\n", id_busca);
+    }
+    fclose(fp);
+    free (venda);                        
+    
+    printf("|                                                                           |\n");
     printf("+---------------------------------------------------------------------------+\n");
-    printf("\t\t\t>>> Tecle ENTER para continuar...\n");
-    getchar(); 
 }
 
 void exclui_venda(void) {
